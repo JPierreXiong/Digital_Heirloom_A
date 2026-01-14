@@ -22,7 +22,7 @@ const optionalEnvVars = [
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
 ];
 
-console.log('🔍 检查环境变量配置...\n');
+console.log('🔍 检查环境变量配�?..\n');
 
 let hasErrors = false;
 const missing: string[] = [];
@@ -34,7 +34,7 @@ requiredEnvVars.forEach((varName) => {
   const value = process.env[varName];
   if (!value || value.trim() === '') {
     missing.push(varName);
-    console.log(`  ❌ ${varName}: 未设置`);
+    console.log(`  �?${varName}: 未设置`);
     hasErrors = true;
   } else {
     present.push(varName);
@@ -42,18 +42,18 @@ requiredEnvVars.forEach((varName) => {
     const displayValue = varName.includes('KEY') || varName.includes('SECRET')
       ? `${value.substring(0, 8)}...`
       : value;
-    console.log(`  ✅ ${varName}: ${displayValue}`);
+    console.log(`  �?${varName}: ${displayValue}`);
   }
 });
 
-console.log('\n📋 可选环境变量:');
+console.log('\n📋 可选环境变�?');
 optionalEnvVars.forEach((varName) => {
   const value = process.env[varName];
   if (value && value.trim() !== '') {
     const displayValue = varName.includes('KEY') || varName.includes('SECRET')
       ? `${value.substring(0, 8)}...`
       : value;
-    console.log(`  ✅ ${varName}: ${displayValue}`);
+    console.log(`  �?${varName}: ${displayValue}`);
   } else {
     console.log(`  ⚠️  ${varName}: 未设置（可选）`);
   }
@@ -62,14 +62,14 @@ optionalEnvVars.forEach((varName) => {
 console.log('\n' + '='.repeat(60));
 
 if (hasErrors) {
-  console.log('\n❌ 发现缺失的必需环境变量！');
-  console.log('\n请确保 .env.local 文件中包含以下变量：\n');
+  console.log('\n�?发现缺失的必需环境变量�?);
+  console.log('\n请确�?.env.local 文件中包含以下变量：\n');
   missing.forEach((varName) => {
     console.log(`  ${varName}=your-value-here`);
   });
-  console.log('\n参考文件: env.digital-heirloom.example.txt');
+  console.log('\n参考文�? env.digital-heirloom.example.txt');
   process.exit(1);
 } else {
-  console.log('\n✅ 所有必需环境变量已配置！');
+  console.log('\n�?所有必需环境变量已配置！');
   process.exit(0);
 }

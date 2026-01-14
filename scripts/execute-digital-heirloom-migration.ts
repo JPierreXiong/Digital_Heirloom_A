@@ -31,14 +31,14 @@ async function executeMigration() {
       throw new Error('DATABASE_URL is not set in environment variables');
     }
 
-    console.log(`   âœ“ Database URL: ${databaseUrl.substring(0, 50)}...`);
-    console.log('   âœ… Database connection configured\n');
+    console.log(`   âœ?Database URL: ${databaseUrl.substring(0, 50)}...`);
+    console.log('   âœ?Database connection configured\n');
 
     // 2. Read migration SQL file
     console.log('2ï¸âƒ£ Reading migration SQL file...');
     const sqlPath = resolve(process.cwd(), 'scripts/migrate-digital-heirloom.sql');
     const sqlContent = readFileSync(sqlPath, 'utf-8');
-    console.log('   âœ… Migration SQL file loaded\n');
+    console.log('   âœ?Migration SQL file loaded\n');
 
     // 3. Execute migration
     console.log('3ï¸âƒ£ Executing migration...');
@@ -54,7 +54,7 @@ async function executeMigration() {
       if (statement.trim()) {
         try {
           await sql.unsafe(statement);
-          console.log(`   âœ“ Executed: ${statement.substring(0, 50)}...`);
+          console.log(`   âœ?Executed: ${statement.substring(0, 50)}...`);
         } catch (error: any) {
           // Ignore "already exists" errors
           if (error.message.includes('already exists') || error.message.includes('duplicate')) {
@@ -67,7 +67,7 @@ async function executeMigration() {
     }
 
     await sql.end();
-    console.log('   âœ… Migration executed successfully\n');
+    console.log('   âœ?Migration executed successfully\n');
 
     // 4. Verify tables
     console.log('4ï¸âƒ£ Verifying tables...');
@@ -83,21 +83,21 @@ async function executeMigration() {
         );
       `;
       if (result[0].exists) {
-        console.log(`   âœ… Table '${table}' exists`);
+        console.log(`   âœ?Table '${table}' exists`);
       } else {
-        console.log(`   âŒ Table '${table}' not found`);
+        console.log(`   â?Table '${table}' not found`);
       }
     }
 
     await verifySql.end();
-    console.log('   âœ… Table verification completed\n');
+    console.log('   âœ?Table verification completed\n');
 
-    console.log('âœ… Migration completed successfully!');
+    console.log('âœ?Migration completed successfully!');
     console.log('\nðŸ“‹ Next steps:');
     console.log('   1. Run test script: npx tsx scripts/test-digital-heirloom.ts');
     console.log('   2. Start development server: pnpm dev');
   } catch (error: any) {
-    console.error('\nâŒ Migration failed!');
+    console.error('\nâ?Migration failed!');
     console.error(`Error: ${error.message}`);
     if (error.cause) {
       console.error(`Cause: ${error.cause.message || error.cause}`);
@@ -109,7 +109,7 @@ async function executeMigration() {
 // Run the migration
 executeMigration()
   .then(() => {
-    console.log('\nâœ¨ Migration completed successfully!');
+    console.log('\nâœ?Migration completed successfully!');
     process.exit(0);
   })
   .catch((error) => {

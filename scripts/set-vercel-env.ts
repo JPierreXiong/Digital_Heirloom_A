@@ -2,14 +2,13 @@
  * 设置 Vercel 环境变量脚本
  * 使用 Vercel API 批量设置环境变量
  * 
- * 使用方法：
- * VERCEL_TOKEN=your-token pnpm tsx scripts/set-vercel-env.ts
+ * 使用方法�? * VERCEL_TOKEN=your-token pnpm tsx scripts/set-vercel-env.ts
  */
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
 if (!VERCEL_TOKEN) {
-  console.error('❌ 错误: VERCEL_TOKEN 环境变量未设置');
-  console.error('   请设置环境变量: VERCEL_TOKEN=your-token pnpm tsx scripts/set-vercel-env.ts');
+  console.error('�?错误: VERCEL_TOKEN 环境变量未设�?);
+  console.error('   请设置环境变�? VERCEL_TOKEN=your-token pnpm tsx scripts/set-vercel-env.ts');
   process.exit(1);
 }
 
@@ -23,8 +22,7 @@ const envVars = {
   'SUPABASE_SERVICE_ROLE_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYWZyd3dza3Vwc3lpYnJ2Y3ZkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2Nzk0MTQ1NywiZXhwIjoyMDgzNTE3NDU3fQ.g-zsgOAF5R8w5IQQWUbrGohyfbN1opZWYBDjlq-hgE8',
   'SUPABASE_URL': 'https://vkafrwwskupsyibrvcvd.supabase.co',
   
-  // 数据库配置
-  'DATABASE_URL': 'postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true',
+  // 数据库配�?  'DATABASE_URL': 'postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true',
   'POSTGRES_URL_NON_POOLING': 'postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require',
   
   // Vercel Blob
@@ -44,7 +42,7 @@ async function getProjectId(projectName: string): Promise<string | null> {
 
     if (!response.ok) {
       if (response.status === 404) {
-        console.error(`❌ 项目 "${projectName}" 未找到`);
+        console.error(`�?项目 "${projectName}" 未找到`);
         return null;
       }
       throw new Error(`获取项目信息失败: ${response.statusText}`);
@@ -84,40 +82,40 @@ async function setEnvVar(
 
     if (!response.ok) {
       const error = await response.text();
-      console.error(`  ❌ 设置 ${key} (${environment}) 失败:`, error);
+      console.error(`  �?设置 ${key} (${environment}) 失败:`, error);
       return false;
     }
 
-    console.log(`  ✅ ${key} (${environment})`);
+    console.log(`  �?${key} (${environment})`);
     return true;
   } catch (error) {
-    console.error(`  ❌ 设置 ${key} (${environment}) 失败:`, error);
+    console.error(`  �?设置 ${key} (${environment}) 失败:`, error);
     return false;
   }
 }
 
 async function main() {
-  console.log('🚀 开始设置 Vercel 环境变量...\n');
+  console.log('🚀 开始设�?Vercel 环境变量...\n');
 
   // 项目名称
-  const projectName = 'shipany-digital-heirloom';
+  const projectName = 'digital-heirloom-c';
 
   console.log(`📦 项目名称: ${projectName}`);
-  console.log(`🔑 Token: ${VERCEL_TOKEN ? `${VERCEL_TOKEN.substring(0, 10)}...` : '从环境变量读取'}\n`);
+  console.log(`🔑 Token: ${VERCEL_TOKEN ? `${VERCEL_TOKEN.substring(0, 10)}...` : '从环境变量读�?}\n`);
 
   // 获取项目 ID
   console.log('🔍 获取项目信息...');
   const projectId = await getProjectId(projectName);
 
   if (!projectId) {
-    console.error('\n❌ 无法获取项目 ID，请检查：');
+    console.error('\n�?无法获取项目 ID，请检查：');
     console.error('  1. Token 是否正确');
     console.error('  2. 项目名称是否正确');
-    console.error('  3. Token 是否有项目访问权限');
+    console.error('  3. Token 是否有项目访问权�?);
     process.exit(1);
   }
 
-  console.log(`✅ 项目 ID: ${projectId}\n`);
+  console.log(`�?项目 ID: ${projectId}\n`);
 
   // 设置环境变量
   console.log('📝 设置环境变量...\n');
@@ -142,9 +140,9 @@ async function main() {
   }
 
   console.log('\n📊 设置结果:');
-  console.log(`  ✅ 成功: ${successCount}`);
-  console.log(`  ❌ 失败: ${failCount}`);
-  console.log('\n✨ 完成！请到 Vercel Dashboard 验证环境变量。');
+  console.log(`  �?成功: ${successCount}`);
+  console.log(`  �?失败: ${failCount}`);
+  console.log('\n�?完成！请�?Vercel Dashboard 验证环境变量�?);
 }
 
 main().catch(console.error);

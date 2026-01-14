@@ -1,14 +1,11 @@
 /**
  * Edge Function 资产释放逻辑测试脚本
  * 
- * 测试内容：
- * 1. 创建测试数据（用户、保险箱、受益人）
- * 2. 模拟宽限期已过的场景
- * 3. 调用 Edge Function 或创建测试 API 端点
+ * 测试内容�? * 1. 创建测试数据（用户、保险箱、受益人�? * 2. 模拟宽限期已过的场景
+ * 3. 调用 Edge Function 或创建测�?API 端点
  * 4. 验证资产释放结果
  * 
- * 执行方式：
- * npx tsx scripts/test-edge-function-asset-release.ts
+ * 执行方式�? * npx tsx scripts/test-edge-function-asset-release.ts
  */
 
 import dotenv from 'dotenv';
@@ -33,12 +30,10 @@ import { getUuid } from '@/shared/lib/hash';
 const TEST_CONFIG = {
   // 是否清理测试数据
   cleanup: true,
-  // Edge Function URL（如果部署了）
-  edgeFunctionUrl: process.env.SUPABASE_URL 
+  // Edge Function URL（如果部署了�?  edgeFunctionUrl: process.env.SUPABASE_URL 
     ? `${process.env.SUPABASE_URL}/functions/v1/dead-man-check`
     : process.env.SUPABASE_EDGE_FUNCTION_URL || 'http://localhost:54321/functions/v1/dead-man-check',
-  // Service Role Key（用于调用 Edge Function）
-  serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+  // Service Role Key（用于调�?Edge Function�?  serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
   // Supabase URL
   supabaseUrl: process.env.SUPABASE_URL || '',
 };
@@ -73,10 +68,9 @@ async function testEdgeFunctionAssetRelease() {
         name: 'Test User Asset Release',
         email: testEmail,
         emailVerified: true,
-        planType: 'pro', // Pro 版用户
-      });
+        planType: 'pro', // Pro 版用�?      });
 
-      console.log(`   ✅ 测试用户创建成功`);
+      console.log(`   �?测试用户创建成功`);
       console.log(`      ID: ${testUserId}`);
       console.log(`      Email: ${testEmail}`);
       console.log(`      Plan: pro`);
@@ -88,7 +82,7 @@ async function testEdgeFunctionAssetRelease() {
         data: { userId: testUserId, email: testEmail },
       });
     } catch (error: any) {
-      console.error(`   ❌ 创建测试用户失败:`, error.message);
+      console.error(`   �?创建测试用户失败:`, error.message);
       results.push({
         step: '创建测试用户',
         success: false,
@@ -104,7 +98,7 @@ async function testEdgeFunctionAssetRelease() {
     try {
       testVaultId = getUuid();
       
-      // 设置 last_seen_at 为 100 天前（超过心跳频率 90 天）
+      // 设置 last_seen_at �?100 天前（超过心跳频�?90 天）
       const lastSeenAt = new Date();
       lastSeenAt.setDate(lastSeenAt.getDate() - 100);
 
@@ -117,25 +111,24 @@ async function testEdgeFunctionAssetRelease() {
         heartbeatFrequency: 90,
         gracePeriod: 7, // 7 天宽限期
         deadManSwitchEnabled: true,
-        status: 'warning', // 已经是 warning 状态
-        lastSeenAt: lastSeenAt,
+        status: 'warning', // 已经�?warning 状�?        lastSeenAt: lastSeenAt,
       });
 
-      console.log(`   ✅ 保险箱创建成功`);
+      console.log(`   �?保险箱创建成功`);
       console.log(`      ID: ${testVaultId}`);
       console.log(`      Status: warning`);
       console.log(`      Last Seen: ${lastSeenAt.toISOString()}`);
       
       results.push({
-        step: '创建保险箱',
+        step: '创建保险�?,
         success: true,
-        message: `保险箱创建成功: ${testVaultId}`,
+        message: `保险箱创建成�? ${testVaultId}`,
         data: { vaultId: testVaultId },
       });
     } catch (error: any) {
-      console.error(`   ❌ 创建保险箱失败:`, error.message);
+      console.error(`   �?创建保险箱失�?`, error.message);
       results.push({
-        step: '创建保险箱',
+        step: '创建保险�?,
         success: false,
         message: error.message,
       });
@@ -143,9 +136,8 @@ async function testEdgeFunctionAssetRelease() {
     }
 
     // ============================================
-    // Step 3: 创建预警事件（8 天前，超过宽限期）
-    // ============================================
-    console.log('\n📝 Step 3: 创建预警事件（8 天前，超过宽限期）');
+    // Step 3: 创建预警事件�? 天前，超过宽限期�?    // ============================================
+    console.log('\n📝 Step 3: 创建预警事件�? 天前，超过宽限期�?);
     try {
       const warningSentAt = new Date();
       warningSentAt.setDate(warningSentAt.getDate() - 8); // 8 天前
@@ -162,11 +154,11 @@ async function testEdgeFunctionAssetRelease() {
         createdAt: warningSentAt,
       });
 
-      console.log(`   ✅ 预警事件创建成功`);
+      console.log(`   �?预警事件创建成功`);
       console.log(`      预警时间: ${warningSentAt.toISOString()}`);
-      console.log(`      宽限期: 7 天`);
+      console.log(`      宽限�? 7 天`);
       console.log(`      当前时间: ${new Date().toISOString()}`);
-      console.log(`      状态: 已超过宽限期 ✅`);
+      console.log(`      状�? 已超过宽限期 ✅`);
       
       results.push({
         step: '创建预警事件',
@@ -175,7 +167,7 @@ async function testEdgeFunctionAssetRelease() {
         data: { warningSentAt: warningSentAt.toISOString() },
       });
     } catch (error: any) {
-      console.error(`   ❌ 创建预警事件失败:`, error.message);
+      console.error(`   �?创建预警事件失败:`, error.message);
       results.push({
         step: '创建预警事件',
         success: false,
@@ -185,9 +177,8 @@ async function testEdgeFunctionAssetRelease() {
     }
 
     // ============================================
-    // Step 4: 创建受益人（包含完整地址信息）
-    // ============================================
-    console.log('\n📝 Step 4: 创建受益人（包含完整地址信息）');
+    // Step 4: 创建受益人（包含完整地址信息�?    // ============================================
+    console.log('\n📝 Step 4: 创建受益人（包含完整地址信息�?);
     try {
       testBeneficiaryId = getUuid();
       const beneficiaryEmail = `beneficiary-${Date.now()}@example.com`;
@@ -209,22 +200,22 @@ async function testEdgeFunctionAssetRelease() {
         status: 'pending',
       });
 
-      console.log(`   ✅ 受益人创建成功`);
+      console.log(`   �?受益人创建成功`);
       console.log(`      ID: ${testBeneficiaryId}`);
       console.log(`      Email: ${beneficiaryEmail}`);
       console.log(`      地址: 123 Test Street, Hong Kong`);
       console.log(`      物理资产: Encrypted Recovery Kit`);
       
       results.push({
-        step: '创建受益人',
+        step: '创建受益�?,
         success: true,
-        message: `受益人创建成功: ${beneficiaryEmail}`,
+        message: `受益人创建成�? ${beneficiaryEmail}`,
         data: { beneficiaryId: testBeneficiaryId, email: beneficiaryEmail },
       });
     } catch (error: any) {
-      console.error(`   ❌ 创建受益人失败:`, error.message);
+      console.error(`   �?创建受益人失�?`, error.message);
       results.push({
-        step: '创建受益人',
+        step: '创建受益�?,
         success: false,
         message: error.message,
       });
@@ -236,8 +227,7 @@ async function testEdgeFunctionAssetRelease() {
     // ============================================
     console.log('\n📝 Step 5: 验证测试数据');
     try {
-      // 验证保险箱状态
-      const vault = await db()
+      // 验证保险箱状�?      const vault = await db()
         .select()
         .from(digitalVaults)
         .where(eq(digitalVaults.id, testVaultId!))
@@ -247,8 +237,7 @@ async function testEdgeFunctionAssetRelease() {
         throw new Error('保险箱状态不正确');
       }
 
-      // 验证受益人状态
-      const beneficiary = await db()
+      // 验证受益人状�?      const beneficiary = await db()
         .select()
         .from(beneficiaries)
         .where(eq(beneficiaries.id, testBeneficiaryId!))
@@ -272,11 +261,10 @@ async function testEdgeFunctionAssetRelease() {
         .limit(1);
 
       if (warningEvent.length === 0) {
-        throw new Error('预警事件不存在');
+        throw new Error('预警事件不存�?);
       }
 
-      // 计算宽限期
-      const warningSentAt = new Date(warningEvent[0].createdAt);
+      // 计算宽限�?      const warningSentAt = new Date(warningEvent[0].createdAt);
       const gracePeriodDays = vault[0].gracePeriod || 7;
       const gracePeriodEndDate = new Date(
         warningSentAt.getTime() + gracePeriodDays * 24 * 60 * 60 * 1000
@@ -284,13 +272,13 @@ async function testEdgeFunctionAssetRelease() {
       const now = new Date();
       const exceededGracePeriod = now >= gracePeriodEndDate;
 
-      console.log(`   ✅ 测试数据验证成功`);
-      console.log(`      保险箱状态: ${vault[0].status}`);
-      console.log(`      受益人状态: ${beneficiary[0].status}`);
+      console.log(`   �?测试数据验证成功`);
+      console.log(`      保险箱状�? ${vault[0].status}`);
+      console.log(`      受益人状�? ${beneficiary[0].status}`);
       console.log(`      预警时间: ${warningSentAt.toISOString()}`);
-      console.log(`      宽限期结束: ${gracePeriodEndDate.toISOString()}`);
+      console.log(`      宽限期结�? ${gracePeriodEndDate.toISOString()}`);
       console.log(`      当前时间: ${now.toISOString()}`);
-      console.log(`      超过宽限期: ${exceededGracePeriod ? '✅ 是' : '❌ 否'}`);
+      console.log(`      超过宽限�? ${exceededGracePeriod ? '�?�? : '�?�?}`);
       
       if (!exceededGracePeriod) {
         throw new Error('测试数据未超过宽限期，无法测试资产释放逻辑');
@@ -299,7 +287,7 @@ async function testEdgeFunctionAssetRelease() {
       results.push({
         step: '验证测试数据',
         success: true,
-        message: '测试数据验证成功，已超过宽限期',
+        message: '测试数据验证成功，已超过宽限�?,
         data: {
           vaultStatus: vault[0].status,
           beneficiaryStatus: beneficiary[0].status,
@@ -307,7 +295,7 @@ async function testEdgeFunctionAssetRelease() {
         },
       });
     } catch (error: any) {
-      console.error(`   ❌ 验证测试数据失败:`, error.message);
+      console.error(`   �?验证测试数据失败:`, error.message);
       results.push({
         step: '验证测试数据',
         success: false,
@@ -317,8 +305,7 @@ async function testEdgeFunctionAssetRelease() {
     }
 
     // ============================================
-    // Step 6: 调用 Edge Function（如果配置了）
-    // ============================================
+    // Step 6: 调用 Edge Function（如果配置了�?    // ============================================
     console.log('\n📝 Step 6: 调用 Edge Function');
     
     if (TEST_CONFIG.serviceRoleKey && TEST_CONFIG.edgeFunctionUrl) {
@@ -340,7 +327,7 @@ async function testEdgeFunctionAssetRelease() {
           throw new Error(`Edge Function 调用失败: ${JSON.stringify(responseData)}`);
         }
 
-        console.log(`   ✅ Edge Function 调用成功`);
+        console.log(`   �?Edge Function 调用成功`);
         console.log(`      响应:`, JSON.stringify(responseData, null, 2));
         
         results.push({
@@ -359,13 +346,13 @@ async function testEdgeFunctionAssetRelease() {
         });
       }
     } else {
-      console.log(`   ⚠️  Edge Function URL 或 Service Role Key 未配置`);
+      console.log(`   ⚠️  Edge Function URL �?Service Role Key 未配置`);
       console.log(`   ℹ️  跳过 Edge Function 调用`);
-      console.log(`   ℹ️  可以在 Supabase Dashboard 中手动触发 Edge Function`);
+      console.log(`   ℹ️  可以�?Supabase Dashboard 中手动触�?Edge Function`);
       results.push({
         step: '调用 Edge Function',
         success: false,
-        message: 'Edge Function URL 或 Service Role Key 未配置',
+        message: 'Edge Function URL �?Service Role Key 未配�?,
       });
     }
 
@@ -374,29 +361,25 @@ async function testEdgeFunctionAssetRelease() {
     // ============================================
     console.log('\n📝 Step 7: 验证资产释放结果');
     
-    // 等待一下，让 Edge Function 处理完成（如果调用了）
-    if (TEST_CONFIG.serviceRoleKey) {
+    // 等待一下，�?Edge Function 处理完成（如果调用了�?    if (TEST_CONFIG.serviceRoleKey) {
       console.log(`   等待 3 秒让 Edge Function 处理完成...`);
       await new Promise(resolve => setTimeout(resolve, 3000));
     }
 
     try {
-      // 检查保险箱状态
-      const vaultAfter = await db()
+      // 检查保险箱状�?      const vaultAfter = await db()
         .select()
         .from(digitalVaults)
         .where(eq(digitalVaults.id, testVaultId!))
         .limit(1);
 
-      // 检查受益人状态
-      const beneficiaryAfter = await db()
+      // 检查受益人状�?      const beneficiaryAfter = await db()
         .select()
         .from(beneficiaries)
         .where(eq(beneficiaries.id, testBeneficiaryId!))
         .limit(1);
 
-      // 检查资产释放事件
-      const releaseEvent = await db()
+      // 检查资产释放事�?      const releaseEvent = await db()
         .select()
         .from(deadManSwitchEvents)
         .where(
@@ -415,11 +398,11 @@ async function testEdgeFunctionAssetRelease() {
         .limit(1);
 
       console.log(`   📊 验证结果:`);
-      console.log(`      保险箱状态: ${vaultAfter[0]?.status || '未找到'} (期望: released)`);
-      console.log(`      受益人状态: ${beneficiaryAfter[0]?.status || '未找到'} (期望: notified)`);
-      console.log(`      释放令牌: ${beneficiaryAfter[0]?.releaseToken ? '✅ 已生成' : '❌ 未生成'}`);
-      console.log(`      资产释放事件: ${releaseEvent.length > 0 ? '✅ 已记录' : '❌ 未记录'}`);
-      console.log(`      物流记录: ${shippingLog.length > 0 ? '✅ 已创建' : '⚠️  未创建（可能未配置 ShipAny API）'}`);
+      console.log(`      保险箱状�? ${vaultAfter[0]?.status || '未找�?} (期望: released)`);
+      console.log(`      受益人状�? ${beneficiaryAfter[0]?.status || '未找�?} (期望: notified)`);
+      console.log(`      释放令牌: ${beneficiaryAfter[0]?.releaseToken ? '�?已生�? : '�?未生�?}`);
+      console.log(`      资产释放事件: ${releaseEvent.length > 0 ? '�?已记�? : '�?未记�?}`);
+      console.log(`      物流记录: ${shippingLog.length > 0 ? '�?已创�? : '⚠️  未创建（可能未配�?ShipAny API�?}`);
 
       const vaultReleased = vaultAfter[0]?.status === 'released';
       const beneficiaryNotified = beneficiaryAfter[0]?.status === 'notified';
@@ -427,7 +410,7 @@ async function testEdgeFunctionAssetRelease() {
       const hasReleaseEvent = releaseEvent.length > 0;
 
       if (vaultReleased && beneficiaryNotified && hasReleaseToken && hasReleaseEvent) {
-        console.log(`   ✅ 资产释放逻辑验证成功！`);
+        console.log(`   �?资产释放逻辑验证成功！`);
         results.push({
           step: '验证资产释放结果',
           success: true,
@@ -441,7 +424,7 @@ async function testEdgeFunctionAssetRelease() {
           },
         });
       } else {
-        console.log(`   ⚠️  部分验证失败，可能需要手动触发 Edge Function`);
+        console.log(`   ⚠️  部分验证失败，可能需要手动触�?Edge Function`);
         results.push({
           step: '验证资产释放结果',
           success: false,
@@ -455,7 +438,7 @@ async function testEdgeFunctionAssetRelease() {
         });
       }
     } catch (error: any) {
-      console.error(`   ❌ 验证资产释放结果失败:`, error.message);
+      console.error(`   �?验证资产释放结果失败:`, error.message);
       results.push({
         step: '验证资产释放结果',
         success: false,
@@ -479,14 +462,14 @@ async function testEdgeFunctionAssetRelease() {
 
     console.log('\n详细结果:');
     results.forEach((result, index) => {
-      const icon = result.success ? '✅' : '❌';
+      const icon = result.success ? '�? : '�?;
       console.log(`  ${index + 1}. ${icon} ${result.step}: ${result.message}`);
     });
 
     if (successCount === totalCount) {
-      console.log('\n🎉 所有测试通过！');
+      console.log('\n🎉 所有测试通过�?);
     } else {
-      console.log('\n⚠️  部分测试失败，请检查日志');
+      console.log('\n⚠️  部分测试失败，请检查日�?);
     }
 
     // ============================================
@@ -505,23 +488,23 @@ async function testEdgeFunctionAssetRelease() {
         if (testUserId) {
           await db().delete(user).where(eq(user.id, testUserId));
         }
-        console.log('   ✅ 测试数据清理完成');
+        console.log('   �?测试数据清理完成');
       } catch (error: any) {
         console.error(`   ⚠️  清理测试数据失败:`, error.message);
         console.log(`   ℹ️  测试数据 ID:`);
         console.log(`      用户 ID: ${testUserId}`);
-        console.log(`      保险箱 ID: ${testVaultId}`);
-        console.log(`      受益人 ID: ${testBeneficiaryId}`);
+        console.log(`      保险�?ID: ${testVaultId}`);
+        console.log(`      受益�?ID: ${testBeneficiaryId}`);
       }
     } else {
-      console.log('\nℹ️  保留测试数据（cleanup = false）');
+      console.log('\nℹ️  保留测试数据（cleanup = false�?);
       console.log(`   用户 ID: ${testUserId}`);
-      console.log(`   保险箱 ID: ${testVaultId}`);
-      console.log(`   受益人 ID: ${testBeneficiaryId}`);
+      console.log(`   保险�?ID: ${testVaultId}`);
+      console.log(`   受益�?ID: ${testBeneficiaryId}`);
     }
 
   } catch (error: any) {
-    console.error('\n❌ 测试过程中发生错误:', error);
+    console.error('\n�?测试过程中发生错�?', error);
     console.error('错误堆栈:', error.stack);
     
     // 清理测试数据
@@ -550,11 +533,11 @@ async function testEdgeFunctionAssetRelease() {
 // 运行测试
 testEdgeFunctionAssetRelease()
   .then(() => {
-    console.log('\n✅ 测试完成');
+    console.log('\n�?测试完成');
     process.exit(0);
   })
   .catch((error) => {
-    console.error('\n❌ 测试失败:', error);
+    console.error('\n�?测试失败:', error);
     process.exit(1);
   });
 

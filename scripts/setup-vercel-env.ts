@@ -1,13 +1,10 @@
 /**
  * Vercel 环境变量自动配置脚本
  * 
- * 使用方法：
- * 1. 在 Vercel Dashboard 获取 Access Token: https://vercel.com/account/tokens
- * 2. 获取项目信息（项目名称或项目ID）
- * 3. 运行: npx tsx scripts/setup-vercel-env.ts
+ * 使用方法�? * 1. �?Vercel Dashboard 获取 Access Token: https://vercel.com/account/tokens
+ * 2. 获取项目信息（项目名称或项目ID�? * 3. 运行: npx tsx scripts/setup-vercel-env.ts
  * 
- * 或者设置环境变量后运行：
- * VERCEL_TOKEN=your-token VERCEL_PROJECT=your-project npx tsx scripts/setup-vercel-env.ts
+ * 或者设置环境变量后运行�? * VERCEL_TOKEN=your-token VERCEL_PROJECT=your-project npx tsx scripts/setup-vercel-env.ts
  */
 
 import * as readline from 'readline';
@@ -82,8 +79,7 @@ async function setupVercelEnv() {
   let projectId = process.env.VERCEL_PROJECT_ID || (args[1] && args[1] !== 'undefined' ? args[1] : undefined);
   let teamId = process.env.VERCEL_TEAM_ID || (args[2] && args[2] !== 'undefined' ? args[2] : undefined);
 
-  // 如果命令行参数不足，使用交互式输入
-  const rl = readline.createInterface({
+  // 如果命令行参数不足，使用交互式输�?  const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
@@ -95,14 +91,14 @@ async function setupVercelEnv() {
   };
 
   if (!vercelToken || vercelToken.trim() === '') {
-    console.log('📝 请提供 Vercel Access Token');
+    console.log('📝 请提�?Vercel Access Token');
     console.log('   获取地址: https://vercel.com/account/tokens\n');
     vercelToken = await question('Vercel Token: ');
   }
 
   if (!projectId || projectId.trim() === '') {
     console.log('\n📝 请提供项目名称或项目ID');
-    console.log('   可以在 Vercel Dashboard 项目设置中找到\n');
+    console.log('   可以�?Vercel Dashboard 项目设置中找到\n');
     const projectInput = await question('项目名称或ID: ');
     projectId = projectInput;
   }
@@ -115,11 +111,11 @@ async function setupVercelEnv() {
   teamId = teamId?.trim() || undefined;
 
   if (!vercelToken || !projectId) {
-    console.error('❌ 缺少必要配置');
+    console.error('�?缺少必要配置');
     process.exit(1);
   }
 
-  console.log('\n📦 开始配置环境变量...\n');
+  console.log('\n📦 开始配置环境变�?..\n');
 
   // 配置每个环境变量
   let successCount = 0;
@@ -144,27 +140,27 @@ async function setupVercelEnv() {
           );
 
           if (result.success) {
-            console.log(`  ✅ ${environment}: 成功`);
+            console.log(`  �?${environment}: 成功`);
             successCount++;
           } else {
             console.log(`  ⚠️  ${environment}: ${result.message}`);
             failCount++;
           }
         } catch (error: any) {
-          console.log(`  ❌ ${environment}: ${error.message}`);
+          console.log(`  �?${environment}: ${error.message}`);
           failCount++;
         }
       }
       console.log('');
     } catch (error: any) {
-      console.error(`❌ 配置 ${envVar.key} 失败: ${error.message}\n`);
+      console.error(`�?配置 ${envVar.key} 失败: ${error.message}\n`);
       failCount++;
     }
   }
 
   console.log('\n📊 配置完成统计:');
-  console.log(`   ✅ 成功: ${successCount}`);
-  console.log(`   ❌ 失败: ${failCount}`);
+  console.log(`   �?成功: ${successCount}`);
+  console.log(`   �?失败: ${failCount}`);
   console.log(`   📦 总计: ${ENV_VARIABLES.length * 3} 个配置项\n`);
 
   if (failCount === 0) {
@@ -172,8 +168,8 @@ async function setupVercelEnv() {
     console.log('   请前往 Vercel Dashboard 验证配置');
     console.log('   然后重新部署应用以应用新配置\n');
   } else {
-    console.log('⚠️  部分配置失败，请检查错误信息');
-    console.log('   可以手动在 Vercel Dashboard 中配置剩余变量\n');
+    console.log('⚠️  部分配置失败，请检查错误信�?);
+    console.log('   可以手动�?Vercel Dashboard 中配置剩余变量\n');
   }
 }
 
@@ -199,7 +195,7 @@ async function setVercelEnvVariable(
     if (!checkResponse.ok) {
       return {
         success: false,
-        message: `检查失败: ${checkResponse.status} ${checkResponse.statusText}`,
+        message: `检查失�? ${checkResponse.status} ${checkResponse.statusText}`,
       };
     }
 
@@ -208,8 +204,7 @@ async function setVercelEnvVariable(
       (e: any) => e.key === envVar.key && e.target?.includes(envVar.target[0])
     );
 
-    // 如果已存在，先删除
-    if (existingVar) {
+    // 如果已存在，先删�?    if (existingVar) {
       const deleteUrl = teamId
         ? `${baseUrl}/v10/projects/${projectId}/env/${existingVar.id}?teamId=${teamId}`
         : `${baseUrl}/v10/projects/${projectId}/env/${existingVar.id}`;
@@ -223,9 +218,8 @@ async function setVercelEnvVariable(
     }
 
             // 创建新的环境变量
-            // 对于 NEXT_PUBLIC_* 变量，需要使用 'encrypted' 类型
-            // 对于其他变量，也使用 'encrypted' 类型以确保安全
-            const varType = 'encrypted';
+            // 对于 NEXT_PUBLIC_* 变量，需要使�?'encrypted' 类型
+            // 对于其他变量，也使用 'encrypted' 类型以确保安�?            const varType = 'encrypted';
             
             const createResponse = await fetch(url, {
               method: 'POST',
@@ -263,7 +257,7 @@ async function setVercelEnvVariable(
 
 // 运行脚本
 setupVercelEnv().catch((error) => {
-  console.error('❌ 脚本执行失败:', error);
+  console.error('�?脚本执行失败:', error);
   process.exit(1);
 });
 

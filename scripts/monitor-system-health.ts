@@ -1,15 +1,10 @@
 /**
  * 系统健康监控脚本
  * 
- * 功能：
- * 1. 监控数据库资源使用情况
- * 2. 监控业务指标异常
- * 3. 发送报警通知（邮件、Slack、Telegram）
- * 4. 记录报警历史
+ * 功能�? * 1. 监控数据库资源使用情�? * 2. 监控业务指标异常
+ * 3. 发送报警通知（邮件、Slack、Telegram�? * 4. 记录报警历史
  * 
- * 运行方式：
- * - 作为 Cron Job 每小时运行一次
- * - 或手动运行: npx tsx scripts/monitor-system-health.ts
+ * 运行方式�? * - 作为 Cron Job 每小时运行一�? * - 或手动运�? npx tsx scripts/monitor-system-health.ts
  */
 
 import dotenv from 'dotenv';
@@ -26,14 +21,11 @@ import { sql, eq, gte } from 'drizzle-orm';
 import { getEmailService } from '@/shared/services/email';
 import { getUuid } from '@/shared/lib/hash';
 
-// 报警阈值配置
-const ALERT_THRESHOLDS = {
+// 报警阈值配�?const ALERT_THRESHOLDS = {
   // 业务报警
   business: {
-    triggeredSpike: 50, // 单日 TRIGGERED 状态用户异常激增阈值
-    emailDailyLimit: 1000, // Resend 邮件发送量每日上限
-    emailFailureRate: 0.05, // 邮件失败率阈值（5%）
-  },
+    triggeredSpike: 50, // 单日 TRIGGERED 状态用户异常激增阈�?    emailDailyLimit: 1000, // Resend 邮件发送量每日上限
+    emailFailureRate: 0.05, // 邮件失败率阈值（5%�?  },
 };
 
 // 通知配置
@@ -52,18 +44,16 @@ interface Alert {
 }
 
 async function monitorSystemHealth() {
-  console.log('🔍 开始系统健康监控检查...\n');
+  console.log('🔍 开始系统健康监控检�?..\n');
 
   const alerts: Alert[] = [];
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   try {
-    // 1. 检查业务指标异常
-    console.log('📊 检查业务指标...');
+    // 1. 检查业务指标异�?    console.log('📊 检查业务指�?..');
 
-    // 检查单日 TRIGGERED 状态用户异常激增
-    const triggeredTodayResult = await db()
+    // 检查单�?TRIGGERED 状态用户异常激�?    const triggeredTodayResult = await db()
       .select({ count: sql<number>`count(*)` })
       .from(digitalVaults)
       .where(
@@ -110,16 +100,16 @@ async function monitorSystemHealth() {
     const totalToday = Number(emailStats.totalToday || 0);
     const failureRate = totalToday > 0 ? failedToday / totalToday : 0;
 
-    console.log(`   今日邮件发送: ${sentToday}`);
+    console.log(`   今日邮件发�? ${sentToday}`);
     console.log(`   今日邮件失败: ${failedToday}`);
-    console.log(`   失败率: ${(failureRate * 100).toFixed(2)}%\n`);
+    console.log(`   失败�? ${(failureRate * 100).toFixed(2)}%\n`);
 
     if (sentToday > ALERT_THRESHOLDS.business.emailDailyLimit) {
       alerts.push({
         level: 'critical',
         type: 'business',
         category: 'email_limit',
-        message: `Resend 邮件发送量超过每日上限：${sentToday} > ${ALERT_THRESHOLDS.business.emailDailyLimit}`,
+        message: `Resend 邮件发送量超过每日上限�?{sentToday} > ${ALERT_THRESHOLDS.business.emailDailyLimit}`,
         data: {
           sentToday,
           threshold: ALERT_THRESHOLDS.business.emailDailyLimit,
@@ -148,7 +138,7 @@ async function monitorSystemHealth() {
     console.log('📊 监控结果：\n');
     
     if (alerts.length === 0) {
-      console.log('✅ 所有指标正常，无需报警\n');
+      console.log('�?所有指标正常，无需报警\n');
     } else {
       console.log(`⚠️  发现 ${alerts.length} 个报警：\n`);
       
@@ -173,10 +163,10 @@ async function monitorSystemHealth() {
               createdAt: alert.timestamp,
             });
           } catch (error: any) {
-            console.error(`❌ 记录报警失败 (${alert.category}):`, error.message);
+            console.error(`�?记录报警失败 (${alert.category}):`, error.message);
           }
         }
-        console.log(`✅ 已记录 ${alerts.length} 个报警到数据库`);
+        console.log(`�?已记�?${alerts.length} 个报警到数据库`);
       }
 
       // 4. 发送报警通知
@@ -194,14 +184,13 @@ async function monitorSystemHealth() {
       }
     }
 
-    console.log('✅ 系统健康监控检查完成\n');
+    console.log('�?系统健康监控检查完成\n');
 
   } catch (error: any) {
-    console.error('❌ 系统健康监控检查失败:', error.message);
+    console.error('�?系统健康监控检查失�?', error.message);
     console.error('   堆栈:', error.stack);
     
-    // 发送错误报警
-    await sendAlertNotifications([{
+    // 发送错误报�?    await sendAlertNotifications([{
       level: 'critical',
       type: 'resource',
       category: 'monitor_error',
@@ -219,15 +208,14 @@ async function sendAlertNotifications(alerts: Alert[], severity: 'critical' | 'w
     `[${alert.level.toUpperCase()}] ${alert.category}\n${alert.message}\n数据: ${JSON.stringify(alert.data, null, 2)}`
   ).join('\n\n');
 
-  const fullMessage = `[Digital Heirloom] 系统健康监控报警 - ${alerts.length} 个${severity === 'critical' ? '严重' : '警告'}问题\n\n${alertMessages}`;
+  const fullMessage = `[Digital Heirloom] 系统健康监控报警 - ${alerts.length} �?{severity === 'critical' ? '严重' : '警告'}问题\n\n${alertMessages}`;
 
-  // 1. 发送邮件
-  try {
+  // 1. 发送邮�?  try {
     const emailService = await getEmailService();
     const subject = `[Digital Heirloom] ${severity === 'critical' ? '严重' : '警告'}报警 - ${alerts.length} 个问题`;
     const html = `
       <h2>系统健康监控报警</h2>
-      <p>检测到以下${severity === 'critical' ? '严重' : '警告'}问题：</p>
+      <p>检测到以下${severity === 'critical' ? '严重' : '警告'}问题�?/p>
       <ul>
         ${alerts.map(alert => `
           <li>
@@ -237,7 +225,7 @@ async function sendAlertNotifications(alerts: Alert[], severity: 'critical' | 'w
           </li>
         `).join('')}
       </ul>
-      <p>请及时处理。</p>
+      <p>请及时处理�?/p>
     `;
 
     await emailService.sendEmail({
@@ -246,9 +234,9 @@ async function sendAlertNotifications(alerts: Alert[], severity: 'critical' | 'w
       html,
     });
 
-    console.log(`✅ 报警邮件已发送到 ${ADMIN_EMAIL}`);
+    console.log(`�?报警邮件已发送到 ${ADMIN_EMAIL}`);
   } catch (error: any) {
-    console.error('❌ 发送报警邮件失败:', error.message);
+    console.error('�?发送报警邮件失�?', error.message);
   }
 
   // 2. 发送到 Slack（如果配置）
@@ -261,15 +249,15 @@ async function sendAlertNotifications(alerts: Alert[], severity: 'critical' | 'w
           text: fullMessage,
           attachments: [{
             color: severity === 'critical' ? '#ff0000' : '#ffa500',
-            text: '详情请登录 Admin Dashboard 查看',
+            text: '详情请登�?Admin Dashboard 查看',
             footer: 'Digital Heirloom Admin',
             ts: Math.floor(Date.now() / 1000),
           }],
         }),
       });
-      console.log('✅ 报警已发送到 Slack');
+      console.log('�?报警已发送到 Slack');
     } catch (error: any) {
-      console.error('❌ 发送 Slack 报警失败:', error.message);
+      console.error('�?发�?Slack 报警失败:', error.message);
     }
   }
 
@@ -286,9 +274,9 @@ async function sendAlertNotifications(alerts: Alert[], severity: 'critical' | 'w
           parse_mode: 'Markdown',
         }),
       });
-      console.log('✅ 报警已发送到 Telegram');
+      console.log('�?报警已发送到 Telegram');
     } catch (error: any) {
-      console.error('❌ 发送 Telegram 报警失败:', error.message);
+      console.error('�?发�?Telegram 报警失败:', error.message);
     }
   }
 }

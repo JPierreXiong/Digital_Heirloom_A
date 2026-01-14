@@ -1,10 +1,7 @@
 /**
- * 创建测试物流请求脚本（TypeScript 版本）
- * 用途：在数据库中创建一条"待审核"的物流记录，用于测试管理员页面
- * 运行方式：tsx scripts/create-test-shipping-request.ts
+ * 创建测试物流请求脚本（TypeScript 版本�? * 用途：在数据库中创建一�?待审�?的物流记录，用于测试管理员页�? * 运行方式：tsx scripts/create-test-shipping-request.ts
  * 
- * 注意：此脚本需要先执行数据库迁移（scripts/migrate-shipping-logs.sql）
- */
+ * 注意：此脚本需要先执行数据库迁移（scripts/migrate-shipping-logs.sql�? */
 
 import dotenv from 'dotenv';
 import { resolve } from 'path';
@@ -19,7 +16,7 @@ import { getUuid } from '../src/shared/lib/hash.js';
 
 async function createTestShippingRequest() {
   try {
-    console.log('🚀 开始创建测试物流请求...\n');
+    console.log('🚀 开始创建测试物流请�?..\n');
 
     const database = db();
 
@@ -31,16 +28,16 @@ async function createTestShippingRequest() {
       .limit(1);
 
     if (!testUser) {
-      console.log('⚠️ 未找到 Pro 版用户，尝试查找任意用户...');
+      console.log('⚠️ 未找�?Pro 版用户，尝试查找任意用户...');
       const [anyUser] = await database.select().from(user).limit(1);
       if (!anyUser) {
-        console.error('❌ 数据库中没有任何用户，请先注册一个用户');
+        console.error('�?数据库中没有任何用户，请先注册一个用�?);
         process.exit(1);
       }
-      console.log(`✅ 找到用户: ${anyUser.email} (计划: ${anyUser.planType || 'free'})`);
+      console.log(`�?找到用户: ${anyUser.email} (计划: ${anyUser.planType || 'free'})`);
       console.log('⚠️ 注意：该用户不是 Pro 版，物流请求可能无法正常触发\n');
     } else {
-      console.log(`✅ 找到 Pro 版用户: ${testUser.email}\n`);
+      console.log(`�?找到 Pro 版用�? ${testUser.email}\n`);
     }
 
     const userId = testUser?.id || (await database.select().from(user).limit(1))[0].id;
@@ -67,15 +64,14 @@ async function createTestShippingRequest() {
         heartbeatFrequency: 90,
         gracePeriod: 7,
         deadManSwitchEnabled: true,
-        status: 'released', // 模拟已释放状态
-        lastSeenAt: new Date(Date.now() - 100 * 24 * 60 * 60 * 1000), // 100天前
+        status: 'released', // 模拟已释放状�?        lastSeenAt: new Date(Date.now() - 100 * 24 * 60 * 60 * 1000), // 100天前
       });
       [vault] = await database
         .select()
         .from(digitalVaults)
         .where(eq(digitalVaults.id, vaultId))
         .limit(1);
-      console.log(`✅ 创建测试保险箱: ${vaultId}\n`);
+      console.log(`�?创建测试保险�? ${vaultId}\n`);
     }
 
     // 3. 查找或创建受益人
@@ -101,14 +97,13 @@ async function createTestShippingRequest() {
         city: 'Beijing',
         zipCode: '100000',
         countryCode: 'CN',
-        status: 'released', // 模拟已释放状态
-      });
+        status: 'released', // 模拟已释放状�?      });
       [beneficiary] = await database
         .select()
         .from(beneficiaries)
         .where(eq(beneficiaries.id, beneficiaryId))
         .limit(1);
-      console.log(`✅ 创建测试受益人: ${beneficiaryId}\n`);
+      console.log(`�?创建测试受益�? ${beneficiaryId}\n`);
     }
 
     // 4. 创建物流请求
@@ -131,26 +126,26 @@ async function createTestShippingRequest() {
 
     await database.insert(shippingLogs).values(testShippingLog);
 
-    console.log('✅ 测试物流请求创建成功！\n');
-    console.log('📋 请求详情：');
+    console.log('�?测试物流请求创建成功！\n');
+    console.log('📋 请求详情�?);
     console.log(`   ID: ${shippingLogId}`);
-    console.log(`   保险箱 ID: ${vault.id}`);
-    console.log(`   受益人: ${beneficiary.name} (${beneficiary.email})`);
+    console.log(`   保险�?ID: ${vault.id}`);
+    console.log(`   受益�? ${beneficiary.name} (${beneficiary.email})`);
     console.log(`   收货地址: ${testShippingLog.addressLine1}, ${testShippingLog.city}`);
-    console.log(`   状态: ${testShippingLog.status}`);
-    console.log(`   运费状态: ${testShippingLog.shippingFeeStatus}`);
+    console.log(`   状�? ${testShippingLog.status}`);
+    console.log(`   运费状�? ${testShippingLog.shippingFeeStatus}`);
     console.log(`   预估运费: $${(testShippingLog.estimatedAmount! / 100).toFixed(2)}\n`);
 
     console.log('🎯 下一步操作：');
     console.log('   1. 访问 http://localhost:3000/admin/shipping-requests');
     console.log('   2. 找到刚创建的物流请求');
     console.log('   3. 点击"核算运费"按钮');
-    console.log('   4. 输入金额并发送支付链接');
+    console.log('   4. 输入金额并发送支付链�?);
     console.log('   5. 测试完整流程\n');
 
     process.exit(0);
   } catch (error) {
-    console.error('❌ 创建测试物流请求失败:', error);
+    console.error('�?创建测试物流请求失败:', error);
     process.exit(1);
   }
 }

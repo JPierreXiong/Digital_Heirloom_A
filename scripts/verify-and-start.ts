@@ -10,12 +10,12 @@ const projectRoot = process.cwd();
 const envLocalPath = join(projectRoot, '.env.local');
 const examplePath = join(projectRoot, 'env.digital-heirloom.example.txt');
 
-console.log('🔍 检查环境变量配置...\n');
+console.log('🔍 检查环境变量配�?..\n');
 
-// 检查 .env.local 是否存在
+// 检�?.env.local 是否存在
 if (!existsSync(envLocalPath)) {
-  console.log('❌ .env.local 文件不存在！');
-  console.log(`\n正在从示例文件创建: ${envLocalPath}\n`);
+  console.log('�?.env.local 文件不存在！');
+  console.log(`\n正在从示例文件创�? ${envLocalPath}\n`);
   
   if (existsSync(examplePath)) {
     const exampleContent = readFileSync(examplePath, 'utf-8');
@@ -28,9 +28,9 @@ if (!existsSync(envLocalPath)) {
     );
     
     require('fs').writeFileSync(envLocalPath, updatedContent, 'utf-8');
-    console.log('✅ .env.local 文件已创建\n');
+    console.log('�?.env.local 文件已创建\n');
   } else {
-    console.log('❌ 找不到示例文件:', examplePath);
+    console.log('�?找不到示例文�?', examplePath);
     process.exit(1);
   }
 }
@@ -61,12 +61,12 @@ const required = [
 const missing: string[] = [];
 const present: string[] = [];
 
-console.log('📋 必需环境变量检查:');
+console.log('📋 必需环境变量检�?');
 required.forEach((varName) => {
   const value = envVars[varName];
   if (!value || value === '' || value.includes('your-') || value.includes('here')) {
     missing.push(varName);
-    console.log(`  ❌ ${varName}: 未设置或使用占位符`);
+    console.log(`  �?${varName}: 未设置或使用占位符`);
   } else {
     present.push(varName);
     const displayValue = varName.includes('KEY') || varName.includes('SECRET')
@@ -74,34 +74,33 @@ required.forEach((varName) => {
       : value.length > 50
       ? `${value.substring(0, 50)}...`
       : value;
-    console.log(`  ✅ ${varName}: ${displayValue}`);
+    console.log(`  �?${varName}: ${displayValue}`);
   }
 });
 
 console.log('\n' + '='.repeat(60));
 
 if (missing.length > 0) {
-  console.log('\n❌ 发现缺失或未配置的必需环境变量！');
+  console.log('\n�?发现缺失或未配置的必需环境变量�?);
   console.log('\n请在 .env.local 文件中配置以下变量：\n');
   missing.forEach((varName) => {
     console.log(`  ${varName}=your-value-here`);
   });
-  console.log('\n参考文件: env.digital-heirloom.example.txt');
-  console.log('\n⚠️  配置完成后，请重新运行此脚本启动服务器。');
+  console.log('\n参考文�? env.digital-heirloom.example.txt');
+  console.log('\n⚠️  配置完成后，请重新运行此脚本启动服务器�?);
   process.exit(1);
 }
 
-console.log('\n✅ 所有必需环境变量已配置！');
+console.log('\n�?所有必需环境变量已配置！');
 console.log('\n🚀 正在启动开发服务器...\n');
 
-// 启动服务器
-try {
+// 启动服务�?try {
   execSync('pnpm dev', { 
     stdio: 'inherit',
     cwd: projectRoot,
     env: { ...process.env, ...envVars }
   });
 } catch (error) {
-  console.error('\n❌ 服务器启动失败');
+  console.error('\n�?服务器启动失�?);
   process.exit(1);
 }

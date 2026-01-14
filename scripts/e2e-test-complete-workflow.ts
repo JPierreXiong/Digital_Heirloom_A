@@ -1,7 +1,5 @@
 /**
- * Digital Heirloom 完整流程端到端测试
- * 用途：模拟从用户注册到物流发货的完整流程
- * 运行方式：tsx scripts/e2e-test-complete-workflow.ts
+ * Digital Heirloom 完整流程端到端测�? * 用途：模拟从用户注册到物流发货的完整流�? * 运行方式：tsx scripts/e2e-test-complete-workflow.ts
  */
 
 import dotenv from 'dotenv';
@@ -33,7 +31,7 @@ const testResults: TestResult[] = [];
 
 function logResult(step: string, status: 'success' | 'error' | 'warning', message: string, data?: any) {
   testResults.push({ step, status, message, data });
-  const icon = status === 'success' ? '✅' : status === 'error' ? '❌' : '⚠️';
+  const icon = status === 'success' ? '�? : status === 'error' ? '�? : '⚠️';
   console.log(`${icon} [${step}] ${message}`);
   if (data) {
     console.log(`   ${JSON.stringify(data, null, 2)}`);
@@ -41,7 +39,7 @@ function logResult(step: string, status: 'success' | 'error' | 'warning', messag
 }
 
 async function e2eTestCompleteWorkflow() {
-  console.log('🚀 开始 Digital Heirloom 完整流程端到端测试\n');
+  console.log('🚀 开�?Digital Heirloom 完整流程端到端测试\n');
   console.log('========================================\n');
 
   const testEmail = `test-${Date.now()}@example.com`;
@@ -79,9 +77,9 @@ async function e2eTestCompleteWorkflow() {
     }
 
     // ============================================
-    // Step 2: 升级用户到 Pro 计划（模拟支付）
+    // Step 2: 升级用户�?Pro 计划（模拟支付）
     // ============================================
-    console.log('\n📝 Step 2: 升级用户到 Pro 计划（模拟支付）\n');
+    console.log('\n📝 Step 2: 升级用户�?Pro 计划（模拟支付）\n');
 
     await database
       .update(user)
@@ -89,8 +87,7 @@ async function e2eTestCompleteWorkflow() {
       .where(eq(user.id, testUserId));
 
     // 创建模拟订阅记录（简化版本，只更新用户计划）
-    // 注意：subscription 表有复杂的必填字段，这里只更新用户计划即可
-    // 实际场景中，订阅记录会通过 Creem Webhook 创建
+    // 注意：subscription 表有复杂的必填字段，这里只更新用户计划即�?    // 实际场景中，订阅记录会通过 Creem Webhook 创建
 
     logResult('Step 2', 'success', '用户已升级为 Pro 计划', {
       userId: testUserId,
@@ -99,8 +96,7 @@ async function e2eTestCompleteWorkflow() {
     });
 
     // ============================================
-    // Step 3: 创建数字保险箱（模拟 Step 1-4 完成）
-    // ============================================
+    // Step 3: 创建数字保险箱（模拟 Step 1-4 完成�?    // ============================================
     console.log('\n📝 Step 3: 创建数字保险箱（模拟设置完成）\n');
 
     const vaultId = getUuid();
@@ -118,11 +114,10 @@ async function e2eTestCompleteWorkflow() {
       lastSeenAt: new Date(),
     });
 
-    logResult('Step 3', 'success', '数字保险箱创建成功', { vaultId });
+    logResult('Step 3', 'success', '数字保险箱创建成�?, { vaultId });
 
     // ============================================
-    // Step 4: 创建受益人（包含完整地址信息）
-    // ============================================
+    // Step 4: 创建受益人（包含完整地址信息�?    // ============================================
     console.log('\n📝 Step 4: 创建受益人（包含完整地址信息）\n');
 
     const beneficiaryId = getUuid();
@@ -142,15 +137,14 @@ async function e2eTestCompleteWorkflow() {
       status: 'pending',
     });
 
-    logResult('Step 4', 'success', '受益人创建成功（包含完整地址）', {
+    logResult('Step 4', 'success', '受益人创建成功（包含完整地址�?, {
       beneficiaryId,
       email: beneficiaryEmail,
       address: '123 Test Street, Building A, Room 101, Beijing, 100000, CN',
     });
 
     // ============================================
-    // Step 5: 模拟死信开关触发（保险箱状态变为 released）
-    // ============================================
+    // Step 5: 模拟死信开关触发（保险箱状态变�?released�?    // ============================================
     console.log('\n📝 Step 5: 模拟死信开关触发（保险箱释放）\n');
 
     await database
@@ -162,8 +156,7 @@ async function e2eTestCompleteWorkflow() {
       })
       .where(eq(digitalVaults.id, vaultId));
 
-    // 更新受益人状态为已释放
-    await database
+    // 更新受益人状态为已释�?    await database
       .update(beneficiaries)
       .set({ status: 'released', releasedAt: new Date() })
       .where(eq(beneficiaries.id, beneficiaryId));
@@ -203,8 +196,7 @@ async function e2eTestCompleteWorkflow() {
     });
 
     // ============================================
-    // Step 7: 验证数据完整性
-    // ============================================
+    // Step 7: 验证数据完整�?    // ============================================
     console.log('\n📝 Step 7: 验证数据完整性\n');
 
     const [finalVault] = await database
@@ -227,15 +219,14 @@ async function e2eTestCompleteWorkflow() {
       .from(user)
       .where(eq(user.id, testUserId));
 
-    // 验证检查
-    const validations = [
+    // 验证检�?    const validations = [
       {
         name: '用户计划',
         condition: finalUser?.planType === 'pro',
-        message: finalUser?.planType === 'pro' ? '用户为 Pro 计划' : '用户计划不正确',
+        message: finalUser?.planType === 'pro' ? '用户�?Pro 计划' : '用户计划不正�?,
       },
       {
-        name: '保险箱状态',
+        name: '保险箱状�?,
         condition: finalVault?.status === 'released',
         message: finalVault?.status === 'released' ? '保险箱状态为 released' : '保险箱状态不正确',
       },
@@ -248,14 +239,14 @@ async function e2eTestCompleteWorkflow() {
         message:
           finalBeneficiary?.addressLine1 && finalBeneficiary?.city && finalBeneficiary?.countryCode
             ? '受益人地址完整'
-            : '受益人地址不完整',
+            : '受益人地址不完�?,
       },
       {
         name: '物流请求',
         condition: finalShippingLog?.status === ShippingStatus.PENDING_REVIEW,
         message:
           finalShippingLog?.status === ShippingStatus.PENDING_REVIEW
-            ? '物流请求状态正确'
+            ? '物流请求状态正�?
             : '物流请求状态不正确',
       },
     ];
@@ -271,8 +262,7 @@ async function e2eTestCompleteWorkflow() {
     });
 
     // ============================================
-    // Step 8: 测试 API 路由（模拟管理员操作）
-    // ============================================
+    // Step 8: 测试 API 路由（模拟管理员操作�?    // ============================================
     console.log('\n📝 Step 8: 测试 API 路由可访问性\n');
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
@@ -281,17 +271,17 @@ async function e2eTestCompleteWorkflow() {
     logResult(
       'Step 8',
       'success',
-      `API 路由已创建: GET ${baseUrl}/api/admin/shipping/list`
+      `API 路由已创�? GET ${baseUrl}/api/admin/shipping/list`
     );
     logResult(
       'Step 8',
       'success',
-      `API 路由已创建: POST ${baseUrl}/api/admin/shipping/request-payment`
+      `API 路由已创�? POST ${baseUrl}/api/admin/shipping/request-payment`
     );
     logResult(
       'Step 8',
       'success',
-      `API 路由已创建: POST ${baseUrl}/api/admin/shipping/confirm-ship`
+      `API 路由已创�? POST ${baseUrl}/api/admin/shipping/confirm-ship`
     );
 
     // ============================================
@@ -305,33 +295,33 @@ async function e2eTestCompleteWorkflow() {
     const errorCount = testResults.filter((r) => r.status === 'error').length;
     const warningCount = testResults.filter((r) => r.status === 'warning').length;
 
-    console.log(`✅ 成功: ${successCount}`);
+    console.log(`�?成功: ${successCount}`);
     console.log(`⚠️  警告: ${warningCount}`);
-    console.log(`❌ 错误: ${errorCount}\n`);
+    console.log(`�?错误: ${errorCount}\n`);
 
     if (errorCount === 0 && allValid) {
       console.log('🎉 所有测试通过！\n');
-      console.log('📋 测试数据详情：');
+      console.log('📋 测试数据详情�?);
       console.log(`   用户 ID: ${testUserId}`);
       console.log(`   用户邮箱: ${testEmail}`);
-      console.log(`   保险箱 ID: ${vaultId}`);
-      console.log(`   受益人 ID: ${beneficiaryId}`);
-      console.log(`   受益人邮箱: ${beneficiaryEmail}`);
+      console.log(`   保险�?ID: ${vaultId}`);
+      console.log(`   受益�?ID: ${beneficiaryId}`);
+      console.log(`   受益人邮�? ${beneficiaryEmail}`);
       console.log(`   物流请求 ID: ${shippingLogId}\n`);
 
       console.log('🎯 下一步操作：');
       console.log('   1. 访问 http://localhost:3000/admin/shipping-requests');
       console.log('   2. 找到物流请求 ID:', shippingLogId);
-      console.log('   3. 点击"核算运费"按钮，输入金额（如 20.00）');
+      console.log('   3. 点击"核算运费"按钮，输入金额（�?20.00�?);
       console.log('   4. 检查受益人邮箱是否收到支付链接');
       console.log('   5. 使用 scripts/simulate-shipping-payment.sql 模拟支付');
-      console.log('   6. 点击"确认发货"按钮，输入物流单号');
+      console.log('   6. 点击"确认发货"按钮，输入物流单�?);
       console.log('   7. 检查受益人是否收到发货通知\n');
 
-      console.log('💡 提示：');
+      console.log('💡 提示�?);
       console.log('   - 测试用户邮箱:', testEmail);
-      console.log('   - 受益人邮箱:', beneficiaryEmail);
-      console.log('   - 可以在 Supabase Dashboard 查看所有测试数据\n');
+      console.log('   - 受益人邮�?', beneficiaryEmail);
+      console.log('   - 可以�?Supabase Dashboard 查看所有测试数据\n');
     } else {
       console.log('⚠️  部分测试未通过，请检查错误信息\n');
     }
@@ -351,7 +341,7 @@ async function e2eTestCompleteWorkflow() {
       },
     };
   } catch (error) {
-    console.error('\n❌ 测试过程中发生错误:', error);
+    console.error('\n�?测试过程中发生错�?', error);
     logResult('Error', 'error', error instanceof Error ? error.message : 'Unknown error');
     throw error;
   }
@@ -361,15 +351,15 @@ async function e2eTestCompleteWorkflow() {
 e2eTestCompleteWorkflow()
   .then((result) => {
     if (result.success) {
-      console.log('✅ 端到端测试完成！');
+      console.log('�?端到端测试完成！');
       process.exit(0);
     } else {
-      console.log('❌ 测试未完全通过');
+      console.log('�?测试未完全通过');
       process.exit(1);
     }
   })
   .catch((error) => {
-    console.error('❌ 测试失败:', error);
+    console.error('�?测试失败:', error);
     process.exit(1);
   });
 

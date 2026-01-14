@@ -331,7 +331,7 @@ async function initializeRBAC() {
         .where(eq(permission.code, perm.code));
 
       if (existing) {
-        console.log(`   ‚úì Permission already exists: ${perm.code}`);
+        console.log(`   ‚ú?Permission already exists: ${perm.code}`);
         createdPermissions[perm.code] = existing.id;
       } else {
         const [created] = await db()
@@ -342,12 +342,12 @@ async function initializeRBAC() {
           })
           .returning();
         createdPermissions[perm.code] = created.id;
-        console.log(`   ‚úì Created permission: ${perm.code}`);
+        console.log(`   ‚ú?Created permission: ${perm.code}`);
       }
     }
 
     console.log(
-      `\n‚úÖ Created ${Object.keys(createdPermissions).length} permissions\n`
+      `\n‚ú?Created ${Object.keys(createdPermissions).length} permissions\n`
     );
 
     // 2. Create roles and assign permissions
@@ -364,7 +364,7 @@ async function initializeRBAC() {
       let roleId: string;
 
       if (existingRole) {
-        console.log(`   ‚úì Role already exists: ${roleData.name}`);
+        console.log(`   ‚ú?Role already exists: ${roleData.name}`);
         roleId = existingRole.id;
       } else {
         const [created] = await db()
@@ -379,7 +379,7 @@ async function initializeRBAC() {
           })
           .returning();
         roleId = created.id;
-        console.log(`   ‚úì Created role: ${roleData.name}`);
+        console.log(`   ‚ú?Created role: ${roleData.name}`);
       }
 
       createdRoles[roleData.name] = roleId;
@@ -418,11 +418,11 @@ async function initializeRBAC() {
       }
 
       console.log(
-        `   ‚úì Assigned ${roleData.permissions.length} permissions to ${roleData.name}`
+        `   ‚ú?Assigned ${roleData.permissions.length} permissions to ${roleData.name}`
       );
     }
 
-    console.log(`\n‚úÖ Created ${Object.keys(createdRoles).length} roles\n`);
+    console.log(`\n‚ú?Created ${Object.keys(createdRoles).length} roles\n`);
 
     // 3. Assign super_admin role to user if email provided
     const args = process.argv.slice(2);
@@ -455,7 +455,7 @@ async function initializeRBAC() {
             userId: adminUser.id,
             roleId: superAdminRoleId,
           });
-          console.log(`   ‚úÖ Assigned super_admin role to ${adminEmail}`);
+          console.log(`   ‚ú?Assigned super_admin role to ${adminEmail}`);
         } else {
           console.log(`   ‚ÑπÔ∏è  User already has super_admin role`);
         }
@@ -469,7 +469,7 @@ async function initializeRBAC() {
       );
     }
 
-    console.log('\n‚úÖ RBAC initialization completed successfully!');
+    console.log('\n‚ú?RBAC initialization completed successfully!');
     console.log('\nüìä Summary:');
     console.log(`   - Permissions: ${Object.keys(createdPermissions).length}`);
     console.log(`   - Roles: ${Object.keys(createdRoles).length}`);
@@ -478,7 +478,7 @@ async function initializeRBAC() {
     console.log('   2. Assign roles to users via admin panel or this script');
     console.log('   3. Test permissions in the admin area\n');
   } catch (error) {
-    console.error('\n‚ùå Error during RBAC initialization:', error);
+    console.error('\n‚ù?Error during RBAC initialization:', error);
     process.exit(1);
   }
 }

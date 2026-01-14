@@ -2,9 +2,8 @@
  * 配置 Resend 邮件服务设置到数据库
  * 运行方式: npx tsx scripts/configure-resend-db.ts
  * 
- * 注意: 需要设置 DATABASE_URL 和 RESEND_API_KEY 环境变量
- * 可以通过 .env.local 文件或环境变量设置
- */
+ * 注意: 需要设�?DATABASE_URL �?RESEND_API_KEY 环境变量
+ * 可以通过 .env.local 文件或环境变量设�? */
 
 import dotenv from 'dotenv';
 import { resolve } from 'path';
@@ -19,19 +18,19 @@ import { config } from '../src/config/db/schema';
 
 async function configureResend() {
   try {
-    console.log('🚀 开始配置 Resend 邮件服务...\n');
+    console.log('🚀 开始配�?Resend 邮件服务...\n');
 
     const resendApiKey = process.env.RESEND_API_KEY;
     const resendSenderEmail = process.env.RESEND_SENDER_EMAIL || process.env.RESEND_DEFAULT_FROM || 'support@digitalheirloom.app';
 
     if (!resendApiKey) {
-      console.error('❌ 错误: RESEND_API_KEY 环境变量未设置');
-      console.log('\n📌 请设置以下环境变量:');
+      console.error('�?错误: RESEND_API_KEY 环境变量未设�?);
+      console.log('\n📌 请设置以下环境变�?');
       console.log('   RESEND_API_KEY=re_your-resend-api-key');
-      console.log('   RESEND_SENDER_EMAIL=your-verified-email@domain.com (可选)');
+      console.log('   RESEND_SENDER_EMAIL=your-verified-email@domain.com (可�?');
       console.log('\n💡 提示:');
-      console.log('   1. 在 .env.local 文件中添加 RESEND_API_KEY');
-      console.log('   2. 或在运行命令时设置: $env:RESEND_API_KEY="re_xxx" npx tsx scripts/configure-resend-db.ts');
+      console.log('   1. �?.env.local 文件中添�?RESEND_API_KEY');
+      console.log('   2. 或在运行命令时设�? $env:RESEND_API_KEY="re_xxx" npx tsx scripts/configure-resend-db.ts');
       process.exit(1);
     }
 
@@ -57,20 +56,20 @@ async function configureResend() {
             target: config.name,
             set: { value },
           });
-        console.log(`✅ ${name} 配置成功`);
+        console.log(`�?${name} 配置成功`);
       }
     });
 
-    console.log('\n🎉 Resend 配置完成！');
+    console.log('\n🎉 Resend 配置完成�?);
     console.log('\n📌 下一步：');
-    console.log('   1. 测试邮件发送: npx tsx scripts/test-email-service.ts');
-    console.log('   2. 确保发件人邮箱已在 Resend Dashboard 中验证');
-    console.log('   3. 检查邮件发送日志: email_notifications 表');
+    console.log('   1. 测试邮件发�? npx tsx scripts/test-email-service.ts');
+    console.log('   2. 确保发件人邮箱已�?Resend Dashboard 中验�?);
+    console.log('   3. 检查邮件发送日�? email_notifications �?);
     
     // Close database connection if needed
     process.exit(0);
   } catch (error) {
-    console.error('❌ 配置失败:', error);
+    console.error('�?配置失败:', error);
     if (error instanceof Error) {
       console.error('   错误详情:', error.message);
       if (error.stack) {

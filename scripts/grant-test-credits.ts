@@ -45,7 +45,7 @@ async function grantTestCredits() {
         continue;
       }
 
-      console.log(`   ‚úì User found: ${foundUser.id} (${foundUser.name || 'N/A'})`);
+      console.log(`   ‚ú?User found: ${foundUser.id} (${foundUser.name || 'N/A'})`);
 
       // Create credit record
       const newCredit = {
@@ -66,13 +66,13 @@ async function grantTestCredits() {
 
       await createCredit(newCredit);
 
-      console.log(`   ‚úÖ Successfully granted ${creditsToGrant} credits to ${email}`);
+      console.log(`   ‚ú?Successfully granted ${creditsToGrant} credits to ${email}`);
       console.log(`   üìù Transaction No: ${newCredit.transactionNo}`);
     }
 
-    console.log('\n‚ú® All credits granted successfully!');
+    console.log('\n‚ú?All credits granted successfully!');
   } catch (error: any) {
-    console.error('\n‚ùå Error granting credits:', error);
+    console.error('\n‚ù?Error granting credits:', error);
     console.error('Error message:', error.message);
     process.exit(1);
   }
@@ -81,11 +81,11 @@ async function grantTestCredits() {
 // Run the script
 grantTestCredits()
   .then(() => {
-    console.log('\n‚úÖ Script completed successfully');
+    console.log('\n‚ú?Script completed successfully');
     process.exit(0);
   })
   .catch((error) => {
-    console.error('\n‚ùå Script failed:', error);
+    console.error('\n‚ù?Script failed:', error);
     process.exit(1);
   });
 

@@ -42,7 +42,7 @@ async function analyzeCreditConsumption() {
       const consumedItems = JSON.parse(trans.consumedDetail || '[]');
       const credits = consumedItems.reduce((sum: number, item: any) => sum + (item.creditsConsumed || 0), 0);
       
-      const statusIcon = trans.status === 'deleted' ? 'âœ“' : 'âœ—';
+      const statusIcon = trans.status === 'deleted' ? 'âœ? : 'âœ?;
       const statusText = trans.status === 'deleted' ? 'REFUNDED' : 'ACTIVE';
       
       console.log(`${statusIcon} ${trans.description}`);
@@ -86,7 +86,7 @@ async function analyzeCreditConsumption() {
 
     process.exit(0);
   } catch (error: any) {
-    console.error('âœ— Error:', error.message);
+    console.error('âœ?Error:', error.message);
     console.error(error);
     process.exit(1);
   }

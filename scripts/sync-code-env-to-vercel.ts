@@ -1,49 +1,38 @@
 /**
- * 同步代码中需要的环境变量到 Vercel
- * 确保每个变量在所有环境（Production, Preview, Development）中都存在
- * 
- * 使用方法：
- * VERCEL_TOKEN=your-token pnpm tsx scripts/sync-code-env-to-vercel.ts
+ * 同步代码中需要的环境变量�?Vercel
+ * 确保每个变量在所有环境（Production, Preview, Development）中都存�? * 
+ * 使用方法�? * VERCEL_TOKEN=your-token pnpm tsx scripts/sync-code-env-to-vercel.ts
  */
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN || 'rF4aDNj4aTRotWfhKQAzVNQd';
-const PROJECT_NAME = 'shipany-digital-heirloom';
+const PROJECT_NAME = 'digital-heirloom-c';
 const VERCEL_API_URL = 'https://api.vercel.com';
 
-// 代码中实际使用的环境变量（必需变量）
-const REQUIRED_ENV_VARS: Record<string, string> = {
-  // Supabase 配置（必需）
-  'NEXT_PUBLIC_SUPABASE_URL': 'https://vkafrwwskupsyibrvcvd.supabase.co',
+// 代码中实际使用的环境变量（必需变量�?const REQUIRED_ENV_VARS: Record<string, string> = {
+  // Supabase 配置（必需�?  'NEXT_PUBLIC_SUPABASE_URL': 'https://vkafrwwskupsyibrvcvd.supabase.co',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYWZyd3dza3Vwc3lpYnJ2Y3ZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NDE0NTcsImV4cCI6MjA4MzUxNzQ1N30.mpur4h25R891qzycu9A38QIveUCHMigEM3yPLx8EmMg',
   'SUPABASE_SERVICE_ROLE_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYWZyd3dza3Vwc3lpYnJ2Y3ZkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2Nzk0MTQ1NywiZXhwIjoyMDgzNTE3NDU3fQ.g-zsgOAF5R8w5IQQWUbrGohyfbN1opZWYBDjlq-hgE8',
   'SUPABASE_URL': 'https://vkafrwwskupsyibrvcvd.supabase.co',
   
-  // 数据库配置（必需）
-  'DATABASE_URL': 'postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true',
+  // 数据库配置（必需�?  'DATABASE_URL': 'postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true',
   'POSTGRES_URL_NON_POOLING': 'postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require',
   
-  // 认证配置（必需）
-  'AUTH_SECRET': '6doOS5VaVh4CEVpYXaG0BrupEuVCPPxt7B4/02O/ucQ=',
+  // 认证配置（必需�?  'AUTH_SECRET': '6doOS5VaVh4CEVpYXaG0BrupEuVCPPxt7B4/02O/ucQ=',
   'AUTH_URL': 'https://www.digitalheirloom.app',
   
-  // 应用配置（必需）
-  'NEXT_PUBLIC_APP_URL': 'https://www.digitalheirloom.app',
+  // 应用配置（必需�?  'NEXT_PUBLIC_APP_URL': 'https://www.digitalheirloom.app',
   'NEXT_PUBLIC_APP_NAME': 'Digital Heirloom',
   
-  // Vercel Blob（必需）
-  'BLOB_READ_WRITE_TOKEN': 'vercel_blob_rw_T1QruDd1XViT9FhM_y9TAKwEjlSRuuQXRo9B5vJKNyGulcJ',
+  // Vercel Blob（必需�?  'BLOB_READ_WRITE_TOKEN': 'vercel_blob_rw_T1QruDd1XViT9FhM_y9TAKwEjlSRuuQXRo9B5vJKNyGulcJ',
   
-  // ShipAny 配置（必需）
-  'SHIPANY_API_KEY': 'e50e2b3d-a412-4f90-95eb-aafc9837b9ea',
+  // ShipAny 配置（必需�?  'SHIPANY_API_KEY': 'e50e2b3d-a412-4f90-95eb-aafc9837b9ea',
   'SHIPANY_MERCHANDISE_ID': '1955cf99-daf3-4587-a698-2c28ea9180cc',
   'SHIPANY_API_URL': 'https://api.shipany.io/v1',
   
-  // Resend 配置（必需）
-  'RESEND_API_KEY': 're_JrzLE2sa_HAe9ZVgzmszQ1iepVhRUS4Ci',
+  // Resend 配置（必需�?  'RESEND_API_KEY': 're_JrzLE2sa_HAe9ZVgzmszQ1iepVhRUS4Ci',
   'RESEND_DEFAULT_FROM': 'security@afterglow.app',
   
-  // Creem 配置（必需）
-  'CREEM_PRODUCT_IDS': JSON.stringify({
+  // Creem 配置（必需�?  'CREEM_PRODUCT_IDS': JSON.stringify({
     "digital-heirloom-base-annual": "prod_4oN2BFtSPSpAnYcvUN0uoi",
     "digital-heirloom-pro-annual": "prod_4epepOcgUjSjPoWmAnBaFt"
   }),
@@ -68,14 +57,14 @@ async function getProjectId(): Promise<string | null> {
     });
 
     if (!response.ok) {
-      console.error(`❌ 获取项目信息失败: ${response.status} ${response.statusText}`);
+      console.error(`�?获取项目信息失败: ${response.status} ${response.statusText}`);
       return null;
     }
 
     const data = await response.json();
     return data.id || null;
   } catch (error: any) {
-    console.error('❌ 获取项目 ID 失败:', error.message);
+    console.error('�?获取项目 ID 失败:', error.message);
     return null;
   }
 }
@@ -95,7 +84,7 @@ async function getVercelEnvVars(projectId: string): Promise<VercelEnvVar[]> {
     const data = await response.json();
     return data.envs || [];
   } catch (error: any) {
-    console.error('❌ 获取环境变量失败:', error.message);
+    console.error('�?获取环境变量失败:', error.message);
     return [];
   }
 }
@@ -111,7 +100,7 @@ async function deleteEnvVar(projectId: string, envVarId: string): Promise<boolea
 
     return response.ok;
   } catch (error: any) {
-    console.error(`❌ 删除环境变量失败:`, error.message);
+    console.error(`�?删除环境变量失败:`, error.message);
     return false;
   }
 }
@@ -139,13 +128,13 @@ async function createEnvVar(
 
     if (!response.ok) {
       const error = await response.json();
-      console.error(`❌ 创建失败:`, error);
+      console.error(`�?创建失败:`, error);
       return false;
     }
 
     return true;
   } catch (error: any) {
-    console.error(`❌ 创建环境变量失败:`, error.message);
+    console.error(`�?创建环境变量失败:`, error.message);
     return false;
   }
 }
@@ -156,11 +145,9 @@ async function ensureEnvVarInAllEnvironments(
   value: string,
   existingVars: VercelEnvVar[]
 ): Promise<{ success: boolean; action: string }> {
-  // 查找现有的变量
-  const existing = existingVars.filter(v => v.key === key);
+  // 查找现有的变�?  const existing = existingVars.filter(v => v.key === key);
   
-  // 检查是否在所有环境中都存在
-  const existingTargets = new Set<string>();
+  // 检查是否在所有环境中都存�?  const existingTargets = new Set<string>();
   for (const envVar of existing) {
     (envVar.target || []).forEach(env => existingTargets.add(env));
   }
@@ -168,13 +155,11 @@ async function ensureEnvVarInAllEnvironments(
   const missingEnvs = ALL_ENVIRONMENTS.filter(env => !existingTargets.has(env));
   
   if (missingEnvs.length === 0 && existing.length > 0) {
-    // 所有环境都已存在，检查值是否匹配
-    const firstVar = existing[0];
+    // 所有环境都已存在，检查值是否匹�?    const firstVar = existing[0];
     if (firstVar.value === value) {
       return { success: true, action: 'already_exists' };
     } else {
-      // 值不匹配，需要更新
-      console.log(`  ⚠️  变量值不匹配，需要更新`);
+      // 值不匹配，需要更�?      console.log(`  ⚠️  变量值不匹配，需要更新`);
     }
   }
   
@@ -199,15 +184,15 @@ async function ensureEnvVarInAllEnvironments(
 }
 
 async function main() {
-  console.log('🔄 同步代码环境变量到 Vercel...\n');
+  console.log('🔄 同步代码环境变量�?Vercel...\n');
   
   const projectId = await getProjectId();
   if (!projectId) {
-    console.error('❌ 无法获取项目 ID');
+    console.error('�?无法获取项目 ID');
     process.exit(1);
   }
   
-  console.log(`✅ 项目 ID: ${projectId}\n`);
+  console.log(`�?项目 ID: ${projectId}\n`);
   
   // 获取现有环境变量
   console.log('🔍 获取现有环境变量...');
@@ -215,7 +200,7 @@ async function main() {
   console.log(`找到 ${existingVars.length} 个现有环境变量\n`);
   
   // 同步每个必需变量
-  console.log('📝 同步环境变量到所有环境...\n');
+  console.log('📝 同步环境变量到所有环�?..\n');
   
   const results: Array<{
     key: string;
@@ -236,12 +221,12 @@ async function main() {
     results.push({ key, ...result });
     
     if (result.success) {
-      const actionEmoji = result.action === 'created' ? '✅ 创建' : 
+      const actionEmoji = result.action === 'created' ? '�?创建' : 
                          result.action === 'updated' ? '🔄 更新' : 
-                         '✓ 已存在';
+                         '�?已存�?;
       console.log(`  ${actionEmoji} - 所有环境已配置`);
     } else {
-      console.log(`  ❌ 失败`);
+      console.log(`  �?失败`);
     }
     
     // 避免速率限制
@@ -257,11 +242,11 @@ async function main() {
   const updatedCount = results.filter(r => r.action === 'updated').length;
   const existingCount = results.filter(r => r.action === 'already_exists').length;
   
-  console.log(`  ✅ 成功: ${successCount}`);
+  console.log(`  �?成功: ${successCount}`);
   console.log(`    - 新建: ${createdCount}`);
   console.log(`    - 更新: ${updatedCount}`);
-  console.log(`    - 已存在: ${existingCount}`);
-  console.log(`  ❌ 失败: ${failCount}`);
+  console.log(`    - 已存�? ${existingCount}`);
+  console.log(`  �?失败: ${failCount}`);
   console.log(`  📦 总计: ${results.length}`);
   
   // 验证结果
@@ -280,28 +265,28 @@ async function main() {
       console.log(`  ⚠️  ${key} - 缺少环境: ${missingEnvs.join(', ')}`);
       allCorrect = false;
     } else {
-      console.log(`  ✅ ${key} - 所有环境已配置`);
+      console.log(`  �?${key} - 所有环境已配置`);
     }
   }
   
   if (allCorrect && failCount === 0) {
-    console.log('\n✅ 所有环境变量已成功同步到所有环境！');
+    console.log('\n�?所有环境变量已成功同步到所有环境！');
     console.log('\n💡 下一步：');
     console.log('  1. 前往 Vercel Dashboard 验证变量');
-    console.log('  2. 重新部署项目（Redeploy）');
+    console.log('  2. 重新部署项目（Redeploy�?);
     console.log('  3. 验证网站功能');
     process.exit(0);
   } else {
-    console.log('\n⚠️  部分变量可能需要手动检查');
-    console.log('\n💡 建议：');
+    console.log('\n⚠️  部分变量可能需要手动检�?);
+    console.log('\n💡 建议�?);
     console.log('  1. 前往 Vercel Dashboard 手动验证');
-    console.log('  2. 对于失败的变量，手动添加缺失的环境');
+    console.log('  2. 对于失败的变量，手动添加缺失的环�?);
     console.log('  3. 重新部署项目');
     process.exit(1);
   }
 }
 
 main().catch((error) => {
-  console.error('❌ 脚本执行失败:', error);
+  console.error('�?脚本执行失败:', error);
   process.exit(1);
 });

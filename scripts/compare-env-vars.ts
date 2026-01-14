@@ -1,14 +1,13 @@
 /**
- * 对比代码中使用的环境变量与 Vercel 中的变量
+ * 对比代码中使用的环境变量�?Vercel 中的变量
  * 确保完全匹配
  */
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN || 'rF4aDNj4aTRotWfhKQAzVNQd';
-const PROJECT_NAME = 'shipany-digital-heirloom';
+const PROJECT_NAME = 'digital-heirloom-c';
 const VERCEL_API_URL = 'https://api.vercel.com';
 
-// 从代码扫描结果读取（如果存在）
-let codeEnvVars: string[] = [];
+// 从代码扫描结果读取（如果存在�?let codeEnvVars: string[] = [];
 
 try {
   const codeEnvVarsData = require('../scripts/code-env-vars.json');
@@ -22,8 +21,7 @@ try {
     'SUPABASE_SERVICE_ROLE_KEY',
     'SUPABASE_URL',
     
-    // 数据库
-    'DATABASE_URL',
+    // 数据�?    'DATABASE_URL',
     'POSTGRES_URL_NON_POOLING',
     'DATABASE_PROVIDER',
     'DB_SINGLETON_ENABLED',
@@ -71,13 +69,13 @@ try {
     'CREEM_PRODUCT_IDS',
     'CREEM_SHIPPING_FEE_PRODUCT_ID',
     
-    // Stripe (可选)
+    // Stripe (可�?
     'STRIPE_ENABLED',
     'STRIPE_SECRET_KEY',
     'STRIPE_PUBLISHABLE_KEY',
     'STRIPE_SIGNING_SECRET',
     
-    // PayPal (可选)
+    // PayPal (可�?
     'PAYPAL_ENABLED',
     'PAYPAL_CLIENT_ID',
     'PAYPAL_CLIENT_SECRET',
@@ -108,14 +106,14 @@ async function getProjectId(): Promise<string | null> {
     });
 
     if (!response.ok) {
-      console.error(`❌ 获取项目信息失败: ${response.status} ${response.statusText}`);
+      console.error(`�?获取项目信息失败: ${response.status} ${response.statusText}`);
       return null;
     }
 
     const data = await response.json();
     return data.id || null;
   } catch (error: any) {
-    console.error('❌ 获取项目 ID 失败:', error.message);
+    console.error('�?获取项目 ID 失败:', error.message);
     return null;
   }
 }
@@ -135,21 +133,21 @@ async function getVercelEnvVars(projectId: string): Promise<VercelEnvVar[]> {
     const data = await response.json();
     return data.envs || [];
   } catch (error: any) {
-    console.error('❌ 获取环境变量失败:', error.message);
+    console.error('�?获取环境变量失败:', error.message);
     return [];
   }
 }
 
 async function main() {
-  console.log('🔍 对比代码与 Vercel 环境变量...\n');
+  console.log('🔍 对比代码�?Vercel 环境变量...\n');
   
   const projectId = await getProjectId();
   if (!projectId) {
-    console.error('❌ 无法获取项目 ID');
+    console.error('�?无法获取项目 ID');
     process.exit(1);
   }
   
-  console.log(`✅ 项目 ID: ${projectId}\n`);
+  console.log(`�?项目 ID: ${projectId}\n`);
   
   const vercelVars = await getVercelEnvVars(projectId);
   const vercelVarNames = new Set(vercelVars.map(v => v.key));
@@ -158,8 +156,7 @@ async function main() {
   console.log(`📋 代码中使用的变量: ${codeVarNames.size}`);
   console.log(`📋 Vercel 中的变量: ${vercelVarNames.size}\n`);
   
-  // 找出缺失的变量
-  const missingInVercel = codeEnvVars.filter(v => !vercelVarNames.has(v));
+  // 找出缺失的变�?  const missingInVercel = codeEnvVars.filter(v => !vercelVarNames.has(v));
   const extraInVercel = Array.from(vercelVarNames).filter(v => !codeVarNames.has(v));
   
   // 必需变量（基于代码分析）
@@ -178,15 +175,15 @@ async function main() {
   
   // 输出结果
   if (missingRequired.length > 0) {
-    console.log('❌ 缺失的必需变量（代码使用但 Vercel 中没有）：\n');
+    console.log('�?缺失的必需变量（代码使用但 Vercel 中没有）：\n');
     for (const varName of missingRequired) {
-      console.log(`  ❌ ${varName}`);
+      console.log(`  �?${varName}`);
     }
     console.log('');
   }
   
   if (missingOptional.length > 0) {
-    console.log('⚠️  缺失的可选变量（代码使用但 Vercel 中没有）：\n');
+    console.log('⚠️  缺失的可选变量（代码使用�?Vercel 中没有）：\n');
     for (const varName of missingOptional) {
       console.log(`  ⚠️  ${varName}`);
     }
@@ -196,8 +193,7 @@ async function main() {
   if (extraInVercel.length > 0) {
     console.log('ℹ️  Vercel 中的额外变量（代码未使用）：\n');
     for (const varName of extraInVercel) {
-      // 过滤掉系统变量和已知的额外变量
-      if (
+      // 过滤掉系统变量和已知的额外变�?      if (
         !varName.startsWith('VERCEL_') &&
         !varName.startsWith('NEXT_') &&
         !varName.includes('digital_heirloom') // 已删除的错误变量
@@ -208,8 +204,7 @@ async function main() {
     console.log('');
   }
   
-  // 检查环境范围
-  console.log('🔍 检查环境变量作用域：\n');
+  // 检查环境范�?  console.log('🔍 检查环境变量作用域：\n');
   const productionVars = vercelVars.filter(v => v.target?.includes('production'));
   const previewVars = vercelVars.filter(v => v.target?.includes('preview'));
   const developmentVars = vercelVars.filter(v => v.target?.includes('development'));
@@ -230,28 +225,28 @@ async function main() {
       if (missingEnvs.length > 0) {
         console.log(`  ⚠️  ${varName} 缺少环境: ${missingEnvs.join(', ')}`);
       } else {
-        console.log(`  ✅ ${varName} 在所有环境中`);
+        console.log(`  �?${varName} 在所有环境中`);
       }
     }
   }
   
   // 总结
-  console.log('\n📊 对比结果：');
-  console.log(`  ✅ 匹配的变量: ${codeVarNames.size - missingInVercel.length}`);
-  console.log(`  ❌ 缺失的必需变量: ${missingRequired.length}`);
-  console.log(`  ⚠️  缺失的可选变量: ${missingOptional.length}`);
-  console.log(`  ℹ️  额外的变量: ${extraInVercel.length}`);
+  console.log('\n📊 对比结果�?);
+  console.log(`  �?匹配的变�? ${codeVarNames.size - missingInVercel.length}`);
+  console.log(`  �?缺失的必需变量: ${missingRequired.length}`);
+  console.log(`  ⚠️  缺失的可选变�? ${missingOptional.length}`);
+  console.log(`  ℹ️  额外的变�? ${extraInVercel.length}`);
   
   if (missingRequired.length === 0 && missingOptional.length === 0) {
-    console.log('\n✅ 所有代码中使用的环境变量都在 Vercel 中存在！');
+    console.log('\n�?所有代码中使用的环境变量都�?Vercel 中存在！');
     process.exit(0);
   } else {
-    console.log('\n❌ 发现不匹配的变量，请修复后再部署！');
+    console.log('\n�?发现不匹配的变量，请修复后再部署�?);
     process.exit(1);
   }
 }
 
 main().catch((error) => {
-  console.error('❌ 脚本执行失败:', error);
+  console.error('�?脚本执行失败:', error);
   process.exit(1);
 });

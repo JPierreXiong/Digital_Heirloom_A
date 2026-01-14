@@ -1,9 +1,7 @@
 /**
- * 管理员 API 功能测试脚本
+ * 管理�?API 功能测试脚本
  * 
- * 直接测试 API 路由处理函数（不通过 HTTP）
- * 需要管理员已登录或使用服务端直接调用
- * 
+ * 直接测试 API 路由处理函数（不通过 HTTP�? * 需要管理员已登录或使用服务端直接调�? * 
  * 使用方法:
  *   npx tsx scripts/test-admin-apis.ts
  */
@@ -72,36 +70,35 @@ async function testAPI(name: string, endpoint: string, handler: any, mockRequest
 
 async function testAdminAPIs() {
   console.log('🚀 开始测试管理员 API 功能...\n');
-  console.log(`📧 管理员邮箱: ${ADMIN_EMAIL}\n`);
+  console.log(`📧 管理员邮�? ${ADMIN_EMAIL}\n`);
 
-  // 检查用户是否存在
-  console.log('🔍 检查管理员用户...');
+  // 检查用户是否存�?  console.log('🔍 检查管理员用户...');
   const [adminUser] = await db()
     .select()
     .from(user)
     .where(eq(user.email, ADMIN_EMAIL));
 
   if (!adminUser) {
-    console.error(`❌ 错误: 未找到用户 ${ADMIN_EMAIL}`);
+    console.error(`�?错误: 未找到用�?${ADMIN_EMAIL}`);
     console.log('💡 请先运行: npx tsx scripts/set-admin-user.ts');
     process.exit(1);
   }
 
-  console.log(`✅ 找到用户: ${adminUser.name || 'N/A'} (${adminUser.email})`);
+  console.log(`�?找到用户: ${adminUser.name || 'N/A'} (${adminUser.email})`);
   console.log(`   用户 ID: ${adminUser.id}\n`);
 
   // 测试数据库连接和基本查询
-  console.log('📊 测试数据库连接...');
+  console.log('📊 测试数据库连�?..');
   try {
     const vaultCount = await db().select().from(digitalVaults).limit(1);
-    console.log('✅ 数据库连接正常\n');
+    console.log('�?数据库连接正常\n');
   } catch (error: any) {
-    console.error('❌ 数据库连接失败:', error.message);
+    console.error('�?数据库连接失�?', error.message);
     process.exit(1);
   }
 
   // 由于 API 路由需要认证，我们直接测试数据库查询逻辑
-  console.log('📊 Phase 1: 核心看板和列表页面');
+  console.log('📊 Phase 1: 核心看板和列表页�?);
   
   try {
     // 测试统计查询
@@ -116,7 +113,7 @@ async function testAdminAPIs() {
       name: '统计信息查询',
       endpoint: '/api/admin/digital-heirloom/stats',
       status: 'pass',
-      message: '数据库查询正常',
+      message: '数据库查询正�?,
     });
   } catch (error: any) {
     results.push({
@@ -127,8 +124,7 @@ async function testAdminAPIs() {
     });
   }
 
-  // 测试高风险金库查询
-  try {
+  // 测试高风险金库查�?  try {
     const urgentVaults = await db()
       .select()
       .from(digitalVaults)
@@ -136,21 +132,21 @@ async function testAdminAPIs() {
       .limit(1);
     
     results.push({
-      name: '高风险金库查询',
+      name: '高风险金库查�?,
       endpoint: '/api/admin/digital-heirloom/vaults?urgent=true',
       status: 'pass',
-      message: '数据库查询正常',
+      message: '数据库查询正�?,
     });
   } catch (error: any) {
     results.push({
-      name: '高风险金库查询',
+      name: '高风险金库查�?,
       endpoint: '/api/admin/digital-heirloom/vaults?urgent=true',
       status: 'fail',
       message: error.message,
     });
   }
 
-  console.log('\n📝 Phase 2: 补偿功能和审计日志');
+  console.log('\n📝 Phase 2: 补偿功能和审计日�?);
   
   try {
     // 测试补偿审计日志查询
@@ -163,7 +159,7 @@ async function testAdminAPIs() {
       name: '补偿审计日志查询',
       endpoint: '/api/admin/digital-heirloom/compensations',
       status: 'pass',
-      message: '数据库查询正常',
+      message: '数据库查询正�?,
     });
   } catch (error: any) {
     results.push({
@@ -174,10 +170,10 @@ async function testAdminAPIs() {
     });
   }
 
-  console.log('\n💰 Phase 3: 成本监控和安全监控');
+  console.log('\n💰 Phase 3: 成本监控和安全监�?);
   
   try {
-    // 测试成本监控（检查 emailNotifications 表）
+    // 测试成本监控（检�?emailNotifications 表）
     const emailStats = await db()
       .select()
       .from(emailNotifications)
@@ -187,7 +183,7 @@ async function testAdminAPIs() {
       name: '成本监控查询',
       endpoint: '/api/admin/digital-heirloom/costs',
       status: 'pass',
-      message: '数据库查询正常',
+      message: '数据库查询正�?,
     });
   } catch (error: any) {
     results.push({
@@ -199,7 +195,7 @@ async function testAdminAPIs() {
   }
 
   try {
-    // 测试安全监控（检查 beneficiaries 表）
+    // 测试安全监控（检�?beneficiaries 表）
     const beneficiariesData = await db()
       .select()
       .from(beneficiaries)
@@ -209,7 +205,7 @@ async function testAdminAPIs() {
       name: '安全监控查询',
       endpoint: '/api/admin/digital-heirloom/security',
       status: 'pass',
-      message: '数据库查询正常',
+      message: '数据库查询正�?,
     });
   } catch (error: any) {
     results.push({
@@ -233,7 +229,7 @@ async function testAdminAPIs() {
       name: '报警历史查询',
       endpoint: '/api/admin/digital-heirloom/alerts',
       status: 'pass',
-      message: '数据库查询正常',
+      message: '数据库查询正�?,
     });
   } catch (error: any) {
     results.push({
@@ -244,7 +240,7 @@ async function testAdminAPIs() {
     });
   }
 
-  console.log('\n🔧 Phase 5: 批量操作和高级功能');
+  console.log('\n🔧 Phase 5: 批量操作和高级功�?);
   
   try {
     // 测试金库列表查询
@@ -257,7 +253,7 @@ async function testAdminAPIs() {
       name: '金库列表查询',
       endpoint: '/api/admin/digital-heirloom/vaults',
       status: 'pass',
-      message: '数据库查询正常',
+      message: '数据库查询正�?,
     });
   } catch (error: any) {
     results.push({
@@ -279,7 +275,7 @@ async function testAdminAPIs() {
       name: '报表查询',
       endpoint: '/api/admin/digital-heirloom/reports',
       status: 'pass',
-      message: '数据库查询正常',
+      message: '数据库查询正�?,
     });
   } catch (error: any) {
     results.push({
@@ -299,13 +295,13 @@ async function testAdminAPIs() {
   const failed = results.filter(r => r.status === 'fail').length;
   const skipped = results.filter(r => r.status === 'skip').length;
 
-  console.log(`\n✅ 通过: ${passed}`);
+  console.log(`\n�?通过: ${passed}`);
   console.log(`⏭️  跳过: ${skipped}`);
-  console.log(`❌ 失败: ${failed}`);
+  console.log(`�?失败: ${failed}`);
 
   console.log('\n详细结果:');
   results.forEach((result, index) => {
-    const icon = result.status === 'pass' ? '✅' : result.status === 'skip' ? '⏭️' : '❌';
+    const icon = result.status === 'pass' ? '�? : result.status === 'skip' ? '⏭️' : '�?;
     console.log(`\n${index + 1}. ${icon} ${result.name}`);
     console.log(`   ${result.endpoint}`);
     if (result.message) {
@@ -316,7 +312,7 @@ async function testAdminAPIs() {
   console.log('\n' + '='.repeat(60));
   console.log('💡 说明:');
   console.log('   - 此测试验证了数据库连接和基本查询功能');
-  console.log('   - 要完整测试 API 功能，请使用浏览器登录后访问页面');
+  console.log('   - 要完整测�?API 功能，请使用浏览器登录后访问页面');
   console.log('   - 下一步：启动开发服务器并访问管理员界面进行人工测试');
   console.log('='.repeat(60) + '\n');
 
@@ -324,18 +320,18 @@ async function testAdminAPIs() {
     console.log('⚠️  有测试失败，请检查数据库迁移是否完成');
     process.exit(1);
   } else {
-    console.log('✅ 所有数据库查询测试通过！');
+    console.log('�?所有数据库查询测试通过�?);
     console.log('\n📋 下一步：');
     console.log('   1. 启动开发服务器: npm run dev');
-    console.log('   2. 登录管理员账号: xiongjp_fr@163.com');
-    console.log('   3. 访问管理员界面进行人工测试');
-    console.log('   4. 参考 ADMIN_LOGIN_TEST_GUIDE.md 进行详细测试\n');
+    console.log('   2. 登录管理员账�? xiongjp_fr@163.com');
+    console.log('   3. 访问管理员界面进行人工测�?);
+    console.log('   4. 参�?ADMIN_LOGIN_TEST_GUIDE.md 进行详细测试\n');
     process.exit(0);
   }
 }
 
 // 执行测试
 testAdminAPIs().catch((error) => {
-  console.error('\n❌ 测试执行失败:', error);
+  console.error('\n�?测试执行失败:', error);
   process.exit(1);
 });

@@ -1,7 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * 更新 .env.local 文件，包含所有必需的 API 密钥和配置
- */
+ * 更新 .env.local 文件，包含所有必需�?API 密钥和配�? */
 import { writeFileSync, existsSync, copyFileSync } from 'fs';
 import { join } from 'path';
 
@@ -14,8 +13,7 @@ console.log('🔧 更新 .env.local 文件...\n');
 const envContent = `# ============================================
 # Digital Heirloom - 环境变量配置文件
 # ============================================
-# ⚠️ 警告: 此文件包含敏感信息，不要提交到版本控制系统
-# ============================================
+# ⚠️ 警告: 此文件包含敏感信息，不要提交到版本控制系�?# ============================================
 
 # ============================================
 # 基础应用配置 (必需)
@@ -28,7 +26,7 @@ NEXT_PUBLIC_APPEARANCE=system
 NEXT_PUBLIC_DEBUG=false
 
 # ============================================
-# 数据库配置 (必需)
+# 数据库配�?(必需)
 # ============================================
 DATABASE_URL=postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true
 POSTGRES_URL=postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&supa=base-pooler.x
@@ -43,7 +41,7 @@ DATABASE_PROVIDER=postgresql
 # ============================================
 # 认证配置 (必需)
 # ============================================
-# ⚠️ 请生成一个新的 AUTH_SECRET: openssl rand -base64 32
+# ⚠️ 请生成一个新�?AUTH_SECRET: openssl rand -base64 32
 AUTH_SECRET=your-auth-secret-key-here-generate-with-openssl-rand-base64-32
 AUTH_URL=http://localhost:3000
 
@@ -60,7 +58,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhY
 SUPABASE_JWT_SECRET=fa1H/ULE6m2wpHTFqEfsQFm/MzWsGBf0qZHS9S93cnMoZaBYJIb0cCZuF+yWQb04s4g7NgCTrFJ4ey5aIAvRJg==
 
 # ============================================
-# ShipAny 配置 (物理资产寄送 - Pro 版功能)
+# ShipAny 配置 (物理资产寄�?- Pro 版功�?
 # ============================================
 SHIPANY_API_KEY=e50e2b3d-a412-4f90-95eb-aafc9837b9ea
 SHIPANY_MERCHANDISE_ID=1955cf99-daf3-4587-a698-2c28ea9180cc
@@ -87,14 +85,13 @@ RESEND_DEFAULT_FROM=security@afterglow.app
 # ============================================
 # Vercel Blob 读写令牌
 BLOB_READ_WRITE_TOKEN=vercel_blob_rw_T1QruDd1XViT9FhM_y9TAKwEjlSRuuQXRo9B5vJKNyGulcJ
-# 存储提供商: vercel-blob / supabase / r2 / s3
+# 存储提供�? vercel-blob / supabase / r2 / s3
 STORAGE_PROVIDER=supabase
 
 # ============================================
-# Vercel API Token (可选 - 用于脚本)
+# Vercel API Token (可�?- 用于脚本)
 # ============================================
-# 用于运行 Vercel 管理脚本（如设置环境变量）
-# 获取地址: https://vercel.com/account/tokens
+# 用于运行 Vercel 管理脚本（如设置环境变量�?# 获取地址: https://vercel.com/account/tokens
 VERCEL_TOKEN=rF4aDNj4aTRotWfhKQAzVNQd
 
 # ============================================
@@ -105,32 +102,30 @@ NODE_ENV=development
 # ============================================
 # 注意事项
 # ============================================
-# 1. 所有包含 "NEXT_PUBLIC_" 前缀的变量会暴露给客户端
-# 2. 敏感信息（如 API Keys、Secrets）不要使用 "NEXT_PUBLIC_" 前缀
+# 1. 所有包�?"NEXT_PUBLIC_" 前缀的变量会暴露给客户端
+# 2. 敏感信息（如 API Keys、Secrets）不要使�?"NEXT_PUBLIC_" 前缀
 # 3. SUPABASE_SERVICE_ROLE_KEY 仅在服务端使用，不要暴露给客户端
-# 4. 生产环境请使用环境变量管理工具（如 Vercel Environment Variables）
-# 5. 不要将 .env.local 文件提交到版本控制系统
-# 6. 请生成一个新的 AUTH_SECRET: openssl rand -base64 32
+# 4. 生产环境请使用环境变量管理工具（�?Vercel Environment Variables�?# 5. 不要�?.env.local 文件提交到版本控制系�?# 6. 请生成一个新�?AUTH_SECRET: openssl rand -base64 32
 `;
 
 // 备份现有文件
 if (existsSync(envLocalPath)) {
   const backupPath = `${envLocalPath}.backup.${Date.now()}`;
   copyFileSync(envLocalPath, backupPath);
-  console.log(`✅ 已备份现有文件到: ${backupPath}`);
+  console.log(`�?已备份现有文件到: ${backupPath}`);
 }
 
 // 写入文件
 writeFileSync(envLocalPath, envContent, 'utf-8');
 
-console.log(`\n✅ .env.local 文件已更新: ${envLocalPath}\n`);
+console.log(`\n�?.env.local 文件已更�? ${envLocalPath}\n`);
 console.log('⚠️  重要提示:');
-console.log('   1. 请生成一个新的 AUTH_SECRET:');
+console.log('   1. 请生成一个新�?AUTH_SECRET:');
 console.log('      openssl rand -base64 32');
 console.log('   2. 然后更新 .env.local 中的 AUTH_SECRET 值\n');
 console.log('📋 已配置的 API 密钥:');
-console.log('   ✅ ShipAny API Key');
-console.log('   ✅ ShipAny Merchandise ID');
-console.log('   ✅ Supabase 配置');
-console.log('   ✅ Resend API Key');
-console.log('   ✅ Vercel Blob Token\n');
+console.log('   �?ShipAny API Key');
+console.log('   �?ShipAny Merchandise ID');
+console.log('   �?Supabase 配置');
+console.log('   �?Resend API Key');
+console.log('   �?Vercel Blob Token\n');

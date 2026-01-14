@@ -1,9 +1,7 @@
 /**
- * 测试邮件发送服务
- * 运行方式: npx tsx scripts/test-email-service.ts
+ * 测试邮件发送服�? * 运行方式: npx tsx scripts/test-email-service.ts
  * 
- * 注意: 需要设置环境变量
- * - RESEND_API_KEY
+ * 注意: 需要设置环境变�? * - RESEND_API_KEY
  * - RESEND_SENDER_EMAIL
  * - NEXT_PUBLIC_APP_URL
  */
@@ -47,7 +45,7 @@ async function testEmailService() {
       testToken,
       'en'
     );
-    console.log(`   Result: ${warningResult.success ? '✅ Success' : '❌ Failed'}`);
+    console.log(`   Result: ${warningResult.success ? '�?Success' : '�?Failed'}`);
     if (warningResult.messageId) {
       console.log(`   Message ID: ${warningResult.messageId}`);
     }
@@ -70,7 +68,7 @@ async function testEmailService() {
       testToken,
       'en'
     );
-    console.log(`   Result: ${reminderResult.success ? '✅ Success' : '❌ Failed'}`);
+    console.log(`   Result: ${reminderResult.success ? '�?Success' : '�?Failed'}`);
     if (reminderResult.messageId) {
       console.log(`   Message ID: ${reminderResult.messageId}`);
     }
@@ -79,8 +77,7 @@ async function testEmailService() {
     }
     console.log('');
 
-    // 等待一下
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // 等待一�?    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // 测试 3: 继承通知邮件
     console.log('3️⃣ Testing inheritance notice email...');
@@ -94,7 +91,7 @@ async function testEmailService() {
       undefined,
       'en'
     );
-    console.log(`   Result: ${inheritanceResult.success ? '✅ Success' : '❌ Failed'}`);
+    console.log(`   Result: ${inheritanceResult.success ? '�?Success' : '�?Failed'}`);
     if (inheritanceResult.messageId) {
       console.log(`   Message ID: ${inheritanceResult.messageId}`);
     }
@@ -103,13 +100,13 @@ async function testEmailService() {
     }
     console.log('');
 
-    console.log('✅ Email service test completed!');
+    console.log('�?Email service test completed!');
     console.log('\n📧 Please check your email inbox for the test emails.');
     console.log('   Note: Emails may take a few minutes to arrive.');
 
     process.exit(0);
   } catch (error: any) {
-    console.error('❌ Test failed:', error);
+    console.error('�?Test failed:', error);
     process.exit(1);
   }
 }

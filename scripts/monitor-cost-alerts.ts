@@ -1,15 +1,8 @@
 /**
- * 成本监控和报警脚本
- * 
- * 功能：
- * 1. 监控邮件发送量（Resend）
- * 2. 监控存储使用量
- * 3. 监控 ShipAny 物流订单
- * 4. 超过阈值时发送报警
- * 
- * 运行方式：
- * - 作为 Cron Job 每小时运行一次
- * - 或手动运行: npx tsx scripts/monitor-cost-alerts.ts
+ * 成本监控和报警脚�? * 
+ * 功能�? * 1. 监控邮件发送量（Resend�? * 2. 监控存储使用�? * 3. 监控 ShipAny 物流订单
+ * 4. 超过阈值时发送报�? * 
+ * 运行方式�? * - 作为 Cron Job 每小时运行一�? * - 或手动运�? npx tsx scripts/monitor-cost-alerts.ts
  */
 
 import dotenv from 'dotenv';
@@ -26,25 +19,17 @@ import { sql, gte } from 'drizzle-orm';
 import { getEmailService } from '@/shared/services/email';
 import { getUuid } from '@/shared/lib/hash';
 
-// 报警阈值配置
-const ALERT_THRESHOLDS = {
+// 报警阈值配�?const ALERT_THRESHOLDS = {
   email: {
-    daily: 500, // 每日 500 封
-    weekly: 3000, // 每周 3000 封
-    monthly: 10000, // 每月 10000 封
-    warning: 0.8, // 警告阈值（80%）
-    critical: 0.9, // 严重阈值（90%）
-  },
+    daily: 500, // 每日 500 �?    weekly: 3000, // 每周 3000 �?    monthly: 10000, // 每月 10000 �?    warning: 0.8, // 警告阈值（80%�?    critical: 0.9, // 严重阈值（90%�?  },
   storage: {
-    percentage: 90, // 存储使用率 90%
+    percentage: 90, // 存储使用�?90%
   },
   shipping: {
-    daily: 10, // 每日 10 单
-  },
+    daily: 10, // 每日 10 �?  },
 };
 
-// 管理员通知邮箱（从环境变量获取）
-const ADMIN_EMAIL = process.env.ADMIN_ALERT_EMAIL || 'admin@example.com';
+// 管理员通知邮箱（从环境变量获取�?const ADMIN_EMAIL = process.env.ADMIN_ALERT_EMAIL || 'admin@example.com';
 
 interface Alert {
   level: 'info' | 'warning' | 'critical';
@@ -54,7 +39,7 @@ interface Alert {
 }
 
 async function monitorCosts() {
-  console.log('🔍 开始成本监控检查...\n');
+  console.log('🔍 开始成本监控检�?..\n');
 
   const alerts: Alert[] = [];
   const now = new Date();
@@ -82,13 +67,12 @@ async function monitorCosts() {
       failedToday: 0,
     };
 
-    console.log(`   今日发送: ${stats.sentToday}`);
-    console.log(`   本周发送: ${stats.sentThisWeek}`);
-    console.log(`   本月发送: ${stats.sentThisMonth}`);
+    console.log(`   今日发�? ${stats.sentToday}`);
+    console.log(`   本周发�? ${stats.sentThisWeek}`);
+    console.log(`   本月发�? ${stats.sentThisMonth}`);
     console.log(`   今日失败: ${stats.failedToday}\n`);
 
-    // 检查阈值
-    if (stats.sentToday > ALERT_THRESHOLDS.email.daily) {
+    // 检查阈�?    if (stats.sentToday > ALERT_THRESHOLDS.email.daily) {
       alerts.push({
         level: 'critical',
         type: 'email',
@@ -126,11 +110,10 @@ async function monitorCosts() {
     const storage = storageStats[0] || { totalSize: 0, vaultCount: 0 };
     const totalSizeMB = Number(storage.totalSize || 0) / (1024 * 1024);
     
-    console.log(`   总存储: ${totalSizeMB.toFixed(2)} MB`);
+    console.log(`   总存�? ${totalSizeMB.toFixed(2)} MB`);
     console.log(`   金库数量: ${storage.vaultCount}\n`);
 
-    // 注意：这里需要根据实际存储限制来计算百分比
-    // 假设总限制为 10GB
+    // 注意：这里需要根据实际存储限制来计算百分�?    // 假设总限制为 10GB
     const STORAGE_LIMIT_MB = 10 * 1024; // 10GB
     const storagePercentage = (totalSizeMB / STORAGE_LIMIT_MB) * 100;
 
@@ -147,8 +130,8 @@ async function monitorCosts() {
       });
     }
 
-    // 3. 检查 ShipAny 物流订单
-    console.log('📦 检查物流订单...');
+    // 3. 检�?ShipAny 物流订单
+    console.log('📦 检查物流订�?..');
     
     const shippingStats = await db()
       .select({
@@ -175,7 +158,7 @@ async function monitorCosts() {
     console.log('📊 监控结果：\n');
     
     if (alerts.length === 0) {
-      console.log('✅ 所有指标正常，无需报警\n');
+      console.log('�?所有指标正常，无需报警\n');
     } else {
       console.log(`⚠️  发现 ${alerts.length} 个报警：\n`);
       
@@ -201,24 +184,24 @@ async function monitorCosts() {
               createdAt: now,
             });
           } catch (error: any) {
-            console.error(`❌ 记录报警失败 (${alert.type}):`, error.message);
+            console.error(`�?记录报警失败 (${alert.type}):`, error.message);
           }
         }
-        console.log(`✅ 已记录 ${alerts.length} 个报警到数据库`);
+        console.log(`�?已记�?${alerts.length} 个报警到数据库`);
       }
 
       // 6. 发送报警邮件（如果有严重报警）
       const criticalAlerts = alerts.filter(a => a.level === 'critical');
       if (criticalAlerts.length > 0) {
-        console.log('📧 发送严重报警邮件...');
+        console.log('📧 发送严重报警邮�?..');
         await sendAlertEmail(criticalAlerts);
       }
     }
 
-    console.log('✅ 成本监控检查完成\n');
+    console.log('�?成本监控检查完成\n');
 
   } catch (error: any) {
-    console.error('❌ 成本监控检查失败:', error.message);
+    console.error('�?成本监控检查失�?', error.message);
     console.error('   堆栈:', error.stack);
     process.exit(1);
   }
@@ -231,14 +214,13 @@ async function sendAlertEmail(alerts: Alert[]) {
 
   const fullMessage = `[Digital Heirloom] 成本监控报警 - ${alerts.length} 个严重问题\n\n${alertMessages}`;
 
-  // 1. 发送邮件
-  try {
+  // 1. 发送邮�?  try {
     const emailService = await getEmailService();
     
     const subject = `[Digital Heirloom] 成本监控报警 - ${alerts.length} 个严重问题`;
     const html = `
       <h2>成本监控报警</h2>
-      <p>检测到以下严重问题：</p>
+      <p>检测到以下严重问题�?/p>
       <ul>
         ${alerts.map(alert => `
           <li>
@@ -248,7 +230,7 @@ async function sendAlertEmail(alerts: Alert[]) {
           </li>
         `).join('')}
       </ul>
-      <p>请及时处理。</p>
+      <p>请及时处理�?/p>
     `;
 
     await emailService.sendEmail({
@@ -257,9 +239,9 @@ async function sendAlertEmail(alerts: Alert[]) {
       html,
     });
 
-    console.log(`✅ 报警邮件已发送到 ${ADMIN_EMAIL}`);
+    console.log(`�?报警邮件已发送到 ${ADMIN_EMAIL}`);
   } catch (error: any) {
-    console.error('❌ 发送报警邮件失败:', error.message);
+    console.error('�?发送报警邮件失�?', error.message);
   }
 
   // 2. 发送到 Slack（如果配置）
@@ -273,15 +255,15 @@ async function sendAlertEmail(alerts: Alert[]) {
           text: fullMessage,
           attachments: [{
             color: '#ff0000',
-            text: '详情请登录 Admin Dashboard 查看',
+            text: '详情请登�?Admin Dashboard 查看',
             footer: 'Digital Heirloom Admin',
             ts: Math.floor(Date.now() / 1000),
           }],
         }),
       });
-      console.log('✅ 报警已发送到 Slack');
+      console.log('�?报警已发送到 Slack');
     } catch (error: any) {
-      console.error('❌ 发送 Slack 报警失败:', error.message);
+      console.error('�?发�?Slack 报警失败:', error.message);
     }
   }
 
@@ -300,9 +282,9 @@ async function sendAlertEmail(alerts: Alert[]) {
           parse_mode: 'Markdown',
         }),
       });
-      console.log('✅ 报警已发送到 Telegram');
+      console.log('�?报警已发送到 Telegram');
     } catch (error: any) {
-      console.error('❌ 发送 Telegram 报警失败:', error.message);
+      console.error('�?发�?Telegram 报警失败:', error.message);
     }
   }
 

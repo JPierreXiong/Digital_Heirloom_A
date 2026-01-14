@@ -1,14 +1,13 @@
 /**
  * 列出 Vercel 项目脚本
  * 
- * 使用方法：
- * VERCEL_TOKEN=your-token pnpm tsx scripts/list-vercel-projects.ts
+ * 使用方法�? * VERCEL_TOKEN=your-token pnpm tsx scripts/list-vercel-projects.ts
  */
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
 if (!VERCEL_TOKEN) {
-  console.error('❌ 错误: VERCEL_TOKEN 环境变量未设置');
-  console.error('   请设置环境变量: VERCEL_TOKEN=your-token pnpm tsx scripts/list-vercel-projects.ts');
+  console.error('�?错误: VERCEL_TOKEN 环境变量未设�?);
+  console.error('   请设置环境变�? VERCEL_TOKEN=your-token pnpm tsx scripts/list-vercel-projects.ts');
   process.exit(1);
 }
 const VERCEL_API_URL = 'https://api.vercel.com';
@@ -28,7 +27,7 @@ async function listProjects() {
     const data = await response.json();
     const projects = data.projects || [];
 
-    console.log(`\n📦 找到 ${projects.length} 个项目:\n`);
+    console.log(`\n📦 找到 ${projects.length} 个项�?\n`);
     
     projects.forEach((project: any, index: number) => {
       console.log(`${index + 1}. ${project.name}`);
@@ -41,7 +40,7 @@ async function listProjects() {
       console.log('💡 请使用项目名称或 ID 来设置环境变量\n');
     }
   } catch (error) {
-    console.error('❌ 获取项目列表失败:', error);
+    console.error('�?获取项目列表失败:', error);
   }
 }
 

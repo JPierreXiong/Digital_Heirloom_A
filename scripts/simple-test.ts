@@ -1,12 +1,10 @@
 /**
- * 简单测试脚本
- * 用于快速测试 Digital Heirloom 核心功能
+ * 简单测试脚�? * 用于快速测�?Digital Heirloom 核心功能
  * 不依赖专业测试框架，直接使用 fetch API 测试
  * 
  * 使用方法:
  *   npm run test:simple
- *   或
- *   npx tsx scripts/simple-test.ts
+ *   �? *   npx tsx scripts/simple-test.ts
  */
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://127.0.0.1:3000';
@@ -31,21 +29,20 @@ async function runTest(name: string, testFn: () => Promise<void>): Promise<void>
     await testFn();
     const duration = Date.now() - startTime;
     results.push({ name, status: 'pass', duration });
-    console.log(`   ✅ 通过 (${duration}ms)`);
+    console.log(`   �?通过 (${duration}ms)`);
   } catch (error: any) {
     const duration = Date.now() - startTime;
     results.push({ name, status: 'fail', message: error.message, duration });
-    console.log(`   ❌ 失败: ${error.message} (${duration}ms)`);
+    console.log(`   �?失败: ${error.message} (${duration}ms)`);
   }
 }
 
 /**
- * 测试服务器连接
- */
+ * 测试服务器连�? */
 async function testServerConnection() {
   const response = await fetch(`${BASE_URL}/`);
   if (!response.ok) {
-    throw new Error(`服务器响应错误: ${response.status} ${response.statusText}`);
+    throw new Error(`服务器响应错�? ${response.status} ${response.statusText}`);
   }
   const text = await response.text();
   if (text.length === 0) {
@@ -63,7 +60,7 @@ async function testSignUpPage() {
   }
   const text = await response.text();
   if (!text.includes('sign') && !text.includes('注册')) {
-    throw new Error('注册页面内容不正确');
+    throw new Error('注册页面内容不正�?);
   }
 }
 
@@ -77,7 +74,7 @@ async function testSignInPage() {
   }
   const text = await response.text();
   if (!text.includes('sign') && !text.includes('登录')) {
-    throw new Error('登录页面内容不正确');
+    throw new Error('登录页面内容不正�?);
   }
 }
 
@@ -92,21 +89,19 @@ async function testDashboardAPI() {
     },
   });
 
-  // 401 是预期的（未认证）
-  if (response.status === 401) {
-    // 这是正常的，说明 API 存在且认证检查工作正常
-    return;
+  // 401 是预期的（未认证�?  if (response.status === 401) {
+    // 这是正常的，说明 API 存在且认证检查工作正�?    return;
   }
 
   if (response.status === 404) {
-    throw new Error('API 路由不存在');
+    throw new Error('API 路由不存�?);
   }
 
   // 如果返回 200，说明有有效的认证（可能是测试环境）
   if (response.ok) {
     const data = await response.json();
     if (!data || typeof data !== 'object') {
-      throw new Error('API 返回格式不正确');
+      throw new Error('API 返回格式不正�?);
     }
   }
 }
@@ -122,25 +117,24 @@ async function testAssetsListAPI() {
     },
   });
 
-  // 401 是预期的（未认证）
-  if (response.status === 401) {
+  // 401 是预期的（未认证�?  if (response.status === 401) {
     return;
   }
 
   if (response.status === 404) {
-    throw new Error('API 路由不存在');
+    throw new Error('API 路由不存�?);
   }
 
   if (response.ok) {
     const data = await response.json();
     if (!data || typeof data !== 'object') {
-      throw new Error('API 返回格式不正确');
+      throw new Error('API 返回格式不正�?);
     }
   }
 }
 
 /**
- * 测试受益人列表 API（需要认证）
+ * 测试受益人列�?API（需要认证）
  */
 async function testBeneficiariesListAPI() {
   const response = await fetch(`${BASE_URL}/api/digital-heirloom/beneficiaries/list`, {
@@ -150,19 +144,18 @@ async function testBeneficiariesListAPI() {
     },
   });
 
-  // 401 是预期的（未认证）
-  if (response.status === 401) {
+  // 401 是预期的（未认证�?  if (response.status === 401) {
     return;
   }
 
   if (response.status === 404) {
-    throw new Error('API 路由不存在');
+    throw new Error('API 路由不存�?);
   }
 
   if (response.ok) {
     const data = await response.json();
     if (!data || typeof data !== 'object') {
-      throw new Error('API 返回格式不正确');
+      throw new Error('API 返回格式不正�?);
     }
   }
 }
@@ -179,13 +172,12 @@ async function testHeartbeatAPI() {
     body: JSON.stringify({}),
   });
 
-  // 401 是预期的（未认证）
-  if (response.status === 401) {
+  // 401 是预期的（未认证�?  if (response.status === 401) {
     return;
   }
 
   if (response.status === 404) {
-    throw new Error('API 路由不存在');
+    throw new Error('API 路由不存�?);
   }
 }
 
@@ -204,13 +196,12 @@ async function testSettingsUpdateAPI() {
     }),
   });
 
-  // 401 是预期的（未认证）
-  if (response.status === 401) {
+  // 401 是预期的（未认证�?  if (response.status === 401) {
     return;
   }
 
   if (response.status === 404) {
-    throw new Error('API 路由不存在');
+    throw new Error('API 路由不存�?);
   }
 }
 
@@ -232,26 +223,22 @@ async function testDigitalHeirloomPages() {
   for (const page of pages) {
     try {
       const response = await fetch(`${BASE_URL}${page}`, {
-        // 设置较短的超时，避免长时间等待
-        signal: AbortSignal.timeout(10000),
+        // 设置较短的超时，避免长时间等�?        signal: AbortSignal.timeout(10000),
       });
       
-      // 页面可能返回多种状态码，都是正常的：
-      // - 200: 已认证，页面正常
+      // 页面可能返回多种状态码，都是正常的�?      // - 200: 已认证，页面正常
       // - 401: 未认证，重定向到登录（正常）
       // - 302: 重定向到登录页面（正常）
-      // - 500: 服务器错误（可能是认证问题或配置问题，但页面路由存在）
-      if (response.status === 200 || response.status === 401 || response.status === 302 || response.status === 500) {
+      // - 500: 服务器错误（可能是认证问题或配置问题，但页面路由存在�?      if (response.status === 200 || response.status === 401 || response.status === 302 || response.status === 500) {
         successCount++;
       } else {
         errors.push(`${page}: ${response.status}`);
       }
 
-      // 如果是重定向，检查是否重定向到登录页面
-      if (response.status === 302) {
+      // 如果是重定向，检查是否重定向到登录页�?      if (response.status === 302) {
         const location = response.headers.get('location');
         if (location && !location.includes('sign-in') && !location.includes('login') && !location.includes('sign-up')) {
-          errors.push(`${page} 重定向到意外的位置: ${location}`);
+          errors.push(`${page} 重定向到意外的位�? ${location}`);
         }
       }
     } catch (error: any) {
@@ -271,21 +258,20 @@ async function testDigitalHeirloomPages() {
 
   // 如果有部分失败，记录但不抛出错误（页面路由存在，只是可能有问题）
   if (errors.length > 0) {
-    console.log(`   ⚠️  部分页面有问题: ${errors.join(', ')}`);
+    console.log(`   ⚠️  部分页面有问�? ${errors.join(', ')}`);
   }
 }
 
 /**
- * 主测试函数
- */
+ * 主测试函�? */
 async function runAllTests() {
   console.log('========================================');
-  console.log('Digital Heirloom 简单测试');
+  console.log('Digital Heirloom 简单测�?);
   console.log('========================================');
   console.log(`服务器地址: ${BASE_URL}\n`);
 
   // 基础连接测试
-  await runTest('服务器连接', testServerConnection);
+  await runTest('服务器连�?, testServerConnection);
   
   // 页面测试
   await runTest('注册页面', testSignUpPage);
@@ -293,11 +279,11 @@ async function runAllTests() {
   await runTest('Digital Heirloom 页面路由', testDigitalHeirloomPages);
 
   // API 测试（这些会返回 401，说明认证检查工作正常）
-  await runTest('Dashboard API (认证检查)', testDashboardAPI);
-  await runTest('资产列表 API (认证检查)', testAssetsListAPI);
-  await runTest('受益人列表 API (认证检查)', testBeneficiariesListAPI);
-  await runTest('打卡 API (认证检查)', testHeartbeatAPI);
-  await runTest('设置更新 API (认证检查)', testSettingsUpdateAPI);
+  await runTest('Dashboard API (认证检�?', testDashboardAPI);
+  await runTest('资产列表 API (认证检�?', testAssetsListAPI);
+  await runTest('受益人列�?API (认证检�?', testBeneficiariesListAPI);
+  await runTest('打卡 API (认证检�?', testHeartbeatAPI);
+  await runTest('设置更新 API (认证检�?', testSettingsUpdateAPI);
 
   // 打印测试结果摘要
   console.log('\n========================================');
@@ -309,29 +295,29 @@ async function runAllTests() {
   const skipped = results.filter(r => r.status === 'skip').length;
   
   console.log(`总测试数: ${results.length}`);
-  console.log(`✅ 通过: ${passed}`);
-  console.log(`❌ 失败: ${failed}`);
+  console.log(`�?通过: ${passed}`);
+  console.log(`�?失败: ${failed}`);
   console.log(`⏭️  跳过: ${skipped}`);
   
   if (failed > 0) {
-    console.log('\n失败的测试:');
+    console.log('\n失败的测�?');
     results.filter(r => r.status === 'fail').forEach(r => {
       console.log(`  - ${r.name}: ${r.message}`);
     });
   }
 
   console.log('\n========================================');
-  console.log('测试完成！');
+  console.log('测试完成�?);
   console.log('========================================');
   console.log('\n💡 提示:');
-  console.log('  - 如果 API 返回 401，说明认证检查工作正常');
-  console.log('  - 要测试完整功能，请先登录后再运行此脚本');
+  console.log('  - 如果 API 返回 401，说明认证检查工作正�?);
+  console.log('  - 要测试完整功能，请先登录后再运行此脚�?);
   console.log('  - 或使用浏览器手动测试 UI 功能');
   console.log('\n📋 手动测试建议:');
   console.log('  1. 访问 http://127.0.0.1:3000/sign-up 注册用户');
   console.log('  2. 访问 http://127.0.0.1:3000/digital-heirloom/dashboard 查看 Dashboard');
   console.log('  3. 访问 http://127.0.0.1:3000/digital-heirloom/vault 上传资产');
-  console.log('  4. 访问 http://127.0.0.1:3000/digital-heirloom/beneficiaries 添加受益人');
+  console.log('  4. 访问 http://127.0.0.1:3000/digital-heirloom/beneficiaries 添加受益�?);
   console.log('  5. 访问 http://127.0.0.1:3000/digital-heirloom/check-in 执行打卡');
   console.log('  6. 访问 http://127.0.0.1:3000/digital-heirloom/settings 更新设置');
   console.log('');
@@ -342,7 +328,7 @@ async function runAllTests() {
 
 // 运行测试
 runAllTests().catch((error) => {
-  console.error('❌ 测试执行出错:', error);
+  console.error('�?测试执行出错:', error);
   process.exit(1);
 });
 

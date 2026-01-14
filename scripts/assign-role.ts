@@ -35,7 +35,7 @@ async function assignRole() {
   const expiresDaysArg = args.find((arg) => arg.startsWith('--expires-days='));
 
   if ((!emailArg && !userIdArg) || !roleArg) {
-    console.error('‚ùå Error: Please provide user identifier and role');
+    console.error('‚ù?Error: Please provide user identifier and role');
     console.log('\nUsage:');
     console.log(
       '  npx tsx scripts/assign-role.ts --email=user@example.com --role=admin'
@@ -81,11 +81,11 @@ async function assignRole() {
     }
 
     if (!targetUser) {
-      console.error('‚ùå User not found');
+      console.error('‚ù?User not found');
       process.exit(1);
     }
 
-    console.log(`‚úì Found user: ${targetUser.name} (${targetUser.email})\n`);
+    console.log(`‚ú?Found user: ${targetUser.name} (${targetUser.email})\n`);
 
     // Find role
     const roleName = roleArg.split('=')[1];
@@ -94,7 +94,7 @@ async function assignRole() {
     const role = await getRoleByName(roleName);
 
     if (!role) {
-      console.error(`‚ùå Role not found: ${roleName}`);
+      console.error(`‚ù?Role not found: ${roleName}`);
       console.log('\nAvailable roles:');
       console.log('  - super_admin');
       console.log('  - admin');
@@ -106,7 +106,7 @@ async function assignRole() {
       process.exit(1);
     }
 
-    console.log(`‚úì Found role: ${role.title}\n`);
+    console.log(`‚ú?Found role: ${role.title}\n`);
 
     // Check if user already has this role
     const existingRoles = await getUserRoles(targetUser.id);
@@ -124,14 +124,14 @@ async function assignRole() {
       const days = parseInt(expiresDaysArg.split('=')[1]);
       expiresAt = new Date();
       expiresAt.setDate(expiresAt.getDate() + days);
-      console.log(`‚è∞ Role will expire on: ${expiresAt.toISOString()}\n`);
+      console.log(`‚è?Role will expire on: ${expiresAt.toISOString()}\n`);
     }
 
     // Assign role
     console.log(`üîÑ Assigning role to user...`);
     await assignRoleToUser(targetUser.id, role.id, expiresAt);
 
-    console.log(`\n‚úÖ Successfully assigned role!`);
+    console.log(`\n‚ú?Successfully assigned role!`);
     console.log(`\nüìä Summary:`);
     console.log(`   User: ${targetUser.name} (${targetUser.email})`);
     console.log(`   Role: ${role.title} (${role.name})`);
@@ -150,7 +150,7 @@ async function assignRole() {
     );
     console.log('');
   } catch (error) {
-    console.error('\n‚ùå Error assigning role:', error);
+    console.error('\n‚ù?Error assigning role:', error);
     process.exit(1);
   }
 }

@@ -1,11 +1,9 @@
 /**
- * 将 Creem 配置写入 Vercel 环境变量
+ * �?Creem 配置写入 Vercel 环境变量
  * 
- * 使用方法：
- * npx tsx scripts/setup-creem-to-vercel.ts <vercel-token> <project-id> [team-id]
+ * 使用方法�? * npx tsx scripts/setup-creem-to-vercel.ts <vercel-token> <project-id> [team-id]
  * 
- * 或者设置环境变量后运行：
- * VERCEL_TOKEN=your-token VERCEL_PROJECT_ID=your-project npx tsx scripts/setup-creem-to-vercel.ts
+ * 或者设置环境变量后运行�? * VERCEL_TOKEN=your-token VERCEL_PROJECT_ID=your-project npx tsx scripts/setup-creem-to-vercel.ts
  */
 
 import * as readline from 'readline';
@@ -32,8 +30,7 @@ async function setupCreemToVercel() {
   let projectId = process.env.VERCEL_PROJECT_ID || (args[1] && args[1] !== 'undefined' ? args[1] : undefined);
   let teamId = process.env.VERCEL_TEAM_ID || (args[2] && args[2] !== 'undefined' ? args[2] : undefined);
 
-  // 如果命令行参数不足，使用交互式输入
-  const rl = readline.createInterface({
+  // 如果命令行参数不足，使用交互式输�?  const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
@@ -45,14 +42,14 @@ async function setupCreemToVercel() {
   };
 
   if (!vercelToken || vercelToken.trim() === '') {
-    console.log('📝 请提供 Vercel Access Token');
+    console.log('📝 请提�?Vercel Access Token');
     console.log('   获取地址: https://vercel.com/account/tokens\n');
     vercelToken = await question('Vercel Token: ');
   }
 
   if (!projectId || projectId.trim() === '') {
     console.log('\n📝 请提供项目名称或项目ID');
-    console.log('   可以在 Vercel Dashboard 项目设置中找到\n');
+    console.log('   可以�?Vercel Dashboard 项目设置中找到\n');
     const projectInput = await question('项目名称或ID: ');
     projectId = projectInput;
   }
@@ -65,12 +62,12 @@ async function setupCreemToVercel() {
   teamId = teamId?.trim() || undefined;
 
   if (!vercelToken || !projectId) {
-    console.error('❌ 缺少必要配置');
+    console.error('�?缺少必要配置');
     process.exit(1);
   }
 
-  console.log('\n📦 开始配置 Creem 环境变量到 Vercel...\n');
-  console.log('配置项:');
+  console.log('\n📦 开始配�?Creem 环境变量�?Vercel...\n');
+  console.log('配置�?');
   for (const [key, value] of Object.entries(CREEM_CONFIG)) {
     if (key.includes('KEY') || key.includes('SECRET')) {
       console.log(`  ${key}: ${value.substring(0, 20)}...`);
@@ -80,8 +77,7 @@ async function setupCreemToVercel() {
   }
   console.log('');
 
-  // 配置环境变量到所有环境
-  const environments: ('production' | 'preview' | 'development')[] = ['production', 'preview', 'development'];
+  // 配置环境变量到所有环�?  const environments: ('production' | 'preview' | 'development')[] = ['production', 'preview', 'development'];
   let successCount = 0;
   let failCount = 0;
   const results: Array<{ env: string; key: string; success: boolean; message: string }> = [];
@@ -110,14 +106,14 @@ async function setupCreemToVercel() {
         });
 
         if (result.success) {
-          console.log(`  ✅ ${key}: 成功`);
+          console.log(`  �?${key}: 成功`);
           successCount++;
         } else {
           console.log(`  ⚠️  ${key}: ${result.message}`);
           failCount++;
         }
       } catch (error: any) {
-        console.log(`  ❌ ${key}: ${error.message}`);
+        console.log(`  �?${key}: ${error.message}`);
         failCount++;
         results.push({
           env: environment,
@@ -130,8 +126,8 @@ async function setupCreemToVercel() {
   }
 
   console.log('\n📊 配置完成统计:');
-  console.log(`   ✅ 成功: ${successCount}`);
-  console.log(`   ❌ 失败: ${failCount}`);
+  console.log(`   �?成功: ${successCount}`);
+  console.log(`   �?失败: ${failCount}`);
   console.log(`   📦 总计: ${Object.keys(CREEM_CONFIG).length * environments.length} 个配置项\n`);
 
   // 显示详细结果
@@ -140,18 +136,18 @@ async function setupCreemToVercel() {
     console.log(`\n${env} 环境:`);
     const envResults = results.filter(r => r.env === env);
     for (const result of envResults) {
-      const icon = result.success ? '✅' : '❌';
+      const icon = result.success ? '�? : '�?;
       console.log(`  ${icon} ${result.key}: ${result.message}`);
     }
   }
 
   if (failCount === 0) {
-    console.log('\n🎉 Creem 配置成功写入 Vercel！');
+    console.log('\n🎉 Creem 配置成功写入 Vercel�?);
     console.log('   请前往 Vercel Dashboard 验证配置');
     console.log('   然后重新部署应用以应用新配置\n');
   } else {
-    console.log('\n⚠️  部分配置失败，请检查错误信息');
-    console.log('   可以手动在 Vercel Dashboard 中配置剩余变量\n');
+    console.log('\n⚠️  部分配置失败，请检查错误信�?);
+    console.log('   可以手动�?Vercel Dashboard 中配置剩余变量\n');
   }
 }
 
@@ -182,7 +178,7 @@ async function setVercelEnvVariable(
     if (!checkResponse.ok) {
       return {
         success: false,
-        message: `检查失败: ${checkResponse.status} ${checkResponse.statusText}`,
+        message: `检查失�? ${checkResponse.status} ${checkResponse.statusText}`,
       };
     }
 
@@ -191,8 +187,7 @@ async function setVercelEnvVariable(
       (e: any) => e.key === envVar.key && e.target?.includes(envVar.target[0])
     );
 
-    // 如果已存在，先删除
-    if (existingVar) {
+    // 如果已存在，先删�?    if (existingVar) {
       const deleteUrl = teamId
         ? `${baseUrl}/v10/projects/${projectId}/env/${existingVar.id}?teamId=${teamId}`
         : `${baseUrl}/v10/projects/${projectId}/env/${existingVar.id}`;
@@ -205,7 +200,7 @@ async function setVercelEnvVariable(
       });
 
       if (!deleteResponse.ok && deleteResponse.status !== 404) {
-        console.log(`  ⚠️  删除旧变量失败，继续创建新变量...`);
+        console.log(`  ⚠️  删除旧变量失败，继续创建新变�?..`);
       }
     }
 
@@ -246,6 +241,6 @@ async function setVercelEnvVariable(
 
 // 运行脚本
 setupCreemToVercel().catch((error) => {
-  console.error('❌ 脚本执行失败:', error);
+  console.error('�?脚本执行失败:', error);
   process.exit(1);
 });

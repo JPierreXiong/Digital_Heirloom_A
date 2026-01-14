@@ -1,9 +1,7 @@
 /**
- * 测试 Cron Job: Dead Man's Switch 检查
- * 运行方式: npx tsx scripts/test-cron-job.ts
+ * 测试 Cron Job: Dead Man's Switch 检�? * 运行方式: npx tsx scripts/test-cron-job.ts
  * 
- * 注意: 需要设置环境变量
- * - DATABASE_URL
+ * 注意: 需要设置环境变�? * - DATABASE_URL
  * - RESEND_API_KEY
  * - SHIPANY_API_KEY (可选，如果测试物流功能)
  * - VERCEL_CRON_SECRET (可选，用于测试认证)
@@ -42,12 +40,12 @@ async function testCronJob() {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('❌ Cron Job failed:');
+      console.error('�?Cron Job failed:');
       console.error(JSON.stringify(data, null, 2));
       process.exit(1);
     }
 
-    console.log('✅ Cron Job executed successfully:');
+    console.log('�?Cron Job executed successfully:');
     console.log(JSON.stringify(data, null, 2));
     console.log('\n📊 Summary:');
     console.log(`  - Warnings sent: ${data.warningsSent || 0}`);
@@ -64,7 +62,7 @@ async function testCronJob() {
 
     process.exit(0);
   } catch (error: any) {
-    console.error('❌ Test failed:', error);
+    console.error('�?Test failed:', error);
     process.exit(1);
   }
 }

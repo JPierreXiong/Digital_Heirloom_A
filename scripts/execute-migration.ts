@@ -24,9 +24,9 @@ async function executeMigration() {
       throw new Error('DATABASE_URL is not set in environment variables');
     }
 
-    console.log(`   ‚úì Database provider: ${provider}`);
-    console.log(`   ‚úì Database URL: ${databaseUrl.substring(0, 20)}...`);
-    console.log('   ‚úÖ Database connection configured\n');
+    console.log(`   ‚ú?Database provider: ${provider}`);
+    console.log(`   ‚ú?Database URL: ${databaseUrl.substring(0, 20)}...`);
+    console.log('   ‚ú?Database connection configured\n');
 
     // 2. Backup database (for PostgreSQL)
     if (provider === 'postgresql') {
@@ -60,8 +60,8 @@ async function executeMigration() {
     console.log('3Ô∏è‚É£ Reading migration SQL file...');
     const sqlFile = join(process.cwd(), 'scripts', 'migrate-plan-system.sql');
     const sqlContent = readFileSync(sqlFile, 'utf-8');
-    console.log(`   ‚úì Migration file loaded: ${sqlFile}`);
-    console.log(`   ‚úì SQL statements: ${sqlContent.split(';').filter(s => s.trim().length > 0).length}\n`);
+    console.log(`   ‚ú?Migration file loaded: ${sqlFile}`);
+    console.log(`   ‚ú?SQL statements: ${sqlContent.split(';').filter(s => s.trim().length > 0).length}\n`);
 
     // 4. Execute migration (only for PostgreSQL)
     if (provider === 'postgresql') {
@@ -114,7 +114,7 @@ async function executeMigration() {
 
           await sql.unsafe(statement);
           successCount++;
-          console.log(`   ‚úì Executed: ${statement.substring(0, 50)}...`);
+          console.log(`   ‚ú?Executed: ${statement.substring(0, 50)}...`);
         } catch (error: any) {
           // Some errors are expected (e.g., IF NOT EXISTS)
           if (error.message.includes('already exists') || 
@@ -123,7 +123,7 @@ async function executeMigration() {
             console.log(`   ‚ö†Ô∏è  Skipped (already exists): ${statement.substring(0, 50)}...`);
             successCount++;
           } else {
-            console.error(`   ‚ùå Error: ${error.message}`);
+            console.error(`   ‚ù?Error: ${error.message}`);
             console.error(`   Statement: ${statement.substring(0, 100)}...`);
             errorCount++;
           }
@@ -132,7 +132,7 @@ async function executeMigration() {
 
       await sql.end();
 
-      console.log(`\n   ‚úÖ Migration completed:`);
+      console.log(`\n   ‚ú?Migration completed:`);
       console.log(`      - Successful: ${successCount}`);
       console.log(`      - Errors: ${errorCount}\n`);
     } else {
@@ -181,16 +181,16 @@ async function executeMigration() {
 
         await sql.end();
 
-        console.log(`   ‚úì User table columns: ${userColumns.length}/3`);
-        console.log(`   ‚úì Subscription table columns: ${subscriptionColumns.length}/3`);
-        console.log(`   ‚úì Media tasks table columns: ${mediaTasksColumns.length}/1`);
-        console.log(`   ‚úì Daily checkins table: ${dailyCheckinsTable.length > 0 ? 'exists' : 'missing'}`);
+        console.log(`   ‚ú?User table columns: ${userColumns.length}/3`);
+        console.log(`   ‚ú?Subscription table columns: ${subscriptionColumns.length}/3`);
+        console.log(`   ‚ú?Media tasks table columns: ${mediaTasksColumns.length}/1`);
+        console.log(`   ‚ú?Daily checkins table: ${dailyCheckinsTable.length > 0 ? 'exists' : 'missing'}`);
 
         if (userColumns.length === 3 && 
             subscriptionColumns.length >= 3 && 
             mediaTasksColumns.length === 1 && 
             dailyCheckinsTable.length > 0) {
-          console.log('\n   ‚úÖ Migration verification passed!\n');
+          console.log('\n   ‚ú?Migration verification passed!\n');
         } else {
           console.log('\n   ‚ö†Ô∏è  Some columns/tables may be missing. Please check manually.\n');
         }
@@ -202,7 +202,7 @@ async function executeMigration() {
       console.log('   ‚ÑπÔ∏è  Please verify manually\n');
     }
 
-    console.log('‚úÖ Migration process completed!');
+    console.log('‚ú?Migration process completed!');
     console.log('\nüìã Next steps:');
     // Note: test-plan-system.ts removed (mediaTasks table no longer exists)
     console.log('   2. Test daily check-in functionality');
@@ -210,7 +210,7 @@ async function executeMigration() {
     console.log('   4. Test free trial logic');
 
   } catch (error: any) {
-    console.error('\n‚ùå Migration failed:', error.message);
+    console.error('\n‚ù?Migration failed:', error.message);
     console.error(error);
     process.exit(1);
   }
@@ -219,11 +219,11 @@ async function executeMigration() {
 // Run migration
 executeMigration()
   .then(() => {
-    console.log('\n‚ú® Migration script completed');
+    console.log('\n‚ú?Migration script completed');
     process.exit(0);
   })
   .catch((error) => {
-    console.error('\n‚ùå Migration script failed:', error);
+    console.error('\n‚ù?Migration script failed:', error);
     process.exit(1);
   });
 

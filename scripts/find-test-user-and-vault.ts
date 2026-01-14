@@ -2,11 +2,9 @@
  * 查找测试用户和保险箱
  * 运行方式: npx tsx scripts/find-test-user-and-vault.ts
  * 
- * 功能：
- * 1. 列出数据库中的所有用户（前10个）
+ * 功能�? * 1. 列出数据库中的所有用户（�?0个）
  * 2. 列出每个用户的保险箱
- * 3. 提供设置 TEST_USER_ID 的命令
- */
+ * 3. 提供设置 TEST_USER_ID 的命�? */
 
 import dotenv from 'dotenv';
 import { resolve } from 'path';
@@ -25,8 +23,7 @@ async function findTestUserAndVault() {
   try {
     console.log('🔍 查找测试用户和保险箱...\n');
 
-    // 获取前10个用户
-    const users = await db()
+    // 获取�?0个用�?    const users = await db()
       .select({
         id: user.id,
         email: user.email,
@@ -38,15 +35,15 @@ async function findTestUserAndVault() {
       .orderBy(user.createdAt);
 
     if (users.length === 0) {
-      console.log('❌ 数据库中没有用户');
+      console.log('�?数据库中没有用户');
       console.log('\n💡 提示:');
-      console.log('   1. 在应用中注册一个用户');
-      console.log('   2. 创建数字保险箱');
-      console.log('   3. 然后运行此脚本查找用户 ID');
+      console.log('   1. 在应用中注册一个用�?);
+      console.log('   2. 创建数字保险�?);
+      console.log('   3. 然后运行此脚本查找用�?ID');
       process.exit(1);
     }
 
-    console.log(`📋 找到 ${users.length} 个用户:\n`);
+    console.log(`📋 找到 ${users.length} 个用�?\n`);
 
     for (let i = 0; i < users.length; i++) {
       const u = users[i];
@@ -55,8 +52,7 @@ async function findTestUserAndVault() {
       console.log(`   姓名: ${u.name || 'N/A'}`);
       console.log(`   创建时间: ${u.createdAt || 'N/A'}`);
 
-      // 查找该用户的保险箱
-      const vaults = await db()
+      // 查找该用户的保险�?      const vaults = await db()
         .select({
           id: digitalVaults.id,
           status: digitalVaults.status,
@@ -68,14 +64,14 @@ async function findTestUserAndVault() {
         .limit(5);
 
       if (vaults.length > 0) {
-        console.log(`   📦 保险箱数量: ${vaults.length}`);
+        console.log(`   📦 保险箱数�? ${vaults.length}`);
         vaults.forEach((vault, idx) => {
           console.log(`      ${idx + 1}. Vault ID: ${vault.id}`);
-          console.log(`         状态: ${vault.status}`);
+          console.log(`         状�? ${vault.status}`);
           console.log(`         Dead Man's Switch: ${vault.deadManSwitchEnabled ? '启用' : '禁用'}`);
-          console.log(`         最后活跃: ${vault.lastSeenAt || 'N/A'}`);
+          console.log(`         最后活�? ${vault.lastSeenAt || 'N/A'}`);
         });
-        console.log(`\n   ✅ 可以使用此用户进行测试:`);
+        console.log(`\n   �?可以使用此用户进行测�?`);
         console.log(`   $env:TEST_USER_ID="${u.id}"`);
       } else {
         console.log(`   ⚠️  该用户没有保险箱`);
@@ -95,7 +91,7 @@ async function findTestUserAndVault() {
         console.log('🎯 推荐测试用户:');
         console.log(`   用户 ID: ${u.id}`);
         console.log(`   邮箱: ${u.email || 'N/A'}`);
-        console.log(`   保险箱 ID: ${vaults[0].id}`);
+        console.log(`   保险�?ID: ${vaults[0].id}`);
         console.log(`\n📝 设置环境变量:`);
         console.log(`   $env:TEST_USER_ID="${u.id}"`);
         console.log(`\n🚀 然后运行:`);
@@ -106,7 +102,7 @@ async function findTestUserAndVault() {
 
     process.exit(0);
   } catch (error: any) {
-    console.error('❌ 查找失败:', error);
+    console.error('�?查找失败:', error);
     if (error.message) {
       console.error('   错误详情:', error.message);
     }

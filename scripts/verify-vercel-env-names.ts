@@ -1,18 +1,16 @@
 /**
  * 验证 Vercel 环境变量名是否与代码匹配
  * 
- * 使用方法：
- * VERCEL_TOKEN=your-token pnpm tsx scripts/verify-vercel-env-names.ts
+ * 使用方法�? * VERCEL_TOKEN=your-token pnpm tsx scripts/verify-vercel-env-names.ts
  */
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN || 'rF4aDNj4aTRotWfhKQAzVNQd';
-const PROJECT_NAME = 'shipany-digital-heirloom';
+const PROJECT_NAME = 'digital-heirloom-c';
 const VERCEL_API_URL = 'https://api.vercel.com';
 
 // 代码中实际使用的环境变量名（从代码扫描得出）
 const EXPECTED_ENV_VARS = {
-  // Supabase 配置（必需）
-  'NEXT_PUBLIC_SUPABASE_URL': {
+  // Supabase 配置（必需�?  'NEXT_PUBLIC_SUPABASE_URL': {
     required: true,
     description: 'Supabase 项目 URL',
     pattern: /^https:\/\/.*\.supabase\.co$/,
@@ -33,10 +31,9 @@ const EXPECTED_ENV_VARS = {
     pattern: /^https:\/\/.*\.supabase\.co$/,
   },
   
-  // 数据库配置
-  'DATABASE_URL': {
+  // 数据库配�?  'DATABASE_URL': {
     required: true,
-    description: 'PostgreSQL 数据库连接 URL',
+    description: 'PostgreSQL 数据库连�?URL',
     pattern: /^postgres:\/\//,
   },
   'POSTGRES_URL_NON_POOLING': {
@@ -97,7 +94,7 @@ const EXPECTED_ENV_VARS = {
   },
   'RESEND_DEFAULT_FROM': {
     required: false,
-    description: 'Resend 默认发件人',
+    description: 'Resend 默认发件�?,
   },
   
   // Creem
@@ -131,14 +128,14 @@ async function getProjectId(): Promise<string | null> {
     });
 
     if (!response.ok) {
-      console.error(`❌ 获取项目信息失败: ${response.status} ${response.statusText}`);
+      console.error(`�?获取项目信息失败: ${response.status} ${response.statusText}`);
       return null;
     }
 
     const data = await response.json();
     return data.id || null;
   } catch (error: any) {
-    console.error('❌ 获取项目 ID 失败:', error.message);
+    console.error('�?获取项目 ID 失败:', error.message);
     return null;
   }
 }
@@ -158,7 +155,7 @@ async function getVercelEnvVars(projectId: string): Promise<VercelEnvVar[]> {
     const data = await response.json();
     return data.envs || [];
   } catch (error: any) {
-    console.error('❌ 获取环境变量失败:', error.message);
+    console.error('�?获取环境变量失败:', error.message);
     return [];
   }
 }
@@ -168,8 +165,7 @@ function checkEnvVarName(varName: string): {
   expectedName?: string;
   reason?: string;
 } {
-  // 检查是否是错误的命名模式
-  for (const pattern of WRONG_PATTERNS) {
+  // 检查是否是错误的命名模�?  for (const pattern of WRONG_PATTERNS) {
     if (pattern.test(varName)) {
       // 尝试推断正确的变量名
       let expectedName = varName;
@@ -201,8 +197,7 @@ function checkEnvVarName(varName: string): {
     return { isValid: true };
   }
   
-  // 检查是否是类似的变量名（可能是拼写错误）
-  const similarVars = Object.keys(EXPECTED_ENV_VARS).filter(expected => {
+  // 检查是否是类似的变量名（可能是拼写错误�?  const similarVars = Object.keys(EXPECTED_ENV_VARS).filter(expected => {
     const similarity = calculateSimilarity(varName, expected);
     return similarity > 0.7;
   });
@@ -259,15 +254,15 @@ function levenshteinDistance(str1: string, str2: string): number {
 }
 
 async function main() {
-  console.log('🔍 检查 Vercel 环境变量命名...\n');
+  console.log('🔍 检�?Vercel 环境变量命名...\n');
   
   const projectId = await getProjectId();
   if (!projectId) {
-    console.error('❌ 无法获取项目 ID');
+    console.error('�?无法获取项目 ID');
     process.exit(1);
   }
   
-  console.log(`✅ 项目 ID: ${projectId}\n`);
+  console.log(`�?项目 ID: ${projectId}\n`);
   
   const envVars = await getVercelEnvVars(projectId);
   console.log(`📋 找到 ${envVars.length} 个环境变量\n`);
@@ -282,8 +277,7 @@ async function main() {
   const missing: string[] = [];
   const correct: string[] = [];
   
-  // 检查每个环境变量
-  for (const envVar of envVars) {
+  // 检查每个环境变�?  for (const envVar of envVars) {
     const check = checkEnvVarName(envVar.key);
     
     if (!check.isValid) {
@@ -303,8 +297,7 @@ async function main() {
     if (config.required) {
       const exists = envVars.some(v => v.key === varName);
       if (!exists) {
-        // 检查是否有错误的命名
-        const wrongVar = envVars.find(v => {
+        // 检查是否有错误的命�?        const wrongVar = envVars.find(v => {
           const check = checkEnvVarName(v.key);
           return check.expectedName === varName;
         });
@@ -312,7 +305,7 @@ async function main() {
         if (wrongVar) {
           issues.push({
             varName: wrongVar.key,
-            issue: `变量名错误，应该是: ${varName}`,
+            issue: `变量名错误，应该�? ${varName}`,
             expectedName: varName,
             fix: `重命名为: ${varName}`,
           });
@@ -327,7 +320,7 @@ async function main() {
   console.log('📊 检查结果：\n');
   
   if (issues.length > 0) {
-    console.log('❌ 发现命名问题：\n');
+    console.log('�?发现命名问题：\n');
     for (const issue of issues) {
       console.log(`  🔴 ${issue.varName}`);
       console.log(`     问题: ${issue.issue}`);
@@ -348,27 +341,27 @@ async function main() {
   }
   
   if (correct.length > 0 && issues.length === 0 && missing.length === 0) {
-    console.log('✅ 所有环境变量命名正确！\n');
+    console.log('�?所有环境变量命名正确！\n');
   }
   
   // 生成修复建议
   if (issues.length > 0) {
     console.log('💡 修复建议：\n');
     console.log('1. 前往 Vercel Dashboard -> Settings -> Environment Variables');
-    console.log('2. 对于每个错误的变量名：');
-    console.log('   a. 点击变量右侧的 ⋯ 菜单');
+    console.log('2. 对于每个错误的变量名�?);
+    console.log('   a. 点击变量右侧�?�?菜单');
     console.log('   b. 选择 "Edit"');
-    console.log('   c. 复制变量值');
-    console.log('   d. 删除旧变量');
+    console.log('   c. 复制变量�?);
+    console.log('   d. 删除旧变�?);
     console.log('   e. 创建新变量（使用正确的名称）');
-    console.log('   f. 粘贴变量值');
-    console.log('   g. 确保勾选所有环境（Production, Preview, Development）');
+    console.log('   f. 粘贴变量�?);
+    console.log('   g. 确保勾选所有环境（Production, Preview, Development�?);
     console.log('3. 重新部署项目（Redeploy）\n');
     
     console.log('📝 需要修复的变量：\n');
     for (const issue of issues) {
       if (issue.expectedName) {
-        console.log(`   ${issue.varName} → ${issue.expectedName}`);
+        console.log(`   ${issue.varName} �?${issue.expectedName}`);
       }
     }
   }
@@ -377,6 +370,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error('❌ 脚本执行失败:', error);
+  console.error('�?脚本执行失败:', error);
   process.exit(1);
 });

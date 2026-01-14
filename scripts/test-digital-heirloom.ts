@@ -21,7 +21,7 @@ dotenv.config({ path: resolve(process.cwd(), '.env') });
 
 // Check if DATABASE_URL is set before importing
 if (!process.env.DATABASE_URL) {
-  console.error('❌ DATABASE_URL is not set in environment variables');
+  console.error('�?DATABASE_URL is not set in environment variables');
   console.error('   Please check your .env.local file');
   console.error('   Current DATABASE_URL:', process.env.DATABASE_URL || 'NOT SET');
   process.exit(1);
@@ -65,10 +65,10 @@ async function testDigitalHeirloom() {
     console.log('1️⃣ Testing database connection...');
     try {
       await db().execute('SELECT 1');
-      console.log('   ✅ Database connection successful\n');
+      console.log('   �?Database connection successful\n');
       testResults.database = true;
     } catch (error: any) {
-      console.error('   ❌ Database connection failed:', error.message);
+      console.error('   �?Database connection failed:', error.message);
       throw error;
     }
 
@@ -80,10 +80,10 @@ async function testDigitalHeirloom() {
       await db().select().from(beneficiaries).limit(0);
       await db().select().from(heartbeatLogs).limit(0);
       await db().select().from(deadManSwitchEvents).limit(0);
-      console.log('   ✅ All schema tables exist\n');
+      console.log('   �?All schema tables exist\n');
       testResults.schema = true;
     } catch (error: any) {
-      console.error('   ❌ Schema tables check failed:', error.message);
+      console.error('   �?Schema tables check failed:', error.message);
       console.log('   ℹ️  Please run database migration: scripts/migrate-digital-heirloom.sql\n');
       testResults.schema = false;
     }
@@ -95,7 +95,7 @@ async function testDigitalHeirloom() {
         // Test encryption (browser-only, so we'll just test the function exists)
         console.log('   Testing encryption module...');
         if (typeof encryptData === 'function') {
-          console.log('   ✅ Encryption module loaded');
+          console.log('   �?Encryption module loaded');
         } else {
           throw new Error('Encryption module not found');
         }
@@ -137,13 +137,13 @@ async function testDigitalHeirloom() {
             deadManSwitchEnabled: true,
             status: VaultStatus.ACTIVE,
           });
-          console.log('   ✅ Vault created:', testVault.id);
+          console.log('   �?Vault created:', testVault.id);
         }
 
         // Find vault
         const foundVault = await findDigitalVaultByUserId(testUserId);
         if (foundVault && foundVault.id === testVault.id) {
-          console.log('   ✅ Vault found by user ID');
+          console.log('   �?Vault found by user ID');
         } else {
           throw new Error('Vault not found');
         }
@@ -159,16 +159,16 @@ async function testDigitalHeirloom() {
           language: 'en',
           status: BeneficiaryStatus.PENDING,
         });
-        console.log('   ✅ Beneficiary created:', testBeneficiary.id);
+        console.log('   �?Beneficiary created:', testBeneficiary.id);
 
         // Test heartbeat log
         console.log('   Testing heartbeat log...');
         const heartbeat = await recordHeartbeat(testVault.id, testUserId);
-        console.log('   ✅ Heartbeat recorded:', heartbeat.id);
+        console.log('   �?Heartbeat recorded:', heartbeat.id);
 
         const latestHeartbeat = await getLatestHeartbeatLog(testVault.id);
         if (latestHeartbeat && latestHeartbeat.id === heartbeat.id) {
-          console.log('   ✅ Latest heartbeat retrieved');
+          console.log('   �?Latest heartbeat retrieved');
         }
 
         // Test event log
@@ -177,25 +177,25 @@ async function testDigitalHeirloom() {
           message: 'Test warning',
           timestamp: new Date().toISOString(),
         });
-        console.log('   ✅ Event logged');
+        console.log('   �?Event logged');
 
         const events = await findEventsByVaultId(testVault.id);
         if (events.length > 0) {
-          console.log('   ✅ Events retrieved:', events.length);
+          console.log('   �?Events retrieved:', events.length);
         }
 
         // Cleanup test data (only if we created it)
         if (!existingVault) {
           console.log('   Cleaning up test data...');
           await db().delete(digitalVaults).where({ id: testVault.id } as any);
-          console.log('   ✅ Test data cleaned up\n');
+          console.log('   �?Test data cleaned up\n');
         } else {
           console.log('   ℹ️  Using existing vault, skipping cleanup\n');
         }
 
         testResults.models = true;
       } catch (error: any) {
-        console.error('   ❌ Model functions test failed:', error.message);
+        console.error('   �?Model functions test failed:', error.message);
         console.error('   Error details:', error);
         testResults.models = false;
       }
@@ -206,14 +206,14 @@ async function testDigitalHeirloom() {
     try {
       const encryptionModule = await import('@/shared/lib/encryption');
       if (typeof encryptionModule.encryptData === 'function' && typeof encryptionModule.decryptData === 'function') {
-        console.log('   ✅ Encryption functions available');
+        console.log('   �?Encryption functions available');
         console.log('   ℹ️  Note: Actual encryption requires browser environment (Web Crypto API)\n');
         testResults.encryption = true;
       } else {
         throw new Error('Encryption functions not found');
       }
     } catch (error: any) {
-      console.error('   ❌ Encryption module test failed:', error.message);
+      console.error('   �?Encryption module test failed:', error.message);
       testResults.encryption = false;
     }
 
@@ -231,7 +231,7 @@ async function testDigitalHeirloom() {
       });
 
       if (response.status === 401) {
-        console.log('   ✅ API route exists (authentication required)');
+        console.log('   �?API route exists (authentication required)');
         console.log('   ℹ️  API routes are working, but require authentication\n');
         testResults.api = true;
       } else if (response.status === 404) {
@@ -239,7 +239,7 @@ async function testDigitalHeirloom() {
         console.log('   ℹ️  Start server with: pnpm dev\n');
         testResults.api = false;
       } else {
-        console.log(`   ✅ API route responded with status: ${response.status}\n`);
+        console.log(`   �?API route responded with status: ${response.status}\n`);
         testResults.api = true;
       }
     } catch (error: any) {
@@ -247,7 +247,7 @@ async function testDigitalHeirloom() {
         console.log('   ⚠️  Server not running');
         console.log('   ℹ️  Start server with: pnpm dev\n');
       } else {
-        console.error('   ❌ API route test failed:', error.message);
+        console.error('   �?API route test failed:', error.message);
       }
       testResults.api = false;
     }
@@ -255,17 +255,17 @@ async function testDigitalHeirloom() {
     // Summary
     console.log('📊 Test Summary:');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log(`   Database Connection: ${testResults.database ? '✅' : '❌'}`);
-    console.log(`   Schema Tables: ${testResults.schema ? '✅' : '❌'}`);
-    console.log(`   Model Functions: ${testResults.models ? '✅' : '❌'}`);
-    console.log(`   Encryption Module: ${testResults.encryption ? '✅' : '❌'}`);
-    console.log(`   API Routes: ${testResults.api ? '✅' : '⚠️  (Server not running)'}`);
+    console.log(`   Database Connection: ${testResults.database ? '�? : '�?}`);
+    console.log(`   Schema Tables: ${testResults.schema ? '�? : '�?}`);
+    console.log(`   Model Functions: ${testResults.models ? '�? : '�?}`);
+    console.log(`   Encryption Module: ${testResults.encryption ? '�? : '�?}`);
+    console.log(`   API Routes: ${testResults.api ? '�? : '⚠️  (Server not running)'}`);
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
 
     const allPassed = testResults.database && testResults.schema && testResults.models && testResults.encryption;
 
     if (allPassed) {
-      console.log('✅ All core tests passed!');
+      console.log('�?All core tests passed!');
       console.log('\n📋 Next steps:');
       console.log('   1. Start development server: pnpm dev');
       console.log('   2. Test API routes with authentication');
@@ -281,7 +281,7 @@ async function testDigitalHeirloom() {
 
     process.exit(allPassed ? 0 : 1);
   } catch (error: any) {
-    console.error('\n❌ Test suite failed:', error);
+    console.error('\n�?Test suite failed:', error);
     console.error('Error details:', error);
     process.exit(1);
   }

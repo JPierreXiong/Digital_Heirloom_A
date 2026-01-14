@@ -29,9 +29,9 @@ async function testConnection() {
       throw new Error('DATABASE_URL is not set in environment variables');
     }
 
-    console.log(`   âœ“ Database provider: ${provider}`);
-    console.log(`   âœ“ Database URL: ${databaseUrl.substring(0, 50)}...`);
-    console.log('   âœ… Environment variables configured\n');
+    console.log(`   âœ?Database provider: ${provider}`);
+    console.log(`   âœ?Database URL: ${databaseUrl.substring(0, 50)}...`);
+    console.log('   âœ?Environment variables configured\n');
 
     // 2. Test database connection using postgres directly
     console.log('2ï¸âƒ£ Testing database connection...');
@@ -45,11 +45,11 @@ async function testConnection() {
 
       // Simple query to test connection
       const result = await sql`SELECT 1 as test, NOW() as current_time`;
-      console.log('   âœ“ Connection successful');
-      console.log(`   âœ“ Query result: ${JSON.stringify(result[0])}`);
-      console.log('   âœ… Database connection works\n');
+      console.log('   âœ?Connection successful');
+      console.log(`   âœ?Query result: ${JSON.stringify(result[0])}`);
+      console.log('   âœ?Database connection works\n');
     } catch (error: any) {
-      console.error('   âŒ Database connection failed:');
+      console.error('   â?Database connection failed:');
       console.error(`   Error: ${error.message}`);
       if (error.cause) {
         console.error(`   Cause: ${error.cause.message || error.cause}`);
@@ -76,14 +76,14 @@ async function testConnection() {
         WHERE table_schema = 'public' 
         LIMIT 5
       `;
-      console.log(`   âœ“ Found ${tablesResult.length} tables in public schema`);
+      console.log(`   âœ?Found ${tablesResult.length} tables in public schema`);
       if (tablesResult.length > 0) {
-        console.log('   âœ“ Sample tables:');
+        console.log('   âœ?Sample tables:');
         tablesResult.forEach((row: any) => {
           console.log(`     - ${row.table_name}`);
         });
       }
-      console.log('   âœ… Table queries work\n');
+      console.log('   âœ?Table queries work\n');
     } catch (error: any) {
       console.log('   âš ï¸  Could not query tables (schema might not be initialized yet)');
       console.log('   â„¹ï¸  This is normal if you haven\'t run migrations yet');
@@ -94,13 +94,13 @@ async function testConnection() {
       }
     }
 
-    console.log('âœ… All database connection tests passed!');
+    console.log('âœ?All database connection tests passed!');
     console.log('\nðŸ“‹ Next steps:');
     console.log('   1. Run database migrations: pnpm db:push');
     console.log('   2. Initialize RBAC: pnpm rbac:init');
     console.log('   3. Start development server: pnpm dev');
   } catch (error: any) {
-    console.error('\nâŒ Database connection test failed!');
+    console.error('\nâ?Database connection test failed!');
     console.error(`Error: ${error.message}`);
     if (error.cause) {
       console.error(`Cause: ${error.cause.message || error.cause}`);
@@ -112,7 +112,7 @@ async function testConnection() {
 // Run the test
 testConnection()
   .then(() => {
-    console.log('\nâœ¨ Test completed successfully!');
+    console.log('\nâœ?Test completed successfully!');
     process.exit(0);
   })
   .catch((error) => {

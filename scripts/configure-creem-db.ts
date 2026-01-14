@@ -2,9 +2,8 @@
  * 配置 Creem 支付设置到数据库
  * 运行方式: npx tsx scripts/configure-creem-db.ts
  * 
- * 注意: 需要设置 DATABASE_URL 环境变量
- * 可以通过 .env.local 文件或环境变量设置
- */
+ * 注意: 需要设�?DATABASE_URL 环境变量
+ * 可以通过 .env.local 文件或环境变量设�? */
 
 import dotenv from 'dotenv';
 import { resolve } from 'path';
@@ -19,7 +18,7 @@ import { config } from '../src/config/db/schema';
 
 async function configureCreem() {
   try {
-    console.log('🚀 开始配置 Creem 支付...\n');
+    console.log('🚀 开始配�?Creem 支付...\n');
 
     const creemConfigs = {
       creem_enabled: 'true',
@@ -57,24 +56,24 @@ async function configureCreem() {
             target: config.name,
             set: { value },
           });
-        console.log(`✅ ${name} 配置成功`);
+        console.log(`�?${name} 配置成功`);
       }
     });
 
-    console.log('\n🎉 Creem 配置完成！');
+    console.log('\n🎉 Creem 配置完成�?);
     console.log('\n📌 下一步：');
     console.log('   1. 访问 http://localhost:3000/admin/settings/payment 确认配置');
-    console.log('   2. 确保 creem_enabled 已启用');
+    console.log('   2. 确保 creem_enabled 已启�?);
     console.log('   3. 测试支付流程');
-    console.log('   4. 在 Creem Dashboard 配置 Webhook:');
+    console.log('   4. �?Creem Dashboard 配置 Webhook:');
     console.log('      URL: https://www.digitalheirloom.app/api/payment/notify/creem');
     console.log('      Secret: whsec_567Ldwvldo5m33S87geqWy');
-    console.log('   5. 在 Vercel Dashboard 配置环境变量（见 VERCEL_CONFIGURATION_GUIDE.md）');
+    console.log('   5. �?Vercel Dashboard 配置环境变量（见 VERCEL_CONFIGURATION_GUIDE.md�?);
     
     // Close database connection if needed
     process.exit(0);
   } catch (error) {
-    console.error('❌ 配置失败:', error);
+    console.error('�?配置失败:', error);
     if (error instanceof Error) {
       console.error('   错误详情:', error.message);
       if (error.stack) {

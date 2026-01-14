@@ -37,13 +37,13 @@ async function verifyTestCredits() {
 
       const remainingCredits = await getRemainingCredits(foundUser.id);
       
-      console.log(`   ‚úì User: ${foundUser.name || 'N/A'} (${foundUser.id})`);
+      console.log(`   ‚ú?User: ${foundUser.name || 'N/A'} (${foundUser.id})`);
       console.log(`   üí∞ Remaining Credits: ${remainingCredits}`);
     }
 
-    console.log('\n‚úÖ Verification completed!');
+    console.log('\n‚ú?Verification completed!');
   } catch (error: any) {
-    console.error('\n‚ùå Error verifying credits:', error);
+    console.error('\n‚ù?Error verifying credits:', error);
     process.exit(1);
   }
 }
@@ -53,7 +53,7 @@ verifyTestCredits()
     process.exit(0);
   })
   .catch((error) => {
-    console.error('\n‚ùå Script failed:', error);
+    console.error('\n‚ù?Script failed:', error);
     process.exit(1);
   });
 

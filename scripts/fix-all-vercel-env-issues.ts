@@ -5,21 +5,21 @@
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
 if (!VERCEL_TOKEN) {
-  console.error('❌ 错误: VERCEL_TOKEN 环境变量未设置');
+  console.error('�?错误: VERCEL_TOKEN 环境变量未设�?);
   process.exit(1);
 }
 
 const VERCEL_API_URL = 'https://api.vercel.com';
-const PROJECT_NAME = 'shipany-digital-heirloom';
+const PROJECT_NAME = 'digital-heirloom-c';
 
-// 需要删除的错误变量名
+// 需要删除的错误变量�?
 const WRONG_VAR_NAMES = [
   'NEXT_PUBLIC_digital_heirloomSUPABASE_ANON_KEY',
   'NEXT_PUBLIC_digital_heirloomSUPABASE_PUBLISHABLE_KEY',
   'NEXT_PUBLIC_digital_heirloomSUPABASE_URL',
 ];
 
-// 必需的环境变量
+// 必需的环境变�?
 const REQUIRED_VARS: Record<string, string> = {
   DATABASE_URL: 'postgres://postgres.vkafrwwskupsyibrvcvd:tQbCJXRaLlABMRE6@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true',
   NEXT_PUBLIC_SUPABASE_URL: 'https://vkafrwwskupsyibrvcvd.supabase.co',
@@ -38,7 +38,7 @@ async function getProjectId(projectName: string): Promise<string | null> {
     const data = await response.json();
     return data.projects?.find((p: any) => p.name === projectName)?.id || null;
   } catch (error) {
-    console.error('❌ 获取项目 ID 失败:', error);
+    console.error('�?获取项目 ID 失败:', error);
     return null;
   }
 }
@@ -51,7 +51,7 @@ async function getEnvVars(projectId: string): Promise<any[]> {
     const data = await response.json();
     return data.envs || [];
   } catch (error) {
-    console.error('❌ 获取环境变量失败:', error);
+    console.error('�?获取环境变量失败:', error);
     return [];
   }
 }
@@ -94,39 +94,39 @@ async function main() {
 
   const projectId = await getProjectId(PROJECT_NAME);
   if (!projectId) {
-    console.error(`❌ 未找到项目: ${PROJECT_NAME}`);
+    console.error(`�?未找到项�? ${PROJECT_NAME}`);
     process.exit(1);
   }
 
-  console.log(`✅ 找到项目 ID: ${projectId}\n`);
+  console.log(`�?找到项目 ID: ${projectId}\n`);
 
   const envVars = await getEnvVars(projectId);
   console.log(`📋 找到 ${envVars.length} 个环境变量\n`);
 
   // 1. 删除错误的变量名
-  console.log('🗑️  删除错误的变量名...\n');
+  console.log('🗑�? 删除错误的变量名...\n');
   let deletedCount = 0;
   for (const wrongName of WRONG_VAR_NAMES) {
     const wrongVars = envVars.filter((e: any) => e.key === wrongName);
     if (wrongVars.length > 0) {
-      console.log(`  ❌ 发现错误的变量名: ${wrongName} (${wrongVars.length} 个)`);
+      console.log(`  �?发现错误的变量名: ${wrongName} (${wrongVars.length} �?`);
       for (const envVar of wrongVars) {
         const deleted = await deleteEnvVar(projectId, envVar.id);
         if (deleted) {
-          console.log(`  ✅ 已删除: ${wrongName} (${envVar.target?.join(', ') || 'unknown'})`);
+          console.log(`  �?已删�? ${wrongName} (${envVar.target?.join(', ') || 'unknown'})`);
           deletedCount++;
         }
       }
     }
   }
   if (deletedCount > 0) {
-    console.log(`\n✅ 已删除 ${deletedCount} 个错误的变量\n`);
+    console.log(`\n�?已删�?${deletedCount} 个错误的变量\n`);
   } else {
-    console.log('✅ 未发现错误的变量名\n');
+    console.log('�?未发现错误的变量名\n');
   }
 
   // 2. 检查并设置必需变量
-  console.log('🔍 检查必需的环境变量...\n');
+  console.log('🔍 检查必需的环境变�?..\n');
   const targets = ['production', 'preview', 'development'];
   let fixedCount = 0;
 
@@ -134,17 +134,17 @@ async function main() {
     const existingVars = envVars.filter((e: any) => e.key === key);
     
     if (existingVars.length === 0) {
-      console.log(`  ❌ 缺失: ${key}`);
+      console.log(`  �?缺失: ${key}`);
       console.log(`  📝 设置 ${key}...`);
       const success = await setEnvVar(projectId, key, value, targets);
       if (success) {
-        console.log(`  ✅ ${key} 设置成功\n`);
+        console.log(`  �?${key} 设置成功\n`);
         fixedCount++;
       } else {
-        console.log(`  ❌ ${key} 设置失败\n`);
+        console.log(`  �?${key} 设置失败\n`);
       }
     } else {
-      // 检查是否在所有环境中都存在
+      // 检查是否在所有环境中都存�?
       const existingTargets = existingVars.flatMap((e: any) => e.target || []);
       const missingTargets = targets.filter(t => !existingTargets.includes(t));
       
@@ -153,46 +153,46 @@ async function main() {
         console.log(`  📝 补充设置...`);
         const success = await setEnvVar(projectId, key, value, missingTargets);
         if (success) {
-          console.log(`  ✅ ${key} 补充成功\n`);
+          console.log(`  �?${key} 补充成功\n`);
           fixedCount++;
         }
       } else {
-        console.log(`  ✅ ${key}: 已设置\n`);
+        console.log(`  �?${key}: 已设置\n`);
       }
     }
   }
 
-  // 3. 特别处理 DATABASE_URL - 确保使用连接池 URL
-  console.log('🔍 特别检查 DATABASE_URL...\n');
+  // 3. 特别处理 DATABASE_URL - 确保使用连接�?URL
+  console.log('🔍 特别检�?DATABASE_URL...\n');
   const dbUrlVars = envVars.filter((e: any) => e.key === 'DATABASE_URL');
   if (dbUrlVars.length > 0) {
     const productionVar = dbUrlVars.find((e: any) => e.target?.includes('production'));
     if (productionVar) {
       const currentValue = productionVar.value || '';
-      // 如果值被加密，我们无法检查，但可以确保使用正确的值更新
+      // 如果值被加密，我们无法检查，但可以确保使用正确的值更�?
       if (!currentValue.startsWith('postgres://') || 
           !currentValue.includes('pooler') || 
           !currentValue.includes(':6543') || 
           !currentValue.includes('pgbouncer=true')) {
-        console.log(`  ⚠️  DATABASE_URL 格式可能不正确，将更新为连接池 URL`);
-        // 删除旧的并设置新的
+        console.log(`  ⚠️  DATABASE_URL 格式可能不正确，将更新为连接�?URL`);
+        // 删除旧的并设置新�?
         for (const envVar of dbUrlVars) {
           await deleteEnvVar(projectId, envVar.id);
         }
         const success = await setEnvVar(projectId, 'DATABASE_URL', REQUIRED_VARS.DATABASE_URL, targets);
         if (success) {
-          console.log(`  ✅ DATABASE_URL 已更新为连接池 URL\n`);
+          console.log(`  �?DATABASE_URL 已更新为连接�?URL\n`);
           fixedCount++;
         }
       } else {
-        console.log(`  ✅ DATABASE_URL 格式正确\n`);
+        console.log(`  �?DATABASE_URL 格式正确\n`);
       }
     }
   } else {
-    console.log(`  ❌ DATABASE_URL 未设置，将创建...`);
+    console.log(`  �?DATABASE_URL 未设置，将创�?..`);
     const success = await setEnvVar(projectId, 'DATABASE_URL', REQUIRED_VARS.DATABASE_URL, targets);
     if (success) {
-      console.log(`  ✅ DATABASE_URL 设置成功\n`);
+      console.log(`  �?DATABASE_URL 设置成功\n`);
       fixedCount++;
     }
   }
@@ -201,9 +201,9 @@ async function main() {
   console.log('='.repeat(60));
   console.log('📊 修复总结');
   console.log('='.repeat(60));
-  console.log(`✅ 已删除错误变量: ${deletedCount} 个`);
-  console.log(`✅ 已修复/设置变量: ${fixedCount} 个`);
-  console.log('\n💡 建议：重新部署项目以使环境变量生效');
+  console.log(`�?已删除错误变�? ${deletedCount} 个`);
+  console.log(`�?已修�?设置变量: ${fixedCount} 个`);
+  console.log('\n💡 建议：重新部署项目以使环境变量生�?);
   console.log('   vercel --prod 或通过 Vercel Dashboard 触发部署\n');
 }
 

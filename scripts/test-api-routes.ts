@@ -74,13 +74,13 @@ async function testApiRoutes() {
   try {
     const response = await fetch(`${BASE_URL}/api/config/get-configs`);
     if (response.ok || response.status === 401) {
-      console.log('   ✅ Server is running\n');
+      console.log('   �?Server is running\n');
     } else {
       console.log('   ⚠️  Server responded with unexpected status:', response.status);
     }
   } catch (error: any) {
     if (error.code === 'ECONNREFUSED') {
-      console.log('   ❌ Server is not running');
+      console.log('   �?Server is not running');
       console.log('   ℹ️  Please start the server with: pnpm dev\n');
       return;
     }
@@ -91,7 +91,7 @@ async function testApiRoutes() {
   const authTest = await testApiRoute('GET', '/api/digital-heirloom/vault/get');
   results.push(authTest);
   if (authTest.status === 'pass' && authTest.response?.code === -1) {
-    console.log(`   ✅ ${authTest.name}: ${authTest.message}\n`);
+    console.log(`   �?${authTest.name}: ${authTest.message}\n`);
   } else {
     console.log(`   ⚠️  ${authTest.name}: ${authTest.message}\n`);
   }
@@ -103,7 +103,7 @@ async function testApiRoutes() {
   });
   results.push(releaseTest);
   if (releaseTest.response?.code === -1) {
-    console.log(`   ✅ ${releaseTest.name}: Correctly rejected invalid token\n`);
+    console.log(`   �?${releaseTest.name}: Correctly rejected invalid token\n`);
   } else {
     console.log(`   ⚠️  ${releaseTest.name}: ${releaseTest.message}\n`);
   }
@@ -119,19 +119,19 @@ async function testApiRoutes() {
     };
     results.push(result);
     if (result.status === 'pass') {
-      console.log(`   ✅ Invalid endpoint correctly returns 404\n`);
+      console.log(`   �?Invalid endpoint correctly returns 404\n`);
     } else {
       console.log(`   ⚠️  Unexpected status: ${response.status}\n`);
     }
   } catch (error: any) {
-    console.log(`   ❌ Error: ${error.message}\n`);
+    console.log(`   �?Error: ${error.message}\n`);
   }
 
   // Summary
   console.log('📊 API Test Summary:');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   results.forEach((result) => {
-    const icon = result.status === 'pass' ? '✅' : result.status === 'skip' ? '⏭️' : '❌';
+    const icon = result.status === 'pass' ? '�? : result.status === 'skip' ? '⏭️' : '�?;
     console.log(`   ${icon} ${result.name}`);
     console.log(`      ${result.message}`);
   });
@@ -140,18 +140,18 @@ async function testApiRoutes() {
   const passed = results.filter((r) => r.status === 'pass').length;
   const total = results.length;
 
-  console.log(`✅ Passed: ${passed}/${total}`);
+  console.log(`�?Passed: ${passed}/${total}`);
   console.log('\n📋 Next steps:');
   console.log('   1. Register a user account in the app');
   console.log('   2. Test authenticated API routes with session cookie');
-  console.log('   3. Test full workflow: create vault → add beneficiaries → heartbeat');
+  console.log('   3. Test full workflow: create vault �?add beneficiaries �?heartbeat');
 }
 
 // Wait a bit for server to start, then run tests
 setTimeout(() => {
   testApiRoutes()
     .then(() => {
-      console.log('\n✨ API route tests completed!');
+      console.log('\n�?API route tests completed!');
       process.exit(0);
     })
     .catch((error) => {

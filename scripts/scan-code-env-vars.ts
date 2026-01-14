@@ -1,7 +1,5 @@
 /**
- * 扫描代码中实际使用的所有环境变量
- * 用于确保 Vercel 环境变量与代码完全匹配
- */
+ * 扫描代码中实际使用的所有环境变�? * 用于确保 Vercel 环境变量与代码完全匹�? */
 
 import * as fs from 'fs';
 import * as path from 'path';
@@ -50,8 +48,7 @@ function scanFile(filePath: string) {
         }
         usage.lineNumbers.push(index + 1);
         
-        // 检查是否是必需的（通过注释或代码逻辑判断）
-        if (
+        // 检查是否是必需的（通过注释或代码逻辑判断�?        if (
           line.includes('required') ||
           line.includes('必需') ||
           line.includes('!') ||
@@ -80,8 +77,7 @@ async function scanDirectory(dir: string) {
 async function main() {
   console.log('🔍 扫描代码中使用的环境变量...\n');
   
-  // 扫描所有目录
-  for (const dir of SCAN_DIRS) {
+  // 扫描所有目�?  for (const dir of SCAN_DIRS) {
     if (fs.existsSync(dir)) {
       await scanDirectory(dir);
     }
@@ -106,10 +102,10 @@ async function main() {
   // 输出结果
   console.log('📋 代码中使用的环境变量：\n');
   
-  console.log('✅ 必需变量：');
+  console.log('�?必需变量�?);
   for (const usage of requiredVars) {
     console.log(`  ${usage.varName}`);
-    console.log(`    文件数: ${usage.files.length}`);
+    console.log(`    文件�? ${usage.files.length}`);
     console.log(`    使用位置: ${usage.files.slice(0, 3).join(', ')}${usage.files.length > 3 ? '...' : ''}`);
     console.log('');
   }
@@ -117,7 +113,7 @@ async function main() {
   console.log('📋 可选变量：');
   for (const usage of optionalVars) {
     console.log(`  ${usage.varName}`);
-    console.log(`    文件数: ${usage.files.length}`);
+    console.log(`    文件�? ${usage.files.length}`);
     console.log('');
   }
   
@@ -134,10 +130,10 @@ async function main() {
     JSON.stringify(output, null, 2)
   );
   
-  console.log(`\n✅ 扫描完成！结果已保存到 scripts/code-env-vars.json`);
+  console.log(`\n�?扫描完成！结果已保存�?scripts/code-env-vars.json`);
   console.log(`\n📊 统计：`);
   console.log(`  必需变量: ${requiredVars.length}`);
-  console.log(`  可选变量: ${optionalVars.length}`);
+  console.log(`  可选变�? ${optionalVars.length}`);
   console.log(`  总计: ${envVarUsages.size}`);
 }
 

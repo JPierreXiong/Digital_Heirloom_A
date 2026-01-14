@@ -1,12 +1,8 @@
 /**
- * 验证数据库迁移结果
- * 运行方式: npx tsx scripts/verify-database-migration.ts
+ * 验证数据库迁移结�? * 运行方式: npx tsx scripts/verify-database-migration.ts
  * 
- * 功能：
- * 1. 检查 email_notifications 表是否存在
- * 2. 检查表结构是否正确
- * 3. 检查索引是否创建
- * 4. 检查 verificationToken 的唯一约束
+ * 功能�? * 1. 检�?email_notifications 表是否存�? * 2. 检查表结构是否正确
+ * 3. 检查索引是否创�? * 4. 检�?verificationToken 的唯一约束
  */
 
 import dotenv from 'dotenv';
@@ -23,18 +19,17 @@ import { sql } from 'drizzle-orm';
 
 async function verifyMigration() {
   try {
-    console.log('🔍 验证数据库迁移结果...\n');
+    console.log('🔍 验证数据库迁移结�?..\n');
 
-    // 1. 检查 email_notifications 表是否存在
-    console.log('1️⃣ 检查 email_notifications 表...');
+    // 1. 检�?email_notifications 表是否存�?    console.log('1️⃣ 检�?email_notifications �?..');
     try {
       const result = await db()
         .select()
         .from(emailNotifications)
         .limit(1);
-      console.log('   ✅ email_notifications 表存在\n');
+      console.log('   �?email_notifications 表存在\n');
     } catch (error: any) {
-      console.log('   ❌ email_notifications 表不存在或无法访问');
+      console.log('   �?email_notifications 表不存在或无法访�?);
       console.log(`   错误: ${error.message}\n`);
       process.exit(1);
     }
@@ -64,13 +59,12 @@ async function verifyMigration() {
       'created_at',
     ];
 
-    // 处理不同的返回格式
-    const rows = Array.isArray(columnsResult) ? columnsResult : (columnsResult.rows || []);
+    // 处理不同的返回格�?    const rows = Array.isArray(columnsResult) ? columnsResult : (columnsResult.rows || []);
     const actualColumns = rows.map((row: any) => row.column_name);
     const missingColumns = expectedColumns.filter((col) => !actualColumns.includes(col));
 
     if (missingColumns.length === 0) {
-      console.log('   ✅ 所有必需字段都存在');
+      console.log('   �?所有必需字段都存�?);
       console.log(`   字段数量: ${actualColumns.length}\n`);
     } else {
       console.log('   ⚠️  缺少以下字段:');
@@ -78,8 +72,7 @@ async function verifyMigration() {
       console.log('');
     }
 
-    // 3. 检查索引
-    console.log('3️⃣ 检查索引...');
+    // 3. 检查索�?    console.log('3️⃣ 检查索�?..');
     const indexesResult = await db().execute(sql`
       SELECT indexname
       FROM pg_indexes
@@ -93,13 +86,12 @@ async function verifyMigration() {
       'idx_email_recipient',
     ];
 
-    // 处理不同的返回格式
-    const indexRows = Array.isArray(indexesResult) ? indexesResult : (indexesResult.rows || []);
+    // 处理不同的返回格�?    const indexRows = Array.isArray(indexesResult) ? indexesResult : (indexesResult.rows || []);
     const actualIndexes = indexRows.map((row: any) => row.indexname);
     const missingIndexes = expectedIndexes.filter((idx) => !actualIndexes.includes(idx));
 
     if (missingIndexes.length === 0) {
-      console.log('   ✅ 所有必需索引都存在');
+      console.log('   �?所有必需索引都存�?);
       console.log(`   索引数量: ${actualIndexes.length}\n`);
     } else {
       console.log('   ⚠️  缺少以下索引:');
@@ -107,8 +99,8 @@ async function verifyMigration() {
       console.log('');
     }
 
-    // 4. 检查 verificationToken 的唯一约束
-    console.log('4️⃣ 检查 verificationToken 的唯一约束...');
+    // 4. 检�?verificationToken 的唯一约束
+    console.log('4️⃣ 检�?verificationToken 的唯一约束...');
     const uniqueConstraintsResult = await db().execute(sql`
       SELECT constraint_name, constraint_type
       FROM information_schema.table_constraints
@@ -117,24 +109,22 @@ async function verifyMigration() {
       AND constraint_name LIKE '%verification_token%'
     `);
 
-    // 处理不同的返回格式
-    const constraintRows = Array.isArray(uniqueConstraintsResult) 
+    // 处理不同的返回格�?    const constraintRows = Array.isArray(uniqueConstraintsResult) 
       ? uniqueConstraintsResult 
       : (uniqueConstraintsResult.rows || []);
 
     if (constraintRows.length > 0) {
-      console.log('   ✅ verificationToken 唯一约束已创建');
+      console.log('   �?verificationToken 唯一约束已创�?);
       constraintRows.forEach((row: any) => {
-        console.log(`      约束名: ${row.constraint_name}`);
+        console.log(`      约束�? ${row.constraint_name}`);
       });
       console.log('');
     } else {
-      console.log('   ⚠️  verificationToken 唯一约束未找到');
+      console.log('   ⚠️  verificationToken 唯一约束未找�?);
       console.log('   注意: 如果表中有重复的 verificationToken，迁移可能会失败\n');
     }
 
-    // 5. 检查外键约束
-    console.log('5️⃣ 检查外键约束...');
+    // 5. 检查外键约�?    console.log('5️⃣ 检查外键约�?..');
     const foreignKeysResult = await db().execute(sql`
       SELECT
         tc.constraint_name,
@@ -150,13 +140,12 @@ async function verifyMigration() {
       AND tc.table_name = 'email_notifications'
     `);
 
-    // 处理不同的返回格式
-    const fkRows = Array.isArray(foreignKeysResult) 
+    // 处理不同的返回格�?    const fkRows = Array.isArray(foreignKeysResult) 
       ? foreignKeysResult 
       : (foreignKeysResult.rows || []);
 
     if (fkRows.length > 0) {
-      console.log('   ✅ 外键约束已创建');
+      console.log('   �?外键约束已创�?);
       fkRows.forEach((row: any) => {
         console.log(`      ${row.column_name} -> ${row.foreign_table_name}.${row.foreign_column_name}`);
       });
@@ -165,17 +154,17 @@ async function verifyMigration() {
       console.log('   ⚠️  外键约束未找到\n');
     }
 
-    console.log('✅ 数据库迁移验证完成！\n');
+    console.log('�?数据库迁移验证完成！\n');
     console.log('📋 验证总结:');
-    console.log(`   - email_notifications 表: ${actualColumns.length > 0 ? '✅' : '❌'}`);
-    console.log(`   - 表结构: ${missingColumns.length === 0 ? '✅' : '⚠️'}`);
-    console.log(`   - 索引: ${missingIndexes.length === 0 ? '✅' : '⚠️'}`);
-    console.log(`   - verificationToken 唯一约束: ${constraintRows.length > 0 ? '✅' : '⚠️'}`);
-    console.log(`   - 外键约束: ${fkRows.length > 0 ? '✅' : '⚠️'}`);
+    console.log(`   - email_notifications �? ${actualColumns.length > 0 ? '�? : '�?}`);
+    console.log(`   - 表结�? ${missingColumns.length === 0 ? '�? : '⚠️'}`);
+    console.log(`   - 索引: ${missingIndexes.length === 0 ? '�? : '⚠️'}`);
+    console.log(`   - verificationToken 唯一约束: ${constraintRows.length > 0 ? '�? : '⚠️'}`);
+    console.log(`   - 外键约束: ${fkRows.length > 0 ? '�? : '⚠️'}`);
 
     process.exit(0);
   } catch (error: any) {
-    console.error('❌ 验证失败:', error);
+    console.error('�?验证失败:', error);
     process.exit(1);
   }
 }

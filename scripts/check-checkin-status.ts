@@ -14,7 +14,7 @@ async function checkCheckinStatus() {
     // Get current user
     const currentUser = await getUserInfo();
     if (!currentUser) {
-      console.log('âœ— No user logged in');
+      console.log('âœ?No user logged in');
       process.exit(1);
     }
 
@@ -77,17 +77,17 @@ async function checkCheckinStatus() {
 
     // Check if can check in
     const canCheckIn = todayCheckins.length === 0;
-    console.log(`\nCan check in today: ${canCheckIn ? 'YES âœ“' : 'NO âœ—'}`);
+    console.log(`\nCan check in today: ${canCheckIn ? 'YES âœ? : 'NO âœ?}`);
 
     if (!canCheckIn) {
-      console.log('\nâš  Reason: User has already checked in today (UTC date)');
+      console.log('\nâš?Reason: User has already checked in today (UTC date)');
       console.log('Note: Check-in uses UTC timezone. If you are in a different timezone,');
       console.log('      you may need to wait until UTC midnight to check in again.');
     }
 
     process.exit(0);
   } catch (error: any) {
-    console.error('âœ— Error:', error.message);
+    console.error('âœ?Error:', error.message);
     console.error(error);
     process.exit(1);
   }

@@ -1,6 +1,5 @@
 /**
- * 更新 Resend 发件人邮箱到数据库
- * 运行方式: npx tsx scripts/update-resend-sender-email.ts
+ * 更新 Resend 发件人邮箱到数据�? * 运行方式: npx tsx scripts/update-resend-sender-email.ts
  */
 
 import dotenv from 'dotenv';
@@ -16,13 +15,13 @@ import { config } from '../src/config/db/schema';
 
 async function updateResendSenderEmail() {
   try {
-    console.log('🚀 更新 Resend 发件人邮箱...\n');
+    console.log('🚀 更新 Resend 发件人邮�?..\n');
 
     const newSenderEmail = 'support@digitalheirloom.app';
 
     const database = db();
     
-    console.log('📝 更新配置：');
+    console.log('📝 更新配置�?);
     console.log(`   resend_sender_email: ${newSenderEmail}`);
     console.log('');
 
@@ -35,18 +34,18 @@ async function updateResendSenderEmail() {
           target: config.name,
           set: { value: newSenderEmail },
         });
-      console.log(`✅ resend_sender_email 更新成功`);
+      console.log(`�?resend_sender_email 更新成功`);
     });
 
     console.log('\n🎉 Resend 发件人邮箱更新完成！');
     console.log(`   新发件人邮箱: ${newSenderEmail}`);
     console.log('\n📌 下一步：');
-    console.log('   1. 确保 support@digitalheirloom.app 已在 Resend Dashboard 中验证');
-    console.log('   2. 测试邮件发送: npx tsx scripts/test-email-service.ts');
+    console.log('   1. 确保 support@digitalheirloom.app 已在 Resend Dashboard 中验�?);
+    console.log('   2. 测试邮件发�? npx tsx scripts/test-email-service.ts');
     
     process.exit(0);
   } catch (error) {
-    console.error('❌ 更新失败:', error);
+    console.error('�?更新失败:', error);
     if (error instanceof Error) {
       console.error('   错误详情:', error.message);
       if (error.stack) {

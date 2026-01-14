@@ -68,7 +68,7 @@ async function checkCheckinRecords() {
       console.log('  No check-ins found');
     }
 
-    console.log('\nâš  Important Notes:');
+    console.log('\nâš?Important Notes:');
     console.log('1. Check-in uses UTC timezone (not local time)');
     console.log('2. If you checked in today in your local timezone, but UTC date is different,');
     console.log('   you may see "already checked in" message');
@@ -78,7 +78,7 @@ async function checkCheckinRecords() {
 
     process.exit(0);
   } catch (error: any) {
-    console.error('âœ— Error:', error.message);
+    console.error('âœ?Error:', error.message);
     console.error(error);
     process.exit(1);
   }

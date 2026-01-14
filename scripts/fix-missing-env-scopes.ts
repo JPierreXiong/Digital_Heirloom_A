@@ -1,14 +1,12 @@
 /**
  * 修复缺失的环境变量作用域
- * 确保所有必需变量在所有环境中都存在
- */
+ * 确保所有必需变量在所有环境中都存�? */
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN || 'rF4aDNj4aTRotWfhKQAzVNQd';
-const PROJECT_NAME = 'shipany-digital-heirloom';
+const PROJECT_NAME = 'digital-heirloom-c';
 const VERCEL_API_URL = 'https://api.vercel.com';
 
-// 必需变量（必须在所有环境中）
-const REQUIRED_VARS = [
+// 必需变量（必须在所有环境中�?const REQUIRED_VARS = [
   'NEXT_PUBLIC_SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_ANON_KEY',
   'SUPABASE_SERVICE_ROLE_KEY',
@@ -37,14 +35,14 @@ async function getProjectId(): Promise<string | null> {
     });
 
     if (!response.ok) {
-      console.error(`❌ 获取项目信息失败: ${response.status} ${response.statusText}`);
+      console.error(`�?获取项目信息失败: ${response.status} ${response.statusText}`);
       return null;
     }
 
     const data = await response.json();
     return data.id || null;
   } catch (error: any) {
-    console.error('❌ 获取项目 ID 失败:', error.message);
+    console.error('�?获取项目 ID 失败:', error.message);
     return null;
   }
 }
@@ -64,7 +62,7 @@ async function getVercelEnvVars(projectId: string): Promise<VercelEnvVar[]> {
     const data = await response.json();
     return data.envs || [];
   } catch (error: any) {
-    console.error('❌ 获取环境变量失败:', error.message);
+    console.error('�?获取环境变量失败:', error.message);
     return [];
   }
 }
@@ -102,7 +100,7 @@ async function updateEnvVarTarget(
 
     return response.ok;
   } catch (error: any) {
-    console.error(`❌ 更新环境变量失败:`, error.message);
+    console.error(`�?更新环境变量失败:`, error.message);
     return false;
   }
 }
@@ -112,11 +110,11 @@ async function main() {
   
   const projectId = await getProjectId();
   if (!projectId) {
-    console.error('❌ 无法获取项目 ID');
+    console.error('�?无法获取项目 ID');
     process.exit(1);
   }
   
-  console.log(`✅ 项目 ID: ${projectId}\n`);
+  console.log(`�?项目 ID: ${projectId}\n`);
   
   const envVars = await getVercelEnvVars(projectId);
   
@@ -129,7 +127,7 @@ async function main() {
   for (const varName of REQUIRED_VARS) {
     const envVar = envVars.find(v => v.key === varName);
     if (!envVar) {
-      console.log(`❌ ${varName} - 变量不存在！`);
+      console.log(`�?${varName} - 变量不存在！`);
       continue;
     }
     
@@ -140,16 +138,16 @@ async function main() {
       varsToFix.push({ envVar, missingEnvs });
       console.log(`⚠️  ${varName} - 缺少环境: ${missingEnvs.join(', ')}`);
     } else {
-      console.log(`✅ ${varName} - 所有环境已配置`);
+      console.log(`�?${varName} - 所有环境已配置`);
     }
   }
   
   if (varsToFix.length === 0) {
-    console.log('\n✅ 所有必需变量在所有环境中都已配置！');
+    console.log('\n�?所有必需变量在所有环境中都已配置�?);
     process.exit(0);
   }
   
-  console.log(`\n🚀 开始修复 ${varsToFix.length} 个变量...\n`);
+  console.log(`\n🚀 开始修�?${varsToFix.length} 个变�?..\n`);
   
   let successCount = 0;
   let failCount = 0;
@@ -172,28 +170,28 @@ async function main() {
     );
     
     if (success) {
-      console.log(`  ✅ 成功 - 现在包含环境: ${allTargets.join(', ')}`);
+      console.log(`  �?成功 - 现在包含环境: ${allTargets.join(', ')}`);
       successCount++;
     } else {
-      console.log(`  ❌ 失败`);
+      console.log(`  �?失败`);
       failCount++;
     }
   }
   
-  console.log('\n📊 修复结果：');
-  console.log(`  ✅ 成功: ${successCount}`);
-  console.log(`  ❌ 失败: ${failCount}`);
+  console.log('\n📊 修复结果�?);
+  console.log(`  �?成功: ${successCount}`);
+  console.log(`  �?失败: ${failCount}`);
   
   if (successCount > 0) {
     console.log('\n💡 下一步：');
     console.log('  1. 前往 Vercel Dashboard 验证变量作用域已更新');
-    console.log('  2. 重新部署项目（Redeploy）');
+    console.log('  2. 重新部署项目（Redeploy�?);
   }
   
   process.exit(failCount > 0 ? 1 : 0);
 }
 
 main().catch((error) => {
-  console.error('❌ 脚本执行失败:', error);
+  console.error('�?脚本执行失败:', error);
   process.exit(1);
 });

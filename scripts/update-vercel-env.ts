@@ -2,19 +2,18 @@
  * 更新 Vercel 环境变量脚本
  * 先删除再创建，或使用 PATCH 更新
  * 
- * 使用方法：
- * VERCEL_TOKEN=your-token pnpm tsx scripts/update-vercel-env.ts
+ * 使用方法�? * VERCEL_TOKEN=your-token pnpm tsx scripts/update-vercel-env.ts
  */
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
 if (!VERCEL_TOKEN) {
-  console.error('❌ 错误: VERCEL_TOKEN 环境变量未设置');
-  console.error('   请设置环境变量: VERCEL_TOKEN=your-token pnpm tsx scripts/update-vercel-env.ts');
+  console.error('�?错误: VERCEL_TOKEN 环境变量未设�?);
+  console.error('   请设置环境变�? VERCEL_TOKEN=your-token pnpm tsx scripts/update-vercel-env.ts');
   process.exit(1);
 }
 
 const VERCEL_API_URL = 'https://api.vercel.com';
-const PROJECT_NAME = 'shipany-digital-heirloom';
+const PROJECT_NAME = 'digital-heirloom-c';
 
 // 需要设置的环境变量
 const envVars = {
@@ -22,8 +21,7 @@ const envVars = {
   'NEXT_PUBLIC_APP_URL': process.env.NEXT_PUBLIC_APP_URL || 'https://www.digitalheirloom.app',
   'NEXT_PUBLIC_APP_NAME': 'Digital Heirloom',
   
-  // 认证配置（必需）
-  'AUTH_SECRET': '6doOS5VaVh4CEVpYXaG0BrupEuVCPPxt7B4/02O/ucQ=',
+  // 认证配置（必需�?  'AUTH_SECRET': '6doOS5VaVh4CEVpYXaG0BrupEuVCPPxt7B4/02O/ucQ=',
   'AUTH_URL': process.env.AUTH_URL || 'https://www.digitalheirloom.app',
   
   // Supabase 配置
@@ -32,8 +30,7 @@ const envVars = {
   'SUPABASE_SERVICE_ROLE_KEY': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrYWZyd3dza3Vwc3lpYnJ2Y3ZkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2Nzk0MTQ1NywiZXhwIjoyMDgzNTE3NDU3fQ.g-zsgOAF5R8w5IQQWUbrGohyfbN1opZWYBDjlq-hgE8',
   'SUPABASE_URL': 'https://vkafrwwskupsyibrvcvd.supabase.co',
   
-  // 数据库配置
-  'DATABASE_URL': 'postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true',
+  // 数据库配�?  'DATABASE_URL': 'postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true',
   'POSTGRES_URL_NON_POOLING': 'postgres://postgres.vkafrwwskupsyibrvcvd:lEuluFvxDT90QiFz@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require',
   
   // Vercel Blob
@@ -153,15 +150,15 @@ async function createEnvVar(
 }
 
 async function main() {
-  console.log('🚀 开始更新 Vercel 环境变量...\n');
+  console.log('🚀 开始更�?Vercel 环境变量...\n');
 
   const projectId = await getProjectId();
   if (!projectId) {
-    console.error('❌ 无法获取项目 ID');
+    console.error('�?无法获取项目 ID');
     process.exit(1);
   }
 
-  console.log(`✅ 项目 ID: ${projectId}\n`);
+  console.log(`�?项目 ID: ${projectId}\n`);
 
   // 获取现有环境变量
   console.log('🔍 获取现有环境变量...');
@@ -176,12 +173,10 @@ async function main() {
   for (const [key, value] of Object.entries(envVars)) {
     console.log(`处理 ${key}:`);
 
-    // 查找现有的环境变量
-    const existing = existingEnvs.filter((env: any) => env.key === key);
+    // 查找现有的环境变�?    const existing = existingEnvs.filter((env: any) => env.key === key);
 
     if (existing.length > 0) {
-      // 删除现有的
-      for (const env of existing) {
+      // 删除现有�?      for (const env of existing) {
         await deleteEnvVar(projectId, env.id);
         await new Promise(resolve => setTimeout(resolve, 100));
       }
@@ -191,10 +186,10 @@ async function main() {
     for (const env of environments) {
       const success = await createEnvVar(projectId, key, value, env);
       if (success) {
-        console.log(`  ✅ ${env}`);
+        console.log(`  �?${env}`);
         successCount++;
       } else {
-        console.log(`  ❌ ${env}`);
+        console.log(`  �?${env}`);
         failCount++;
       }
       await new Promise(resolve => setTimeout(resolve, 100));
@@ -203,9 +198,9 @@ async function main() {
   }
 
   console.log('\n📊 更新结果:');
-  console.log(`  ✅ 成功: ${successCount}`);
-  console.log(`  ❌ 失败: ${failCount}`);
-  console.log('\n✨ 完成！请到 Vercel Dashboard 验证环境变量。');
+  console.log(`  �?成功: ${successCount}`);
+  console.log(`  �?失败: ${failCount}`);
+  console.log('\n�?完成！请�?Vercel Dashboard 验证环境变量�?);
 }
 
 main().catch(console.error);
