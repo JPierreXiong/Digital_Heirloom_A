@@ -18,7 +18,8 @@ import { getEmailService } from '@/shared/services/email';
 import { getUuid } from '@/shared/lib/hash';
 
 // 验证 Cron Secret（如果配置）
-const CRON_SECRET = process.env.CRON_SECRET;
+// 优先使用 VERCEL_CRON_SECRET，如果没有则使用 CRON_SECRET
+const CRON_SECRET = process.env.VERCEL_CRON_SECRET || process.env.CRON_SECRET;
 
 export async function GET(request: NextRequest) {
   try {
