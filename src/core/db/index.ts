@@ -18,6 +18,27 @@ export function db(): Database {
   let databaseUrl = envConfigs.database_url;
   const provider = envConfigs.database_provider;
 
+  // Debug: Log connection info in production (without sensitive data)
+  if (process.env.VERCEL && databaseUrl) {
+    try {
+      const urlParts = databaseUrl.split('@');
+      const hostPart = urlParts[1]?.split('/')[0] || 'unknown';
+      const isPooler = databaseUrl.includes('pooler') && databaseUrl.includes(':6543');
+      const hasPgbouncer = databaseUrl.includes('pgbouncer=true');
+      
+      console.log(`[DB] Connecting to: ${hostPart}`);
+      console.log(`[DB] Using pooler: ${isPooler ? '✅' : '❌'}`);
+      console.log(`[DB] Has pgbouncer: ${hasPgbouncer ? '✅' : '❌'}`);
+      
+      if (!isPooler || !hasPgbouncer) {
+        console.error(`[DB] ⚠️  WARNING: DATABASE_URL may not be using connection pool URL!`);
+        console.error(`[DB] Should use: pooler.supabase.com:6543 with pgbouncer=true`);
+      }
+    } catch (e) {
+      // Ignore parsing errors
+    }
+  }
+
   // Support SQLite for local development
   if (provider === 'sqlite' || provider === 'turso') {
     if (!databaseUrl) {
@@ -121,7 +142,7 @@ export function db(): Database {
     idle_timeout: 20,
     connect_timeout: 10,
     // Add connection error handling for Supabase
-    onnotice: (notice) => {
+    onnotice: (notice: any) => {
       // Log Supabase notices (non-critical)
       if (process.env.NODE_ENV === 'development') {
         console.log('[DB Notice]', notice);

@@ -44,19 +44,38 @@ export async function getConfigs(): Promise<Configs> {
   const configs: Record<string, string> = {};
 
   if (!envConfigs.database_url) {
+    console.warn('[Config] DATABASE_URL not set, returning empty configs');
     return configs;
   }
 
-  const result = await db().select().from(config);
-  if (!result) {
+  try {
+    // Debug: Log database connection info (without sensitive data)
+    const dbUrl = envConfigs.database_url;
+    const isPooler = dbUrl.includes('pooler') && dbUrl.includes(':6543');
+    console.log(`[Config] Connecting to database (pooler: ${isPooler})`);
+    
+    const result = await db().select().from(config);
+    if (!result) {
+      console.warn('[Config] No configs found in database');
+      return configs;
+    }
+
+    for (const config of result) {
+      configs[config.name] = config.value ?? '';
+    }
+    
+    console.log(`[Config] Loaded ${Object.keys(configs).length} configs from database`);
+    return configs;
+  } catch (error: any) {
+    console.error('[Config] Failed to get configs from database:', error.message);
+    console.error('[Config] Error details:', {
+      code: error.code,
+      severity: error.severity,
+      cause: error.cause?.message || error.cause,
+    });
+    // Return empty configs instead of throwing to allow app to continue
     return configs;
   }
-
-  for (const config of result) {
-    configs[config.name] = config.value ?? '';
-  }
-
-  return configs;
 }
 
 export async function getAllConfigs(): Promise<Configs> {
@@ -66,8 +85,16 @@ export async function getAllConfigs(): Promise<Configs> {
   if (envConfigs.database_url) {
     try {
       dbConfigs = await getConfigs();
-    } catch (e) {
-      console.log(`get configs from db failed:`, e);
+    } catch (e: any) {
+      // Enhanced error logging for debugging
+      console.error(`[getAllConfigs] get configs from db failed:`, {
+        message: e.message,
+        code: e.code,
+        severity: e.severity,
+        cause: e.cause?.message || e.cause,
+        query: e.query,
+      });
+      // Return empty configs to allow app to continue
       dbConfigs = {};
     }
   }
@@ -145,8 +172,16 @@ export async function getPublicConfigs(): Promise<Configs> {
   if (typeof window === 'undefined' && envConfigs.database_url) {
     try {
       dbConfigs = await getConfigs();
-    } catch (e) {
-      console.log('get configs from db failed:', e);
+    } catch (e: any) {
+      // Enhanced error logging for debugging
+      console.error(`[getPublicConfigs] get configs from db failed:`, {
+        message: e.message,
+        code: e.code,
+        severity: e.severity,
+        cause: e.cause?.message || e.cause,
+        query: e.query,
+      });
+      // Return empty configs to allow app to continue
       dbConfigs = {};
     }
   }

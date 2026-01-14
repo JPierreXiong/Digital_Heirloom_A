@@ -13,6 +13,7 @@ const VERCEL_API_URL = 'https://api.vercel.com';
 const PROJECT_NAME = 'shipany-digital-heirloom';
 
 // 正确的 DATABASE_URL（连接池 URL）
+// 使用用户提供的密码: tQbCJXRaLlABMRE6
 const CORRECT_DATABASE_URL = 'postgres://postgres.vkafrwwskupsyibrvcvd:tQbCJXRaLlABMRE6@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true';
 
 async function getProjectId(projectName: string): Promise<string | null> {
