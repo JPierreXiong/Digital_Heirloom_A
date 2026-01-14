@@ -41,9 +41,10 @@ export function SignUser({
   const router = useRouter();
   const pathname = usePathname();
   
-  // Hide credits on landing page (homepage) only
+  // Hide credits on landing page (homepage) and blog pages
   const isLandingPage = pathname === '/' || pathname === '/en' || pathname === '/zh' || pathname === '/fr';
-  const shouldShowCredits = userNav?.show_credits && !isLandingPage;
+  const isBlogPage = pathname?.includes('/blog');
+  const shouldShowCredits = userNav?.show_credits && !isLandingPage && !isBlogPage;
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {

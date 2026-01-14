@@ -91,20 +91,9 @@ export function Blog({
                         </div>
                       )}
                       <div className="flex-1"></div>
-                      {(item.author_name || item.author_image) && (
+                      {item.author_name && (
                         <div className="flex items-center gap-2">
-                          {item.author_image && (
-                            <Avatar>
-                              <AvatarImage
-                                src={item.author_image || ''}
-                                alt={item.author_name || ''}
-                                className="size-6 rounded-full"
-                              />
-                              <AvatarFallback>
-                                {item.author_name?.charAt(0) || 'U'}
-                              </AvatarFallback>
-                            </Avatar>
-                          )}
+                          {/* Remove author_image to hide shipany logo */}
                           {item.author_name}
                         </div>
                       )}
