@@ -60,12 +60,13 @@ export default async function BlogDetailPage({
   const Page = await getThemePage('blog-detail');
 
   // Generate Article structured data for SEO
+  // Ensure all required fields have values (post fields may be optional)
   const articleSchema = getArticleSchema(locale, {
-    title: post.title,
-    description: post.description || '',
-    author: post.author_name || 'Admin',
-    publishedTime: post.created_at || new Date().toISOString(),
-    imageUrl: post.image || `${envConfigs.app_url}/logo.png`,
+    title: post.title ?? slug,
+    description: post.description ?? '',
+    author: post.author_name ?? 'Admin',
+    publishedTime: post.created_at ?? new Date().toISOString(),
+    imageUrl: post.image ?? `${envConfigs.app_url}/logo.png`,
     url:
       locale !== envConfigs.locale
         ? `${envConfigs.app_url}/${locale}/blog/${slug}`
