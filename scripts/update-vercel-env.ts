@@ -1,9 +1,18 @@
 /**
  * 更新 Vercel 环境变量脚本
  * 先删除再创建，或使用 PATCH 更新
+ * 
+ * 使用方法：
+ * VERCEL_TOKEN=your-token pnpm tsx scripts/update-vercel-env.ts
  */
 
-const VERCEL_TOKEN = 'rF4aDNj4aTRotWfhKQAzVNQd';
+const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
+if (!VERCEL_TOKEN) {
+  console.error('❌ 错误: VERCEL_TOKEN 环境变量未设置');
+  console.error('   请设置环境变量: VERCEL_TOKEN=your-token pnpm tsx scripts/update-vercel-env.ts');
+  process.exit(1);
+}
+
 const VERCEL_API_URL = 'https://api.vercel.com';
 const PROJECT_NAME = 'shipany-digital-heirloom';
 

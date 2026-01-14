@@ -1,9 +1,18 @@
 /**
  * 设置 Vercel 环境变量脚本
  * 使用 Vercel API 批量设置环境变量
+ * 
+ * 使用方法：
+ * VERCEL_TOKEN=your-token pnpm tsx scripts/set-vercel-env.ts
  */
 
-const VERCEL_TOKEN = 'rF4aDNj4aTRotWfhKQAzVNQd';
+const VERCEL_TOKEN = process.env.VERCEL_TOKEN;
+if (!VERCEL_TOKEN) {
+  console.error('❌ 错误: VERCEL_TOKEN 环境变量未设置');
+  console.error('   请设置环境变量: VERCEL_TOKEN=your-token pnpm tsx scripts/set-vercel-env.ts');
+  process.exit(1);
+}
+
 const VERCEL_API_URL = 'https://api.vercel.com';
 
 // 需要设置的环境变量
@@ -94,7 +103,7 @@ async function main() {
   const projectName = 'shipany-digital-heirloom';
 
   console.log(`📦 项目名称: ${projectName}`);
-  console.log(`🔑 Token: ${VERCEL_TOKEN.substring(0, 10)}...\n`);
+  console.log(`🔑 Token: ${VERCEL_TOKEN ? `${VERCEL_TOKEN.substring(0, 10)}...` : '从环境变量读取'}\n`);
 
   // 获取项目 ID
   console.log('🔍 获取项目信息...');

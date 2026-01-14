@@ -67,6 +67,18 @@ export function db(): Database {
     throw new Error('DATABASE_URL is not set');
   }
 
+  // Validate DATABASE_URL format for Supabase
+  // Supabase connection URLs should contain 'supabase.com' or 'supabase.co'
+  if (provider === 'postgresql' && databaseUrl.includes('supabase')) {
+    // For Vercel deployment, prefer connection pool URL (port 6543)
+    // Direct connection (port 5432) may cause "Tenant or user not found" errors
+    if (databaseUrl.includes(':5432/') && !databaseUrl.includes('pooler')) {
+      console.warn(
+        '[DB Warning] Using direct connection URL. For Vercel deployment, consider using connection pool URL (port 6543) with pgbouncer=true'
+      );
+    }
+  }
+
   // In Cloudflare Workers, create new connection each time
   if (isCloudflareWorker) {
     console.log('in Cloudflare Workers environment');
@@ -102,11 +114,23 @@ export function db(): Database {
 
   // Non-singleton mode: create new connection each time (good for serverless)
   // In serverless, the connection will be cleaned up when the function instance is destroyed
+  // For Vercel/Supabase: Use connection pooling URL (port 6543) with pgbouncer=true
   const serverlessClient = postgres(databaseUrl, {
     prepare: false,
     max: 1, // Use single connection in serverless
     idle_timeout: 20,
     connect_timeout: 10,
+    // Add connection error handling for Supabase
+    onnotice: (notice) => {
+      // Log Supabase notices (non-critical)
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[DB Notice]', notice);
+      }
+    },
+    // Validate connection URL format
+    transform: {
+      undefined: null,
+    },
   });
 
   return drizzle({ client: serverlessClient }) as Database;

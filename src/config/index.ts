@@ -25,6 +25,9 @@ export const envConfigs = {
   theme: process.env.NEXT_PUBLIC_THEME ?? 'default',
   appearance: process.env.NEXT_PUBLIC_APPEARANCE ?? 'system',
   locale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'en',
+  // Database configuration - Priority: DATABASE_URL (Vercel standard)
+  // Note: POSTGRES_URL, POSTGRES_PRISMA_URL, etc. are NOT used in code
+  // Only DATABASE_URL is read and used for database connections
   database_url: process.env.DATABASE_URL ?? '',
   database_provider: process.env.DATABASE_PROVIDER ?? 'postgresql',
   db_singleton_enabled: process.env.DB_SINGLETON_ENABLED || 'false',

@@ -91,6 +91,13 @@ BLOB_READ_WRITE_TOKEN=vercel_blob_rw_T1QruDd1XViT9FhM_y9TAKwEjlSRuuQXRo9B5vJKNyG
 STORAGE_PROVIDER=supabase
 
 # ============================================
+# Vercel API Token (可选 - 用于脚本)
+# ============================================
+# 用于运行 Vercel 管理脚本（如设置环境变量）
+# 获取地址: https://vercel.com/account/tokens
+VERCEL_TOKEN=rF4aDNj4aTRotWfhKQAzVNQd
+
+# ============================================
 # 系统环境变量
 # ============================================
 NODE_ENV=development
