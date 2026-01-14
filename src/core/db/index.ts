@@ -26,7 +26,9 @@ export function db(): Database {
       const hostPart = urlParts[1]?.split('/')[0] || 'unknown';
       const isPooler = databaseUrl.includes('pooler') && databaseUrl.includes(':6543');
       const hasPgbouncer = databaseUrl.includes('pgbouncer=true');
+      // 检查用户名格式：应该是 postgres.vkafrwwskupsyibrvcvd，不是 postgres
       const hasCorrectUser = databaseUrl.includes('postgres.vkafrwwskupsyibrvcvd');
+      const hasWrongUser = databaseUrl.match(/postgres:\/\/postgres[^.]/); // postgres://postgres@ 或 postgres://postgres:
       
       console.log(`[DB] Connecting to: ${hostPart}`);
       console.log(`[DB] Using pooler: ${isPooler ? '✅' : '❌'}`);
@@ -38,9 +40,12 @@ export function db(): Database {
         console.error(`[DB] Should use: pooler.supabase.com:6543 with pgbouncer=true`);
       }
       
-      if (!hasCorrectUser) {
-        console.error(`[DB] ⚠️  WARNING: DATABASE_URL user format may be incorrect!`);
-        console.error(`[DB] Should use: postgres.vkafrwwskupsyibrvcvd (not just 'postgres')`);
+      if (!hasCorrectUser || hasWrongUser) {
+        console.error(`[DB] ❌ ERROR: DATABASE_URL user format is INCORRECT!`);
+        console.error(`[DB] Current format appears to use: postgres (wrong)`);
+        console.error(`[DB] Required format: postgres.vkafrwwskupsyibrvcvd`);
+        console.error(`[DB] This will cause "Tenant or user not found" errors!`);
+        console.error(`[DB] Please run: pnpm tsx scripts/verify-and-fix-database-url.ts`);
       }
     } catch (e) {
       // Ignore parsing errors
