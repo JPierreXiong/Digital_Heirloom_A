@@ -129,3 +129,66 @@ export const getSoftwareSchema = (locale: string) => {
     },
   };
 };
+
+/**
+ * Article Schema for Blog Posts
+ * Used to enhance SEO for blog articles
+ */
+export const getArticleSchema = (
+  locale: string,
+  article: {
+    title: string;
+    description: string;
+    author: string;
+    publishedTime: string;
+    modifiedTime?: string;
+    imageUrl?: string;
+    url: string;
+  }
+) => {
+  const isZh = locale === 'zh';
+  const isFr = locale === 'fr';
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.description,
+    author: {
+      '@type': 'Person',
+      name: article.author,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Afterglow',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.digitalheirloom.app/logo.png',
+      },
+    },
+    datePublished: article.publishedTime,
+    dateModified: article.modifiedTime || article.publishedTime,
+    image: article.imageUrl || 'https://www.digitalheirloom.app/logo.png',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': article.url,
+    },
+  };
+};
+
+/**
+ * BreadcrumbList Schema for Navigation
+ * Helps search engines understand site structure
+ */
+export const getBreadcrumbSchema = (items: Array<{ name: string; url: string }>) => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+};

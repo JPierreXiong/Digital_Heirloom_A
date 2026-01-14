@@ -20,7 +20,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Known blog posts (add more as you create them)
   const blogPosts = [
     'how-decryption-works',
-    // Add more blog post slugs here as you create them
+    'what-is-xxx',  // Afterglow Story
+    'digital-inheritance-guide-2026',
   ];
 
   const sitemapEntries: MetadataRoute.Sitemap = [];

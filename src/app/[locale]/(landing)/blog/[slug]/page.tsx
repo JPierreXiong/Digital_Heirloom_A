@@ -1,7 +1,9 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import Script from 'next/script';
 
 import { getThemePage } from '@/core/theme';
 import { envConfigs } from '@/config';
+import { getArticleSchema } from '@/config/seo-data';
 import { Empty } from '@/shared/blocks/common';
 import { getPost } from '@/shared/models/post';
 
@@ -57,5 +59,28 @@ export default async function BlogDetailPage({
 
   const Page = await getThemePage('blog-detail');
 
-  return <Page locale={locale} post={post} />;
+  // Generate Article structured data for SEO
+  const articleSchema = getArticleSchema(locale, {
+    title: post.title,
+    description: post.description || '',
+    author: post.author_name || 'Admin',
+    publishedTime: post.created_at || new Date().toISOString(),
+    imageUrl: post.image || `${envConfigs.app_url}/logo.png`,
+    url:
+      locale !== envConfigs.locale
+        ? `${envConfigs.app_url}/${locale}/blog/${slug}`
+        : `${envConfigs.app_url}/blog/${slug}`,
+  });
+
+  return (
+    <>
+      {/* Article JSON-LD structured data for SEO */}
+      <Script
+        id="json-ld-article"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <Page locale={locale} post={post} />
+    </>
+  );
 }
