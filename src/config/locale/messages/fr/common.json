@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Digital Heirloom Template Two",
-    "description": "Digital Heirloom est un modèle NextJS pour créer des startups SaaS IA. Déployez rapidement avec une variété de modèles et de composants.",
-    "keywords": "digital heirloom, digital-heirloom, digital-heirloom-demo"
+    "title": "Héritage Numérique | Dead Man's Switch sécurisé pour vos Cryptos",
+    "description": "Gérez votre succession digitale avec Afterglow. Notre coffre-fort numérique utilise un Dead Man's Switch pour transférer automatiquement vos actifs à vos héritiers.",
+    "keywords": "Héritage Numérique, Dead Man's Switch, Succession Digitale, Coffre-fort numérique, Comment léguer ses cryptos, distribution automatique d'héritage numérique, sécurité héritage web, héritage de clés privées"
   },
   "sign": {
     "sign_in_title": "Se connecter",
@@ -42,5 +42,22 @@
   "locale_detector": {
     "title": "Nous avons détecté que la langue de votre navigateur est {locale}. Voulez-vous changer ?",
     "switch_to": "Passer à {locale}"
+  },
+  "pages": {
+    "deadMansSwitch": {
+      "title": "Dead Man's Switch : Déclencheur Automatique d'Héritage | Afterglow",
+      "description": "Découvrez comment le Dead Man's Switch d'Afterglow protège vos actifs en surveillant votre présence et en déclenchant la distribution automatique.",
+      "keywords": "dead man's switch, détection de présence, héritage automatique, sécurité numérique"
+    },
+    "digitalInheritance": {
+      "title": "Succession Digitale Sécurisée pour Cryptos et Données | Afterglow",
+      "description": "La solution ultime pour l'héritage numérique. Assurez la transmission de vos Bitcoins et clés privées via la livraison cryptée Fragment A/B.",
+      "keywords": "succession digitale, héritage crypto, héritage bitcoin, transfert de clés privées"
+    },
+    "zeroKnowledge": {
+      "title": "Coffre-fort Zéro Connaissance : Confidentialité Maximale",
+      "description": "Explorez l'architecture zéro connaissance d'Afterglow. Vos héritages numériques sont cryptés et accessibles uniquement par vous et vos héritiers.",
+      "keywords": "chiffrement zéro connaissance, coffre-fort privé, stockage numérique sécurisé"
+    }
   }
 }

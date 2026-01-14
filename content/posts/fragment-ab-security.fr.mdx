@@ -1,0 +1,96 @@
+---
+title: "La science de la sécurité : Pourquoi Fragment A/B est imbattable"
+description: "Découvrez la sécurité derrière l'architecture de clé divisée d'Afterglow et comment elle protège votre héritage numérique."
+created_at: 2026-01-13
+slug: fragment-ab-security
+author_name: Admin
+author_image: /logo.png
+image: /imgs/features/admin.png
+---
+
+# La science de la sécurité : Pourquoi Fragment A/B est imbattable
+
+La sécurité consiste à éliminer les points de défaillance uniques. Dans le modèle Fragment A/B, vos données ne sont jamais stockées au même endroit. **Fragment A** est crypté et stocké dans votre coffre-fort, tandis que **Fragment B** est un éclat physique ou numérique conservé séparément. Même si un pirate informatique pénètre Afterglow, il ne trouve que des fragments cryptés inutiles sans l'autre moitié. Cette architecture **Zéro Connaissance** garantit que votre confidentialité est mathématiquement assurée.
+
+## Le problème du point de défaillance unique
+
+Les modèles de sécurité traditionnels ont un défaut fatal : ils créent des points de défaillance uniques. Qu'il s'agisse d'un gestionnaire de mots de passe, d'un portefeuille matériel ou d'un service de stockage cloud, si ce système unique est compromis, tout est perdu.
+
+**Exemples de points de défaillance uniques** :
+- Un gestionnaire de mots de passe qui stocke tous vos mots de passe dans un coffre-fort crypté
+- Un portefeuille matériel qui détient toutes vos clés privées
+- Un service cloud qui a accès à tous vos fichiers
+
+## Comment Fragment A/B élimine le risque
+
+L'architecture Fragment A/B d'Afterglow divise votre clé d'accès en deux parties indépendantes :
+
+1. **Fragment A** : Stocké dans votre coffre-fort zéro connaissance sur les serveurs d'Afterglow (crypté)
+2. **Fragment B** : Livré séparément via **ShipAny** (physique) ou canaux numériques sécurisés
+
+**Propriétés de sécurité clés** :
+- Aucun fragment seul ne peut décrypter vos actifs
+- Les deux fragments doivent être combinés pour accéder à votre coffre-fort
+- Même si Afterglow est compromis, les attaquants n'obtiennent que des fragments cryptés
+- Même si Fragment B est intercepté, il est inutile sans Fragment A
+
+## Architecture zéro connaissance
+
+Afterglow utilise le **chiffrement zéro connaissance**, ce qui signifie :
+
+- **Nous ne voyons jamais vos données** : Votre mot de passe principal est utilisé uniquement pour le chiffrement local
+- **Garanties mathématiques** : Votre confidentialité est protégée par des preuves cryptographiques
+- **Pas de portes dérobées** : Même nos propres ingénieurs ne peuvent pas accéder à votre coffre-fort crypté
+- **Chiffrement côté client** : Tout chiffrement se produit dans votre navigateur avant que les données ne quittent votre appareil
+
+## Scénarios d'attaque réels
+
+**Scénario 1 : Violation du serveur Afterglow**
+- L'attaquant accède aux serveurs d'Afterglow
+- Il trouve Fragment A (crypté)
+- Sans Fragment B, les données cryptées sont inutiles
+- Vos actifs restent sûrs
+
+**Scénario 2 : Interception physique**
+- Quelqu'un intercepte votre livraison Fragment B
+- Il a Fragment B (éclat crypté)
+- Sans Fragment A, il ne peut rien décrypter
+- Vos actifs restent sûrs
+
+**Scénario 3 : Menace interne**
+- Un employé malveillant d'Afterglow essaie d'accéder à votre coffre-fort
+- Il ne peut voir que Fragment A crypté
+- Sans Fragment B, il ne peut pas décrypter vos actifs
+- Vos actifs restent sûrs
+
+## Comparaison avec d'autres modèles de sécurité
+
+| Modèle de sécurité | Point de défaillance unique ? | Zéro connaissance ? | Sauvegarde physique ? |
+|-------------------|------------------------------|-------------------|---------------------|
+| Gestionnaire de mots de passe | Oui | Parfois | Non |
+| Portefeuille matériel | Oui | Non | Non |
+| Stockage cloud | Oui | Non | Parfois |
+| **Afterglow Fragment A/B** | **Non** | **Oui** | **Oui** |
+
+## Plongée technique approfondie
+
+Le système Fragment A/B utilise des techniques cryptographiques avancées :
+
+- **Partage de secret de Shamir** : Algorithme mathématique pour diviser les secrets
+- **Chiffrement AES-256** : Standard de chiffrement de niveau militaire
+- **Dérivation de clé PBKDF2** : Hachage de mot de passe sécurisé
+- **Signatures ECDSA** : Cryptographie à courbe elliptique pour l'authentification
+
+## Meilleures pratiques pour une sécurité maximale
+
+1. **Utilisez un mot de passe principal fort** : Au moins 16 caractères, mélange de lettres, chiffres, symboles
+2. **Stockez Fragment B en toute sécurité** : Conservez des copies physiques dans plusieurs emplacements sûrs
+3. **Définissez un Heartbeat approprié** : Équilibrez entre sécurité et commodité
+4. **Vérifiez les bénéficiaires** : Assurez-vous que vos héritiers savent comment accéder à Fragment B
+5. **Sauvegardes régulières** : Mettez à jour périodiquement vos emplacements de stockage Fragment B
+
+## Conclusion
+
+Fragment A/B n'est pas seulement une fonctionnalité—c'est un changement fondamental dans la façon dont nous pensons à la sécurité numérique. En éliminant les points de défaillance uniques et en mettant en œuvre une architecture zéro connaissance, Afterglow fournit des garanties mathématiques de confidentialité et de sécurité que les systèmes traditionnels ne peuvent tout simplement pas égaler.
+
+[En savoir plus sur notre coffre-fort zéro connaissance](/fr/zero-knowledge-vault) ou [explorez nos solutions d'héritage numérique](/fr/digital-inheritance).

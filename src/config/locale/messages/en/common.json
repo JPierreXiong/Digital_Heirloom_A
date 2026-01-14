@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Digital Heirloom - Extract YouTube and TikTok Video Subtitles",
-    "description": "Extract, download, and translate subtitles from YouTube and TikTok videos easily. Support for 12+ languages with AI-powered translation. Free tool for content creators.",
-    "keywords": "youtube subtitle extractor, tiktok transcript download, video subtitle tool, youtube to text, tiktok subtitle generator, video transcription, subtitle translator, youtube transcript, tiktok video download"
+    "title": "Digital Heirloom | Secure Dead Man's Switch for Your Crypto & Legacy",
+    "description": "Protect your digital inheritance with Afterglow's automated legacy vault. A zero-knowledge Dead Man's Switch ensures your crypto and data pass safely to your heirs.",
+    "keywords": "Digital Heirloom, Dead Man's Switch, Digital Inheritance, Legacy Vault, crypto inheritance, automated digital legacy distribution, secure vault for heirs, zero-knowledge encryption"
   },
   "sign": {
     "sign_in_title": "Sign In",
@@ -42,5 +42,22 @@
   "locale_detector": {
     "title": "We detected your browser language is {locale}. Switch to it?",
     "switch_to": "Switch to {locale}"
+  },
+  "pages": {
+    "deadMansSwitch": {
+      "title": "Dead Man's Switch: Automated Digital Legacy Trigger | Afterglow",
+      "description": "Learn how Afterglow's Dead Man's Switch protects your assets by monitoring your heartbeat and triggering automated distribution safely.",
+      "keywords": "dead man's switch, heartbeat detection, automated digital legacy, fail-safe trigger"
+    },
+    "digitalInheritance": {
+      "title": "Secure Digital Inheritance for Crypto & Data | Afterglow",
+      "description": "The ultimate solution for digital inheritance. Ensure your Bitcoin, keys, and data are passed to heirs via encrypted Fragment A/B delivery.",
+      "keywords": "digital inheritance, crypto legacy, inherit bitcoin, private key succession"
+    },
+    "zeroKnowledge": {
+      "title": "Zero-Knowledge Vault: Maximum Privacy for Your Legacy",
+      "description": "Explore Afterglow's zero-knowledge architecture. We ensure your digital heirloom is encrypted and accessible only by you and your heirs.",
+      "keywords": "zero-knowledge encryption, privacy vault, secure digital storage, encrypted heirloom"
+    }
   }
 }

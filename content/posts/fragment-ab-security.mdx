@@ -1,0 +1,96 @@
+---
+title: "The Science of Security: Why Fragment A/B is Unbeatable"
+description: "Discover the security behind Afterglow's split-key architecture and how it protects your digital legacy."
+created_at: 2026-01-13
+slug: fragment-ab-security
+author_name: Admin
+author_image: /logo.png
+image: /imgs/features/admin.png
+---
+
+# The Science of Security: Why Fragment A/B is Unbeatable
+
+Security is about removing single points of failure. In the Fragment A/B model, your data is never stored in one place. **Fragment A** is encrypted and stored in your vault, while **Fragment B** is a physical or digital shard held separately. Even if a hacker breaches Afterglow, they only find encrypted fragments that are useless without the other half. This **Zero-Knowledge** architecture ensures that your privacy is mathematically guaranteed.
+
+## The Single Point of Failure Problem
+
+Traditional security models have a fatal flaw: they create single points of failure. Whether it's a password manager, a hardware wallet, or a cloud storage service, if that one system is compromised, everything is lost.
+
+**Examples of Single Points of Failure**:
+- A password manager that stores all your passwords in one encrypted vault
+- A hardware wallet that holds all your private keys
+- A cloud service that has access to all your files
+
+## How Fragment A/B Eliminates Risk
+
+Afterglow's Fragment A/B architecture splits your access key into two independent parts:
+
+1. **Fragment A**: Stored in your zero-knowledge vault on Afterglow's servers (encrypted)
+2. **Fragment B**: Delivered separately via **ShipAny** (physical) or secure digital channels
+
+**Key Security Properties**:
+- Neither fragment alone can decrypt your assets
+- Both fragments must be combined to access your vault
+- Even if Afterglow is compromised, attackers only get encrypted fragments
+- Even if Fragment B is intercepted, it's useless without Fragment A
+
+## Zero-Knowledge Architecture
+
+Afterglow uses **zero-knowledge encryption**, which means:
+
+- **We Never See Your Data**: Your master password is used only for local encryption
+- **Mathematical Guarantees**: Your privacy is protected by cryptographic proofs
+- **No Backdoors**: Even our own engineers cannot access your encrypted vault
+- **Client-Side Encryption**: All encryption happens in your browser before data leaves your device
+
+## Real-World Attack Scenarios
+
+**Scenario 1: Afterglow Server Breach**
+- Attacker gains access to Afterglow's servers
+- They find Fragment A (encrypted)
+- Without Fragment B, the encrypted data is useless
+- Your assets remain safe
+
+**Scenario 2: Physical Interception**
+- Someone intercepts your Fragment B delivery
+- They have Fragment B (encrypted shard)
+- Without Fragment A, they cannot decrypt anything
+- Your assets remain safe
+
+**Scenario 3: Insider Threat**
+- A malicious Afterglow employee tries to access your vault
+- They can only see encrypted Fragment A
+- Without Fragment B, they cannot decrypt your assets
+- Your assets remain safe
+
+## Comparison with Other Security Models
+
+| Security Model | Single Point of Failure? | Zero-Knowledge? | Physical Backup? |
+|----------------|-------------------------|-----------------|------------------|
+| Password Manager | Yes | Sometimes | No |
+| Hardware Wallet | Yes | No | No |
+| Cloud Storage | Yes | No | Sometimes |
+| **Afterglow Fragment A/B** | **No** | **Yes** | **Yes** |
+
+## Technical Deep Dive
+
+The Fragment A/B system uses advanced cryptographic techniques:
+
+- **Shamir's Secret Sharing**: Mathematical algorithm for splitting secrets
+- **AES-256 Encryption**: Military-grade encryption standard
+- **PBKDF2 Key Derivation**: Secure password hashing
+- **ECDSA Signatures**: Elliptic curve cryptography for authentication
+
+## Best Practices for Maximum Security
+
+1. **Use a Strong Master Password**: At least 16 characters, mix of letters, numbers, symbols
+2. **Store Fragment B Securely**: Keep physical copies in multiple safe locations
+3. **Set Appropriate Heartbeat**: Balance between security and convenience
+4. **Verify Beneficiaries**: Ensure your heirs know how to access Fragment B
+5. **Regular Backups**: Update your Fragment B storage locations periodically
+
+## Conclusion
+
+Fragment A/B isn't just a feature—it's a fundamental shift in how we think about digital security. By eliminating single points of failure and implementing zero-knowledge architecture, Afterglow provides mathematical guarantees of privacy and security that traditional systems simply cannot match.
+
+[Learn more about our zero-knowledge vault](/zero-knowledge-vault) or [explore our digital inheritance solutions](/digital-inheritance).

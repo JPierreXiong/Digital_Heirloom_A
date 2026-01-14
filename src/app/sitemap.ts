@@ -15,6 +15,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/privacy-policy',
     '/terms-of-service',
     '/disclaimer',
+    // SEO-friendly feature pages
+    '/dead-mans-switch',
+    '/digital-inheritance',
+    '/zero-knowledge-vault',
   ];
 
   // Known blog posts (add more as you create them)
@@ -22,6 +26,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'how-decryption-works',
     'what-is-xxx',  // Afterglow Story
     'digital-inheritance-guide-2026',
+    // SEO long-tail keyword articles (Phase 3)
+    'how-to-pass-down-crypto',
+    'understanding-automated-digital-legacy',
+    'fragment-ab-security',
+    'legal-status-digital-assets-2026',
   ];
 
   const sitemapEntries: MetadataRoute.Sitemap = [];

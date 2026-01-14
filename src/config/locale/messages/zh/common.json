@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Digital Heirloom 模板二",
-    "description": "Digital Heirloom 是用于构建 AI SaaS 创业项目的 NextJS 脚手架。提供丰富模板和组件，助您快速上线产品。",
-    "keywords": "digital heirloom, digital-heirloom, digital-heirloom-demo"
+    "title": "数字遗产管理 | 自动触发的死信开关，保障加密资产继承",
+    "description": "使用 Afterglow 的数字资产继承工具。基于零知识加密的死信开关，确保您的比特币及私密数据在特殊情况下自动且安全地传承给继承人。",
+    "keywords": "数字遗产, 死信开关, 数字资产继承, 加密资产托管, 比特币遗产怎么处理, 自动触发的数字遗嘱, 零知识加密资产管理, 私钥继承, 助记词备份"
   },
   "sign": {
     "sign_in_title": "登录",
@@ -42,5 +42,22 @@
   "locale_detector": {
     "title": "检测到浏览器语言是: {locale}，是否切换？",
     "switch_to": "切换到{locale}"
+  },
+  "pages": {
+    "deadMansSwitch": {
+      "title": "死信开关：自动化数字遗产触发机制 | Afterglow",
+      "description": "了解 Afterglow 死信开关如何通过心跳检测保护您的资产，并在必要时安全地触发自动分发。",
+      "keywords": "死信开关, 心跳检测, 自动数字遗产, 安全触发器"
+    },
+    "digitalInheritance": {
+      "title": "加密货币与数据的安全数字继承方案 | Afterglow",
+      "description": "数字遗产继承的终极方案。确保您的比特币、私钥和数据通过加密的 Fragment A/B 交付给继承人。",
+      "keywords": "数字继承, 加密资产传承, 比特币继承, 私钥分发"
+    },
+    "zeroKnowledge": {
+      "title": "零知识加密金库：为您的遗产提供最高隐私保护",
+      "description": "探索 Afterglow 的零知识架构。我们确保您的数字遗产经过加密，且仅能由您和您的继承人访问。",
+      "keywords": "零知识加密, 隐私金库, 安全数字存储, 加密遗产"
+    }
   }
 }
