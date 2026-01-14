@@ -2,8 +2,11 @@
  * Cron Job: Cost Alerts Check
  * 成本监控报警 Cron Job
  * 
- * 运行频率：每小时一次
+ * 运行频率：每天一次（UTC 03:00，北京时间 11:00）
  * 功能：监控成本指标，发送报警
+ * 
+ * 说明：对于数字遗产管理这种长周期场景，每天一次检查已足够，
+ * 既能及时发现成本异常，又能降低运行成本，符合 Vercel Hobby 计划限制。
  */
 
 import { NextRequest } from 'next/server';

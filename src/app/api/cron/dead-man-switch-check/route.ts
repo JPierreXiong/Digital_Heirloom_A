@@ -1,12 +1,17 @@
 /**
  * Vercel Cron Job: Dead Man's Switch 检查
- * 每天 UTC 00:00 执行（北京时间 08:00）
+ * 每天 UTC 03:00 执行（北京时间 11:00）
  * 
  * 功能：
  * 1. 扫描需要发送预警的保险箱（ACTIVE -> PENDING_VERIFICATION）
  * 2. 扫描需要触发 Dead Man's Switch 的保险箱（PENDING_VERIFICATION -> TRIGGERED）
  * 3. 批量发送邮件
  * 4. 记录日志和统计
+ * 
+ * 说明：
+ * - 对于遗嘱和数字遗产这种长周期、高严肃性的场景，1天检查一次完全合理
+ * - 延迟10几个小时触发通常不会造成损失，反而给用户留出更充裕的缓冲时间
+ * - 符合 Vercel Hobby 计划限制（每天1次 Cron），无需额外购买 Pro 版
  */
 
 import { NextRequest, NextResponse } from 'next/server';
