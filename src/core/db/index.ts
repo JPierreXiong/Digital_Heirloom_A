@@ -1,12 +1,13 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { drizzle as drizzleSQLite } from 'drizzle-orm/libsql';
+import { drizzle as drizzleSQLite } from 'drizzle-orm/d1';
 import postgres from 'postgres';
 import { createClient } from '@libsql/client';
-
 import { envConfigs } from '@/config';
-import { isCloudflareWorker } from '@/shared/lib/env';
 
-// Use 'any' type to allow both PostgreSQL and SQLite drizzle instances
+// Check if running in Cloudflare Workers environment
+const isCloudflareWorker =
+  typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers';
+
 // Both have compatible query APIs (.select(), .from(), etc.)
 type Database = any;
 
@@ -25,14 +26,21 @@ export function db(): Database {
       const hostPart = urlParts[1]?.split('/')[0] || 'unknown';
       const isPooler = databaseUrl.includes('pooler') && databaseUrl.includes(':6543');
       const hasPgbouncer = databaseUrl.includes('pgbouncer=true');
+      const hasCorrectUser = databaseUrl.includes('postgres.vkafrwwskupsyibrvcvd');
       
       console.log(`[DB] Connecting to: ${hostPart}`);
       console.log(`[DB] Using pooler: ${isPooler ? '✅' : '❌'}`);
       console.log(`[DB] Has pgbouncer: ${hasPgbouncer ? '✅' : '❌'}`);
+      console.log(`[DB] Correct user format: ${hasCorrectUser ? '✅' : '❌'}`);
       
       if (!isPooler || !hasPgbouncer) {
         console.error(`[DB] ⚠️  WARNING: DATABASE_URL may not be using connection pool URL!`);
         console.error(`[DB] Should use: pooler.supabase.com:6543 with pgbouncer=true`);
+      }
+      
+      if (!hasCorrectUser) {
+        console.error(`[DB] ⚠️  WARNING: DATABASE_URL user format may be incorrect!`);
+        console.error(`[DB] Should use: postgres.vkafrwwskupsyibrvcvd (not just 'postgres')`);
       }
     } catch (e) {
       // Ignore parsing errors
@@ -98,6 +106,16 @@ export function db(): Database {
         '[DB Warning] Using direct connection URL. For Vercel deployment, consider using connection pool URL (port 6543) with pgbouncer=true'
       );
     }
+    
+    // Validate user format: should be postgres.{PROJECT_REF}, not just 'postgres'
+    if (databaseUrl.includes('postgres://postgres@') && !databaseUrl.includes('postgres.vkafrwwskupsyibrvcvd')) {
+      console.error(
+        '[DB Error] DATABASE_URL user format is incorrect! Should be postgres.vkafrwwskupsyibrvcvd, not just postgres'
+      );
+      console.error(
+        '[DB Error] This will cause "Tenant or user not found" errors on Supabase'
+      );
+    }
   }
 
   // In Cloudflare Workers, create new connection each time
@@ -121,15 +139,16 @@ export function db(): Database {
       return dbInstance;
     }
 
-    // Create connection pool only once
-    client = postgres(databaseUrl, {
+    // Create PostgreSQL client
+    const postgresClient = postgres(databaseUrl, {
       prepare: false,
-      max: 10, // Maximum connections in pool
-      idle_timeout: 30, // Idle connection timeout (seconds)
-      connect_timeout: 10, // Connection timeout (seconds)
+      max: 10, // Connection pool size
+      idle_timeout: 20,
+      connect_timeout: 10,
     });
 
-    dbInstance = drizzle({ client });
+    client = postgresClient;
+    dbInstance = drizzle(postgresClient) as Database;
     return dbInstance;
   }
 
@@ -158,19 +177,10 @@ export function db(): Database {
 }
 
 // Optional: Function to close database connection (useful for testing or graceful shutdown)
-// Note: Only works in singleton mode
-export async function closeDb() {
-  if (envConfigs.db_singleton_enabled && client) {
-    const provider = envConfigs.database_provider;
-    if (provider === 'sqlite' || provider === 'turso') {
-      // SQLite client doesn't have an end() method, just clear references
-      client = null;
-      dbInstance = null;
-    } else {
-      // PostgreSQL client
-      await (client as ReturnType<typeof postgres>).end();
-      client = null;
-      dbInstance = null;
-    }
+export async function closeDb(): Promise<void> {
+  if (client && typeof (client as any).end === 'function') {
+    await (client as any).end();
+    client = null;
+    dbInstance = null;
   }
 }
